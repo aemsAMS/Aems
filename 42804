@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AEMS Racing Game</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>AEMS Racing Game</h1>
+      <button id="connectWallet">Connect Wallet</button>
+      <button id="startGame" style="display:none;">Join Race (Pay Entry)</button>
+    </header>
+
+    <div id="waitingArea" style="display:none;">
+      <p>Waiting for opponent...</p>
+    </div>
+
+    <div id="countdown" style="display:none;">
+      <h2>Race starts in <span id="count">3</span> seconds...</h2>
+    </div>
+
+    <div id="raceArea" style="display:none;">
+      <div class="track">
+        <div class="car player1">🚗</div>
+        <div class="car player2">🚙</div>
+        <div class="finishLine">🏁</div>
+      </div>
+      <p>Press A then L repeatedly to move!</p>
+      <p id="slipWarning"></p>
+    </div>
+
+    <div id="winnerMessage" style="display:none;"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+  <script src="abi.js"></script>
+  <script src="main.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
