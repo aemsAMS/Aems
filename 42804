@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مسابقه ماشین بلاکچینی</title>
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>
+    <style>
+        * {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 30px rgba(0, 0, 255, 0.5);
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px #00f7ff;
+        }
+        .section {
+            background: rgba(30, 30, 60, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #4d4dff;
+        }
+        button {
+            background: linear-gradient(to right, #4e54c8, #8f94fb);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            margin: 10px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 255, 0.6);
+        }
+        button:disabled {
+            background: #555;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .wallet-info {
+            font-size: 1.1rem;
+            margin: 15px;
+            padding: 10px;
+            background: rgba(0, 0, 50, 0.6);
+            border-radius: 10px;
+            display: inline-block;
+        }
+        .tracks {
+            position: relative;
+            height: 300px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+        .track {
+            height: 100px;
+            border-bottom: 3px dashed #4d4dff;
+            position: relative;
+        }
+        .car {
+            position: absolute;
+            left: 20px;
+            width: 80px;
+            transition: left 0.5s ease-out;
+            z-index: 10;
+        }
+        .finish-line {
+            position: absolute;
+            right: 100px;
+            height: 100%;
+            width: 5px;
+            background: repeating-linear-gradient(
+                to bottom,
+                #fff,
+                #fff 10px,
+                #ff0000 10px,
+                #ff0000 20px
+            );
+            z-index: 5;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+        }
+        .control-btn {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #btnA {
+            background: linear-gradient(to bottom, #ff416c, #ff4b2b);
+        }
+        #btnL {
+            background: linear-gradient(to bottom, #11998e, #38ef7d);
+        }
+        .status {
+            font-size: 1.3rem;
+            margin: 15px 0;
+            min-height: 30px;
+        }
+        .entry-options {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .entry-btn {
+            width: 120px;
+            height: 120px;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+        .countdown {
+            font-size: 5rem;
+            font-weight: bold;
+            text-shadow: 0 0 20px #ff0000;
+            margin: 20px 0;
+        }
+        .hidden {
+            display: none;
+        }
+        .players-waiting {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .player-card {
+            background: rgba(100, 100, 200, 0.3);
+            padding: 10px;
+            border-radius: 10px;
+            min-width: 120px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚗 مسابقه ماشین بلاکچینی</h1>
+        
+        <div id="connectSection" class="section">
+            <h2>اتصال کیف پول</h2>
+            <button id="connectWallet">اتصال کیف پول</button>
+            <div id="walletInfo" class="wallet-info hidden">
+                <div>آدرس: <span id="walletAddress"></span></div>
+                <div>موجودی: <span id="tokenBalance"></span> TOKEN</div>
+            </div>
+        </div>
+        
+        <div id="entrySection" class="section hidden">
+            <h2>انتخاب سطح بازی</h2>
+            <div class="entry-options">
+                <button class="entry-btn" data-amount="100">100 توکن<br>سطح ۱</button>
+                <button class="entry-btn" data-amount="200">200 توکن<br>سطح ۲</button>
+                <button class="entry-btn" data-amount="400">400 توکن<br>سطح ۳</button>
+                <button class="entry-btn" data-amount="1000">1000 توکن<br>سطح ۴</button>
+            </div>
+        </div>
+        
+        <div id="waitingSection" class="section hidden">
+            <h2>منتظر بازیکنان دیگر...</h2>
+            <div id="countdown" class="countdown hidden">3</div>
+            <div class="players-waiting">
+                <div class="player-card" id="player1">بازیکن ۱</div>
+                <div class="player-card" id="player2">بازیکن ۲</div>
+                <div class="player-card" id="player3">بازیکن ۳</div>
+            </div>
+        </div>
+        
+        <div id="raceSection" class="section hidden">
+            <h2>مسابقه در جریان!</h2>
+            <div class="tracks">
+                <div class="track" style="top: 0;">
+                    <img src="https://i.ibb.co/7WpJ7V6/red-car.png" class="car" id="car1">
+                    <div class="finish-line"></div>
+                </div>
+                <div class="track" style="top: 100px;">
+                    <img src="https://i.ibb.co/3yKsVWD/blue-car.png" class="car" id="car2">
+                    <div class="finish-line"></div>
+                </div>
+                <div class="track" style="top: 200px;">
+                    <img src="https://i.ibb.co/0K7R8qB/green-car.png" class="car" id="car3">
+                    <div class="finish-line"></div>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button id="btnA" class="control-btn">🅰️<br>حرکت عادی<br>(1 قدم)</button>
+                <button id="btnL" class="control-btn">⚡<br>حرکت سریع<br>(2 قدم)</button>
+            </div>
+            
+            <div class="status" id="gameStatus">آماده برای شروع مسابقه...</div>
+        </div>
+        
+        <div id="resultSection" class="section hidden">
+            <h2>نتیجه مسابقه</h2>
+            <div id="winnerInfo" class="status"></div>
+            <button id="playAgain">بازی دوباره</button>
+        </div>
+    </div>
+
+    <script>
+        // =============== تنظیمات قرارداد ===============
+        // فقط کافیست آدرس قرارداد استقرار شده را اینجا قرار دهید
+        const CONTRACT_ADDRESS = "0x0c3ca1c1345fcbb1abecdbefe064ff7d019ca19b";
+        
+        // تنظیمات ثابت (از طرف شما)
+        const TOKEN_ADDRESS = "0x259115680169276d0e4286acba362460456697c5";
+        const OWNER_ADDRESS = "0xec54951C7d4619256Ea01C811fFdFa01A9925683";
+        
+        // ABI قرارداد هوشمند
+        const ABI = [
+            {
+                "inputs": [
+                    {"internalType": "address", "name": "_tokenAddress", "type": "address"}
+                ],
+                "stateMutability": "nonpayable",
+                "type": "constructor"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {"indexed": false, "internalType": "address", "name": "player", "type": "address"}
+                ],
+                "name": "PlayerJoined",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [],
+                "name": "RaceStarted",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {"indexed": false, "internalType": "address", "name": "player", "type": "address"},
+                    {"indexed": false, "internalType": "uint256", "name": "newPosition", "type": "uint256"}
+                ],
+                "name": "MoveMade",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {"indexed": false, "internalType": "address", "name": "winner", "type": "address"},
+                    {"indexed": false, "internalType": "uint256", "name": "prize", "type": "uint256"}
+                ],
+                "name": "WinnerDeclared",
+                "type": "event"
+            },
+            {
+                "inputs": [],
+                "name": "FINISH_LINE",
+                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "entryFee",
+                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [{"internalType": "address", "name": "", "type": "address"}],
+                "name": "hasJoined",
+                "outputs": [{"internalType": "bool", "name": "", "type": "bool"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {"internalType": "uint256", "name": "_entryFee", "type": "uint256"}
+                ],
+                "name": "joinGame",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {"internalType": "bool", "name": "isA", "type": "bool"}
+                ],
+                "name": "moveCar",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "owner",
+                "outputs": [{"internalType": "address", "name": "", "type": "address"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "playerCount",
+                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [{"internalType": "address", "name": "", "type": "address"}],
+                "name": "playerIndex",
+                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+                "name": "players",
+                "outputs": [
+                    {"internalType": "address", "name": "wallet", "type": "address"},
+                    {"internalType": "uint256", "name": "position", "type": "uint256"},
+                    {"internalType": "bool", "name": "lastMoveWasA", "type": "bool"}
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "raceEndTime",
+                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "raceStarted",
+                "outputs": [{"internalType": "bool", "name": "", "type": "bool"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "resetGame",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "token",
+                "outputs": [{"internalType": "contract IERC20", "name": "", "type": "address"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "winner",
+                "outputs": [{"internalType": "address", "name": "", "type": "address"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "getPlayers",
+                "outputs": [{"internalType": "address[3]", "name": "", "type": "address[3]"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [{"internalType": "address", "name": "_player", "type": "address"}],
+                "name": "getPlayerIndex",
+                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+                "stateMutability": "view",
+                "type": "function"
+            }
+        ];
+        
+        // =============== متغیرهای جهانی ===============
+        let provider, signer, contract, userAddress;
+        let entryFee = 0;
+        let lastMoveType = null;
+        let countdownInterval;
+        
+        // =============== عناصر DOM ===============
+        const connectWalletBtn = document.getElementById('connectWallet');
+        const walletInfoDiv = document.getElementById('walletInfo');
+        const walletAddressSpan = document.getElementById('walletAddress');
+        const tokenBalanceSpan = document.getElementById('tokenBalance');
+        const entrySection = document.getElementById('entrySection');
+        const waitingSection = document.getElementById('waitingSection');
+        const raceSection = document.getElementById('raceSection');
+        const resultSection = document.getElementById('resultSection');
+        const countdownDiv = document.getElementById('countdown');
+        const gameStatusDiv = document.getElementById('gameStatus');
+        const winnerInfoDiv = document.getElementById('winnerInfo');
+        const playAgainBtn = document.getElementById('playAgain');
+        const car1 = document.getElementById('car1');
+        const car2 = document.getElementById('car2');
+        const car3 = document.getElementById('car3');
+        const btnA = document.getElementById('btnA');
+        const btnL = document.getElementById('btnL');
+        const player1Div = document.getElementById('player1');
+        const player2Div = document.getElementById('player2');
+        const player3Div = document.getElementById('player3');
+        
+        // =============== اتصال به کیف پول ===============
+        connectWalletBtn.addEventListener('click', connectWallet);
+        
+        // =============== انتخاب سطح بازی ===============
+        document.querySelectorAll('.entry-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                entryFee = parseInt(btn.dataset.amount);
+                joinGame(entryFee);
+            });
+        });
+        
+        // =============== کنترل‌های بازی ===============
+        btnA.addEventListener('click', () => makeMove(true));
+        btnL.addEventListener('click', () => makeMove(false));
+        
+        // =============== بازی دوباره ===============
+        playAgainBtn.addEventListener('click', () => {
+            resultSection.classList.add('hidden');
+            entrySection.classList.remove('hidden');
+        });
+        
+        // =============== تابع اتصال به کیف پول ===============
+        async function connectWallet() {
+            if (window.ethereum) {
+                try {
+                    // درخواست اتصال به کیف پول
+                    provider = new ethers.providers.Web3Provider(window.ethereum);
+                    await provider.send("eth_requestAccounts", []);
+                    signer = provider.getSigner();
+                    userAddress = await signer.getAddress();
+                    
+                    // نمایش اطلاعات کیف پول
+                    walletAddressSpan.textContent = `${userAddress.substring(0, 6)}...${userAddress.substring(38)}`;
+                    await updateTokenBalance();
+                    
+                    // به‌روزرسانی UI
+                    walletInfoDiv.classList.remove('hidden');
+                    connectWalletBtn.textContent = "اتصال مجدد کیف پول";
+                    entrySection.classList.remove('hidden');
+                    
+                    // مقداردهی اولیه قرارداد بازی
+                    contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
+                    
+                    // تنظیم گوش‌دهی به رویدادها
+                    setupEventListeners();
+                    
+                } catch (error) {
+                    console.error("خطا در اتصال به کیف پول:", error);
+                    gameStatusDiv.textContent = "خطا در اتصال به کیف پول";
+                }
+            } else {
+                alert("لطفاً MetaMask را نصب کنید!");
+            }
+        }
+        
+        // =============== به‌روزرسانی موجودی توکن ===============
+        async function updateTokenBalance() {
+            try {
+                const tokenContract = new ethers.Contract(
+                    TOKEN_ADDRESS, 
+                    ['function balanceOf(address) view returns (uint256)'], 
+                    provider
+                );
+                
+                const balance = await tokenContract.balanceOf(userAddress);
+                tokenBalanceSpan.textContent = ethers.utils.formatUnits(balance, 18);
+            } catch (error) {
+                console.error("خطا در دریافت موجودی:", error);
+            }
+        }
+        
+        // =============== ورود به بازی ===============
+        async function joinGame(fee) {
+            try {
+                gameStatusDiv.textContent = "در حال پرداخت هزینه ورودی...";
+                
+                // ایجاد قرارداد توکن
+                const tokenContract = new ethers.Contract(
+                    TOKEN_ADDRESS, 
+                    [
+                        'function balanceOf(address) view returns (uint256)',
+                        'function approve(address, uint256) returns (bool)'
+                    ], 
+                    signer
+                );
+                
+                // بررسی موجودی کافی
+                const balance = await tokenContract.balanceOf(userAddress);
+                const feeInWei = ethers.utils.parseUnits(fee.toString(), 18);
+                
+                if (balance.lt(feeInWei)) {
+                    gameStatusDiv.textContent = "موجودی کافی نیست!";
+                    return;
+                }
+                
+                // تایید مجوز برای قرارداد بازی
+                const txApprove = await tokenContract.approve(CONTRACT_ADDRESS, feeInWei);
+                await txApprove.wait();
+                
+                // ورود به بازی
+                const txJoin = await contract.joinGame(feeInWei);
+                await txJoin.wait();
+                
+                // به‌روزرسانی UI
+                entrySection.classList.add('hidden');
+                waitingSection.classList.remove('hidden');
+                gameStatusDiv.textContent = "منتظر بازیکنان دیگر...";
+                
+            } catch (error) {
+                console.error("خطا در ورود به بازی:", error);
+                gameStatusDiv.textContent = "خطا در ورود به بازی";
+            }
+        }
+        
+        // =============== تابع حرکت در بازی ===============
+        async function makeMove(isA) {
+            try {
+                // جلوگیری از حرکت تکراری
+                if (lastMoveType === isA) {
+                    gameStatusDiv.textContent = "نمی‌توانید دو حرکت پشت سر هم یکسان انجام دهید!";
+                    return;
+                }
+                
+                // غیرفعال کردن دکمه‌ها در حین پردازش
+                btnA.disabled = true;
+                btnL.disabled = true;
+                
+                // ارسال تراکنش حرکت
+                const tx = await contract.moveCar(isA);
+                await tx.wait();
+                
+                // ثبت نوع حرکت برای جلوگیری از حرکت تکراری
+                lastMoveType = isA;
+                
+                // فعال کردن دکمه مخالف برای حرکت بعدی
+                if (isA) {
+                    btnL.disabled = false;
+                } else {
+                    btnA.disabled = false;
+                }
+                
+            } catch (error) {
+                console.error("خطا در انجام حرکت:", error);
+                gameStatusDiv.textContent = "خطا در انجام حرکت";
+                btnA.disabled = false;
+                btnL.disabled = false;
+            }
+        }
+        
+        // =============== تنظیم گوش‌دهی به رویدادها ===============
+        function setupEventListeners() {
+            // رویداد ورود بازیکن جدید
+            contract.on("PlayerJoined", (player, fee) => {
+                updateWaitingPlayers();
+            });
+            
+            // رویداد شروع مسابقه
+            contract.on("RaceStarted", () => {
+                startCountdown();
+            });
+            
+            // رویداد انجام حرکت
+            contract.on("MoveMade", (player, newPosition) => {
+                updateCarPosition(player, newPosition);
+            });
+            
+            // رویداد اعلام برنده
+            contract.on("WinnerDeclared", (winner, prize) => {
+                showWinner(winner, prize);
+            });
+        }
+        
+        // =============== به‌روزرسانی بازیکنان در انتظار ===============
+        async function updateWaitingPlayers() {
+            try {
+                const players = await contract.getPlayers();
+                
+                player1Div.textContent = players[0] !== ethers.constants.AddressZero 
+                    ? `${players[0].substring(0, 6)}...${players[0].substring(38)}` 
+                    : "منتظر...";
+                    
+                player2Div.textContent = players[1] !== ethers.constants.AddressZero 
+                    ? `${players[1].substring(0, 6)}...${players[1].substring(38)}` 
+                    : "منتظر...";
+                    
+                player3Div.textContent = players[2] !== ethers.constants.AddressZero 
+                    ? `${players[2].substring(0, 6)}...${players[2].substring(38)}` 
+                    : "منتظر...";
+                    
+            } catch (error) {
+                console.error("خطا در دریافت بازیکنان:", error);
+            }
+        }
+        
+        // =============== شمارش معکوس شروع بازی ===============
+        function startCountdown() {
+            let count = 3;
+            countdownDiv.textContent = count;
+            countdownDiv.classList.remove('hidden');
+            
+            countdownInterval = setInterval(() => {
+                count--;
+                countdownDiv.textContent = count;
+                
+                if (count === 0) {
+                    clearInterval(countdownInterval);
+                    waitingSection.classList.add('hidden');
+                    raceSection.classList.remove('hidden');
+                    
+                    // فعال کردن اولین حرکت (A)
+                    btnA.disabled = false;
+                    lastMoveType = null;
+                    
+                    gameStatusDiv.textContent = "شروع مسابقه! حرکت اول را انتخاب کنید";
+                }
+            }, 1000);
+        }
+        
+        // =============== به‌روزرسانی موقعیت ماشین‌ها ===============
+        async function updateCarPosition(player, newPosition) {
+            try {
+                const playerIdx = await contract.getPlayerIndex(player);
+                const progress = Math.min(100, (newPosition / 100) * 100);
+                
+                if (playerIdx === 0) {
+                    car1.style.left = `${progress}%`;
+                } else if (playerIdx === 1) {
+                    car2.style.left = `${progress}%`;
+                } else if (playerIdx === 2) {
+                    car3.style.left = `${progress}%`;
+                }
+                
+                // به‌روزرسانی وضعیت بازی
+                gameStatusDiv.textContent = `بازیکن ${playerIdx + 1} حرکت کرد!`;
+                
+            } catch (error) {
+                console.error("خطا در به‌روزرسانی موقعیت:", error);
+            }
+        }
+        
+        // =============== نمایش برنده ===============
+        async function showWinner(winner, prize) {
+            try {
+                raceSection.classList.add('hidden');
+                resultSection.classList.remove('hidden');
+                
+                const formattedPrize = ethers.utils.formatUnits(prize, 18);
+                
+                if (winner === userAddress) {
+                    winnerInfoDiv.textContent = `🎉 شما برنده شدید! ${formattedPrize} توکن جایزه گرفتید!`;
+                } else {
+                    winnerInfoDiv.textContent = `بازیکن ${winner.substring(0, 6)}...${winner.substring(38)} برنده شد و ${formattedPrize} توکن جایزه گرفت!`;
+                }
+                
+                // به‌روزرسانی موجودی
+                await updateTokenBalance();
+                
+            } catch (error) {
+                console.error("خطا در نمایش برنده:", error);
+            }
+        }
+        
+        // =============== مقداردهی اولیه ===============
+        window.addEventListener('load', () => {
+            // غیرفعال کردن دکمه‌ها تا شروع بازی
+            btnA.disabled = true;
+            btnL.disabled = true;
+        });
+    </script>
+</body>
+</html>
