@@ -13,7 +13,7 @@
   <p id="walletInfo"></p>
   <button id="startButton">🚗 Start Game with 1000 TOKEN</button>
 
-  <div id="gameArea">
+  <div id="gameArea" style="display: none;">
     <div id="trackContainer">
       <div class="track"><div class="car" id="car1"></div></div>
       <div class="track"><div class="car" id="car2"></div></div>
@@ -21,6 +21,10 @@
     </div>
     <div id="countdown"></div>
     <div id="result"></div>
+    <div id="mobileControls">
+      <button class="controlBtn" onclick="simulateKey('A')">A</button>
+      <button class="controlBtn" onclick="simulateKey('L')">L</button>
+    </div>
   </div>
 
   <script src="abi.js"></script>
