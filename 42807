@@ -1,0 +1,15 @@
+const tokenAddress = "0x259115680169276d0e4286acba362460456697c5";
+const contractAddress = "0xf468a52bdfb6ed691fd5d0c0d0d770cf9a099c7e";
+const tokenABI = [
+  {
+    "inputs":[{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],
+    "name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],
+    "stateMutability":"nonpayable","type":"function"
+  },
+  {
+    "inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],
+    "name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],
+    "stateMutability":"nonpayable","type":"function"
+  }
+];
+const contractABI = [ /* در فایل main.js کامل استفاده می‌شود */ ];
