@@ -1,0 +1,42 @@
+body {
+  font-family: sans-serif;
+  text-align: center;
+  background: #f0f0f0;
+}
+#trackContainer {
+  position: relative;
+  width: 600px;
+  margin: 20px auto;
+}
+.track {
+  width: 600px;
+  height: 60px;
+  background: #ccc;
+  margin: 20px auto;
+  position: relative;
+  border: 2px solid #000;
+}
+.car {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 10px;
+}
+#car1 { background: red; }
+#car2 { background: blue; top: 10px; }
+#finishFlag {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  font-size: 36px;
+}
+#countdown {
+  font-size: 48px;
+  margin-top: 10px;
+}
+#result {
+  font-size: 24px;
+  margin-top: 20px;
+}
