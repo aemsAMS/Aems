@@ -6,10 +6,12 @@
   <script src="https://cdn.ethers.io/lib/ethers-5.6.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
   <style>
-    body { font-family: sans-serif; text-align: center; margin: 20px; }
+    body { font-family: sans-serif; text-align: center; margin: 10px; }
     button { padding: 10px 20px; margin: 5px; }
-    #game-container { margin-top: 20px; display: flex; justify-content: center; }
+    #game-container { margin-top: 20px; display: flex; justify-content: center; flex-direction: column; align-items: center; }
     canvas { border: 2px solid #333; }
+    .controls { margin-top: 10px; display: grid; grid-template-columns: repeat(3, 60px); grid-gap: 5px; justify-content: center; }
+    .controls button { width: 60px; height: 60px; font-size: 20px; }
   </style>
 </head>
 <body>
@@ -23,7 +25,18 @@
     <button onclick="enterArena(1)">Arena 2 - 200 AMS</button>
     <button onclick="enterArena(2)">Arena 3 - 400 AMS</button>
     <button onclick="enterArena(3)">Arena 4 - 1000 AMS</button>
-  </div>  <div id="status"></div>  <div id="game-container"></div><script>
+  </div>  <div id="status"></div>
+  <div id="game-container">
+    <div id="phaser-game"></div>
+    <div class="controls">
+      <div></div>
+      <button onclick="setDirection('UP')">⬆</button>
+      <div></div>
+      <button onclick="setDirection('LEFT')">⬅</button>
+      <button onclick="setDirection('DOWN')">⬇</button>
+      <button onclick="setDirection('RIGHT')">➡</button>
+    </div>
+  </div><script>
 const tokenAddress = "0xABCDabcd1234EFef5678abcd9012efEFabcdEf12";
 const gameAddress = "0x1234abcd5678EFef9012abcd3456EfefabcdABCD";
 const tokenAbi = [
@@ -34,11 +47,11 @@ const tokenAbi = [
 const gameAbi = [
   "function enterArena(uint8 arenaType) external",
   "function submitScore(uint gameId, uint256 score) external",
-  "function getGameCount() public view returns (uint)",
-  "function getPlayers(uint gameId) public view returns (address[] memory)"
+  "function getGameCount() public view returns (uint)"
 ];
 
 let provider, signer, userAddress, tokenContract, gameContract;
+let hasPaid = false;
 
 async function connectWallet() {
   provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -46,7 +59,6 @@ async function connectWallet() {
   signer = provider.getSigner();
   userAddress = await signer.getAddress();
   document.getElementById("address").innerText = userAddress;
-
   tokenContract = new ethers.Contract(tokenAddress, tokenAbi, signer);
   gameContract = new ethers.Contract(gameAddress, gameAbi, signer);
   loadBalance();
@@ -62,28 +74,35 @@ async function enterArena(type) {
   const amt = ethers.utils.parseUnits(fees[type], 18);
   await tokenContract.approve(gameAddress, amt);
   const tx = await gameContract.enterArena(type);
-  document.getElementById("status").innerText = `Entered Arena ${type + 1} - Tx sent...`;
+  document.getElementById("status").innerText = `Entering Arena ${type + 1}...`;
   await tx.wait();
-  document.getElementById("status").innerText = `Entered Arena ${type + 1} successfully.`;
+  hasPaid = true;
+  document.getElementById("status").innerText = `Entered Arena ${type + 1}. Game unlocked.`;
   loadBalance();
 }
 
 async function submitBlockchainScore(score) {
+  if (!hasPaid) return;
   const gameCount = await gameContract.getGameCount();
   const gameId = gameCount.toNumber() - 1;
   const tx = await gameContract.submitScore(gameId, score);
   await tx.wait();
   alert(`Score ${score} submitted for game #${gameId}`);
+  hasPaid = false;
 }
 
-// Phaser Game Config
 let score = 0;
+let direction = 'RIGHT';
+function setDirection(dir) {
+  direction = dir;
+}
+
 const config = {
   type: Phaser.AUTO,
   width: 320,
   height: 320,
   backgroundColor: '#000000',
-  parent: 'game-container',
+  parent: 'phaser-game',
   physics: { default: 'arcade' },
   scene: {
     preload: preload,
@@ -92,7 +111,7 @@ const config = {
   }
 };
 
-let snake, food, cursors, direction = 'RIGHT', lastMoveTime = 0;
+let snake, food, cursors, lastMoveTime = 0;
 let moveInterval = 150;
 let snakeBody = [];
 
@@ -111,6 +130,7 @@ function create() {
 }
 
 function update(time) {
+  if (!hasPaid) return;
   if (time - lastMoveTime > moveInterval) {
     lastMoveTime = time;
     let head = Object.assign({}, snakeBody[0]);
@@ -124,7 +144,6 @@ function update(time) {
     else if (direction === 'UP') head.y -= 16;
     else if (direction === 'DOWN') head.y += 16;
 
-    // Check boundaries
     if (head.x < 0 || head.x >= 320 || head.y < 0 || head.y >= 320 || snakeBody.slice(1).some(p => p.x === head.x && p.y === head.y)) {
       alert(`Game Over! Your Score: ${score}`);
       submitBlockchainScore(score);
