@@ -1,5 +1,3 @@
-// main.js
-
 let web3;
 let account;
 let tokenContract;
@@ -27,10 +25,13 @@ async function initWeb3() {
     await window.ethereum.request({ method: 'eth_requestAccounts' });
     const accounts = await web3.eth.getAccounts();
     account = accounts[0];
-    walletInfo.innerText = `Connected: ${account}`;
 
     tokenContract = new web3.eth.Contract(tokenABI, tokenAddress);
     gameContract = new web3.eth.Contract(contractABI, contractAddress);
+
+    const balance = await tokenContract.methods.balanceOf(account).call();
+    const humanReadable = web3.utils.fromWei(balance, 'ether');
+    walletInfo.innerText = `Connected: ${account} | Balance: ${humanReadable} TOKEN`;
   } else {
     alert("Please install MetaMask!");
   }
@@ -47,11 +48,12 @@ startButton.onclick = async () => {
     return;
   }
 
+  await tokenContract.methods.approve(contractAddress, 1000e18).send({ from: account });
   await tokenContract.methods.transferFrom(account, contractAddress, 1000e18).send({ from: account });
   await gameContract.methods.joinGame().send({ from: account });
 
-  gameId = await gameContract.methods.getCurrentGameId().call();
-  gameId = Number(gameId) - 1;
+  const gameIdValue = await gameContract.methods.getCurrentGameId().call();
+  gameId = Number(gameIdValue) - 1;
 
   alert("Waiting for another player...");
   waitForPeer();
@@ -123,4 +125,9 @@ async function declareWinner() {
   result.innerText = "You Win! 🎉";
   await gameContract.methods.declareWinner(gameId, account).send({ from: account });
   setTimeout(() => location.reload(), 5000);
+}
+
+function simulateKey(k) {
+  const evt = new KeyboardEvent("keydown", { key: k });
+  document.dispatchEvent(evt);
 }
