@@ -12,4 +12,4 @@ const tokenABI = [
     "stateMutability":"nonpayable","type":"function"
   }
 ];
-const contractABI = [ /* در فایل main.js کامل استفاده می‌شود */ ];
+const contractABI = []; // قرار است هنگام توسعه کامل‌تر شود
