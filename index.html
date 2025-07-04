@@ -1,32 +1,38 @@
+
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Blockchain Racing Game</title>
   <meta charset="UTF-8">
+  <title>Element Battle Game</title>
   <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/web3@1.8.2/dist/web3.min.js"></script>
-  <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
 </head>
 <body>
-  <h1>Blockchain Racing Game</h1>
-  <button id="connectWallet">🔌 Connect Wallet</button>
-  <p id="walletInfo"></p>
-  <button id="startButton">🚗 Start Game with 1000 TOKEN</button>
-
-  <div id="gameArea" style="display: none;">
-    <div id="trackContainer">
-      <div class="track"><div class="car" id="car1"></div></div>
-      <div class="track"><div class="car" id="car2"></div></div>
-      <div id="finishFlag">🏁</div>
-    </div>
-    <div id="countdown"></div>
-    <div id="result"></div>
-    <div id="mobileControls">
-      <button class="controlBtn" onclick="simulateKey('A')">A</button>
-      <button class="controlBtn" onclick="simulateKey('L')">L</button>
-    </div>
+  <h1>🔥 Element Battle Game 💧</h1>
+  <div id="wallet-info">
+    <button onclick="connectWallet()">🔌 Connect Wallet</button>
+    <p id="wallet-address"></p>
+    <p id="token-balance"></p>
   </div>
 
+  <div id="game-start">
+    <button onclick="startGame()">🎮 Start Game (1000 LGD)</button>
+    <p id="game-status"></p>
+  </div>
+
+  <div id="game-area" style="display:none;">
+    <h2>Round <span id="round-number">1</span></h2>
+    <div id="choices">
+      <button onclick="makeChoice(0)">🔥 Fire</button>
+      <button onclick="makeChoice(1)">💧 Water</button>
+      <button onclick="makeChoice(2)">🌳 Tree</button>
+      <button onclick="makeChoice(3)">🌍 Earth</button>
+      <button onclick="makeChoice(4)">🪨 Stone</button>
+    </div>
+    <p id="round-result"></p>
+    <p id="final-result"></p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
   <script src="abi.js"></script>
   <script src="main.js"></script>
 </body>
