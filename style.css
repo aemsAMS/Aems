@@ -1,54 +1,44 @@
+
 body {
-  font-family: sans-serif;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #1e1e2f, #2a2a3f);
+  color: #fff;
   text-align: center;
-  background: #f0f0f0;
+  padding: 20px;
+  margin: 0;
 }
-#trackContainer {
-  position: relative;
-  width: 600px;
-  margin: 20px auto;
+h1 {
+  margin-bottom: 20px;
+  color: #FFD700;
 }
-.track {
-  width: 600px;
-  height: 60px;
-  background: #ccc;
-  margin: 20px auto;
-  position: relative;
-  border: 2px solid #000;
-}
-.car {
-  width: 40px;
-  height: 40px;
-  position: absolute;
-  top: 10px;
-}
-#car1 { background: red; }
-#car2 { background: blue; top: 10px; }
-#finishFlag {
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 40px;
-  font-size: 36px;
-}
-#countdown {
-  font-size: 48px;
-  margin-top: 10px;
-}
-#result {
-  font-size: 24px;
-  margin-top: 20px;
-}
-#mobileControls {
-  margin-top: 20px;
-}
-.controlBtn {
-  font-size: 28px;
-  padding: 15px 25px;
-  margin: 10px;
-  background: #444;
-  color: white;
+button {
+  margin: 8px;
+  padding: 12px 24px;
+  font-size: 16px;
   border: none;
   border-radius: 8px;
+  background-color: #333;
+  color: white;
+  transition: background-color 0.3s;
+}
+button:hover {
+  background-color: #555;
+}
+#choices button {
+  font-size: 20px;
+  padding: 16px 28px;
+}
+#game-area, #game-start, #wallet-info {
+  margin-top: 20px;
+}
+@media only screen and (max-width: 600px) {
+  button {
+    width: 80%;
+    font-size: 18px;
+  }
+  #choices button {
+    width: 90%;
+    font-size: 20px;
+    margin: 10px auto;
+  }
 }
