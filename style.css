@@ -1,44 +1,72 @@
 
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #1e1e2f, #2a2a3f);
-  color: #fff;
-  text-align: center;
-  padding: 20px;
   margin: 0;
+  padding: 0;
+  background-color: #0d0d0d;
+  color: #f2f2f2;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
 }
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
 h1 {
-  margin-bottom: 20px;
-  color: #FFD700;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
 }
+
 button {
-  margin: 8px;
   padding: 12px 24px;
-  font-size: 16px;
+  font-size: 1rem;
+  margin: 10px;
+  border-radius: 10px;
   border: none;
-  border-radius: 8px;
-  background-color: #333;
+  background-color: #00bcd4;
   color: white;
-  transition: background-color 0.3s;
+  cursor: pointer;
+  transition: background 0.3s;
 }
+
 button:hover {
-  background-color: #555;
+  background-color: #0097a7;
 }
-#choices button {
-  font-size: 20px;
-  padding: 16px 28px;
-}
-#game-area, #game-start, #wallet-info {
+
+#game-area {
+  display: none;
   margin-top: 20px;
 }
-@media only screen and (max-width: 600px) {
-  button {
-    width: 80%;
-    font-size: 18px;
+
+.choice-btn {
+  padding: 10px 20px;
+  margin: 10px;
+  font-size: 1rem;
+  border-radius: 8px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.choice-btn:hover {
+  background-color: #388e3c;
+}
+
+/* ریسپانسیو برای موبایل */
+@media screen and (max-width: 600px) {
+  h1 {
+    font-size: 1.8rem;
   }
-  #choices button {
+
+  button, .choice-btn {
     width: 90%;
-    font-size: 20px;
-    margin: 10px auto;
+    font-size: 1.1rem;
+  }
+
+  .container {
+    padding: 10px;
   }
 }
