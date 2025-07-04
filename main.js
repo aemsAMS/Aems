@@ -8,6 +8,42 @@ async function connectWallet() {
   if (window.ethereum) {
     await ethereum.request({ method: 'eth_requestAccounts' });
     web3 = new Web3(window.ethereum);
+    const chainId = await web3.eth.getChainId();
+
+    if (chainId !== 56) {
+      try {
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: '0x38' }] // 0x38 = 56 in hex
+        });
+      } catch (switchError) {
+        if (switchError.code === 4902) {
+          try {
+            await window.ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [{
+                chainId: '0x38',
+                chainName: 'BNB Smart Chain',
+                rpcUrls: ['https://bsc-dataseed.binance.org/'],
+                nativeCurrency: {
+                  name: 'BNB',
+                  symbol: 'BNB',
+                  decimals: 18
+                },
+                blockExplorerUrls: ['https://bscscan.com']
+              }]
+            });
+          } catch (addError) {
+            alert('Failed to add BSC network.');
+            return;
+          }
+        } else {
+          alert('Please switch to BNB Smart Chain to continue.');
+          return;
+        }
+      }
+    }
+
     const accounts = await web3.eth.getAccounts();
     account = accounts[0];
     document.getElementById("wallet-address").innerText = "Wallet: " + account;
