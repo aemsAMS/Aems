@@ -1,55 +1,105 @@
-
 <!DOCTYPE html>
+
 <html>
+
 <head>
+
   <meta charset="UTF-8">
+
   <title>Element Battle Game</title>
+
   <link rel="stylesheet" href="style.css">
+
 </head>
+
 <body>
+
   <h1>🔥 Element Battle Game 💧</h1>
+
   <div class="menu-bottuns">
-    <a href="اسم فایل html"class="button b-r">
-        <img src="L.png" alt="" width="28px">
-        <span class="select-none">اسم بخش</span>
+
+    <a href="/notcoin/frens.html" class="button b-r">
+
+        <img src="i.png" alt="" width="35px">
+
+        <span class="select-none">Tried</span>
+
     </a>
-    <a href="اسم فایل html"class="button b-r">
-        <img src="اسم عکس" alt="" width="28px">
-        <span class="select-none">اسم بخش</span>
+
+    <a href="Token.html" class="button b-r">
+
+        <img src="l.png" alt="" width="35px">
+
+        <span class="select-none">token AEMS</span>
+
     </a>
-        <a href="اسم فایل html"class="button b-r">
-        <img src="اسم عکس " alt="" width="28px">
-        <span class="select-none">اسم بخش</span>
+
+    <a href="/notcoin/boost.html" class="button">
+
+        <img src="؟.png" alt="" width="35px">
+
+        <span class="select-none">Game guide</span>
+
     </a>
-  </div>
+
+</div>
+
   
-  
+
   <div id="wallet-info">
+
     <button onclick="connectWallet()">🔌 Connect Wallet</button>
+
     <p id="wallet-address"></p>
+
     <p id="token-balance"></p>
+
   </div>
+
+
 
   <div id="game-start">
+
     <button onclick="startGame()">🎮 Start Game (1000 LGD)</button>
+
     <p id="game-status"></p>
+
   </div>
+
+
 
   <div id="game-area" style="display:none;">
+
     <h2>Round <span id="round-number">1</span></h2>
+
     <div id="choices">
+
       <button onclick="makeChoice(0)">🔥 Fire</button>
+
       <button onclick="makeChoice(1)">💧 Water</button>
+
       <button onclick="makeChoice(2)">🌳 Tree</button>
+
       <button onclick="makeChoice(3)">🌍 Earth</button>
+
       <button onclick="makeChoice(4)">🪨 Stone</button>
+
     </div>
+
     <p id="round-result"></p>
+
     <p id="final-result"></p>
+
   </div>
 
+
+
   <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+
   <script src="abi.js"></script>
+
   <script src="main.js"></script>
+
 </body>
+
 </html>
