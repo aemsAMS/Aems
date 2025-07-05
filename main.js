@@ -1,85 +1,101 @@
 
-let web3;
-let contract;
-let token;
-let account;
+// main-debug.js
+let playerAddress;
+let opponentChoice = null;
+let playerChoice = null;
+let currentRound = 1;
+let score = { player: 0, opponent: 0 };
+
+const CONTRACT_ADDRESS = "0xc2a1754cb038c090783531e3285238076c90e61d";
+const TOKEN_ADDRESS = "0x259115680169276d0e4286acba362460456697c5";
+
+const choices = ["آب", "آتش", "درخت", "سنگ", "سم"];
+
+console.log("📦 Script Loaded...");
 
 async function connectWallet() {
-  if (window.ethereum) {
-    await ethereum.request({ method: 'eth_requestAccounts' });
-    web3 = new Web3(window.ethereum);
-    const chainId = await web3.eth.getChainId();
-
-    if (chainId !== 56) {
-      try {
-        await window.ethereum.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: '0x38' }] // 0x38 = 56 in hex
-        });
-      } catch (switchError) {
-        if (switchError.code === 4902) {
-          try {
-            await window.ethereum.request({
-              method: 'wallet_addEthereumChain',
-              params: [{
-                chainId: '0x38',
-                chainName: 'BNB Smart Chain',
-                rpcUrls: ['https://bsc-dataseed.binance.org/'],
-                nativeCurrency: {
-                  name: 'BNB',
-                  symbol: 'BNB',
-                  decimals: 18
-                },
-                blockExplorerUrls: ['https://bscscan.com']
-              }]
-            });
-          } catch (addError) {
-            alert('Failed to add BSC network.');
-            return;
-          }
-        } else {
-          alert('Please switch to BNB Smart Chain to continue.');
-          return;
-        }
-      }
+  if (typeof window.ethereum !== 'undefined') {
+    try {
+      const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+      playerAddress = accounts[0];
+      console.log("✅ Wallet Connected:", playerAddress);
+    } catch (err) {
+      console.error("❌ Wallet connection error:", err);
     }
-
-    const accounts = await web3.eth.getAccounts();
-    account = accounts[0];
-    document.getElementById("wallet-address").innerText = "Wallet: " + account;
-    contract = new web3.eth.Contract(ABI, CONTRACT_ADDRESS);
-    token = new web3.eth.Contract([
-      { "name":"balanceOf", "type":"function", "inputs":[{"name":"account","type":"address"}], "outputs":[{"name":"","type":"uint256"}], "stateMutability":"view" },
-      { "name":"approve", "type":"function", "inputs":[{"name":"spender","type":"address"},{"name":"amount","type":"uint256"}], "outputs":[{"name":"","type":"bool"}], "stateMutability":"nonpayable" }
-    ], TOKEN_ADDRESS);
-
-    let balance = await token.methods.balanceOf(account).call();
-    document.getElementById("token-balance").innerText = "Balance: " + web3.utils.fromWei(balance) + " LGD";
+  } else {
+    alert("MetaMask not found!");
   }
 }
 
-async function startGame() {
-  const entryFee = web3.utils.toWei("1000");
-  try {
-    document.getElementById("game-status").innerText = "Approving tokens...";
-    await token.methods.approve(CONTRACT_ADDRESS, entryFee).send({ from: account });
+function waitForOpponent() {
+  console.log("⏳ Waiting for opponent to join...");
+}
 
-    document.getElementById("game-status").innerText = "Joining game...";
-    await contract.methods.joinGame().send({ from: account });
+function startGame() {
+  console.log("🚀 Game started");
+  currentRound = 1;
+  score = { player: 0, opponent: 0 };
+  updateRoundUI();
+}
 
-    document.getElementById("game-status").innerText = "Game started! Make your choice...";
-    document.getElementById("game-area").style.display = "block";
-  } catch (err) {
-    console.error(err);
-    document.getElementById("game-status").innerText = "Error: " + err.message;
+function updateRoundUI() {
+  console.log(`📢 Round ${currentRound} Started`);
+}
+
+function makeChoice(index) {
+  playerChoice = index;
+  console.log(`🧍 Player chose: ${choices[index]}`);
+  sendChoiceToOpponent(index);
+}
+
+function receiveChoice(index) {
+  opponentChoice = index;
+  console.log(`👤 Opponent chose: ${choices[index]}`);
+  evaluateRound();
+}
+
+function evaluateRound() {
+  if (playerChoice === null || opponentChoice === null) {
+    console.log("⌛ Waiting for both choices...");
+    return;
+  }
+
+  const result = determineWinner(playerChoice, opponentChoice);
+  if (result === "player") score.player++;
+  else if (result === "opponent") score.opponent++;
+
+  console.log("✅ Round result:", result);
+  console.log("🎯 Score:", score);
+
+  if (currentRound < 3) {
+    currentRound++;
+    playerChoice = null;
+    opponentChoice = null;
+    updateRoundUI();
+  } else {
+    declareFinalWinner();
   }
 }
 
-async function makeChoice(index) {
-  try {
-    await contract.methods.play(index).send({ from: account });
-    document.getElementById("round-result").innerText = "You chose: " + ["Fire", "Water", "Tree", "Earth", "Stone"][index];
-  } catch (err) {
-    document.getElementById("round-result").innerText = "Error: " + err.message;
+function determineWinner(p1, p2) {
+  if (p1 === p2) return "draw";
+  if (
+    (p1 === 0 && p2 === 1) || // آب < آتش
+    (p1 === 1 && p2 === 2) || // آتش < درخت
+    (p1 === 2 && p2 === 0) || // درخت < آب
+    (p1 === 3 && p2 === 2) || // سنگ < درخت
+    (p1 === 4 && p2 === 0)    // سم < آب
+  ) return "opponent";
+  return "player";
+}
+
+function declareFinalWinner() {
+  console.log("🏁 Game finished");
+  if (score.player > score.opponent) {
+    console.log("🎉 You win!");
+  } else if (score.player < score.opponent) {
+    console.log("💀 You lost.");
+  } else {
+    console.log("🤝 Draw.");
   }
 }
