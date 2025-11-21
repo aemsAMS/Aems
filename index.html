@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">  
 <head>  
 <meta charset="UTF-8">  
@@ -27,17 +26,7 @@ nav a:hover {color:#00f0ff;}
 .banner {position:relative; margin:25px auto; max-width:1200px; overflow:hidden; border-radius:16px; box-shadow:0 0 20px rgba(0,255,255,0.3);}
 .banner-inner {display:flex; transition:transform 0.5s ease;}
 .banner-item {flex:0 0 100%;}
-
-/* 🔥 اینجا فقط اصلاح شد */
-.banner-item img {
-    width:100%;
-    height:auto;
-    display:block;
-    object-fit:contain;
-    background:#000;
-    border-radius:16px;
-}
-
+.banner-item img {width:100%; height:auto; display:block; object-fit:contain; background:#000; border-radius:16px;}
 .banner-controls {position:absolute; top:50%; width:100%; display:flex; justify-content:space-between; transform:translateY(-50%);}
 .banner-controls button {background:rgba(0,0,0,0.6); color:#fff; border:none; font-size:2rem; padding:8px 14px; cursor:pointer; border-radius:8px; transition:0.3s;}
 .banner-controls button:hover {background:#00f0ff; color:#000;}
@@ -68,22 +57,18 @@ nav a:hover {color:#00f0ff;}
 /* ===== Responsive ===== */
 @media(max-width:768px){
 nav a {margin:0 8px;}
-.banner-item img {height:auto;} /* 🔥 مهم برای موبایل */
+.banner-item img {height:auto;}
 .btn {padding:8px 16px;}
 .logo-text {font-size:1.3rem;}
 }
 </style>
 
-<!-- ethers UMD -->
 <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
 <script src="abi.js" defer></script>
 <script src="main.js" defer></script>
 </head>
 
-<link rel="icon" href="A.png" type="image/png">
-
 <body>
-
 <header class="header">  
   <div class="logo-text">AEMS</div>  
   <nav>  
