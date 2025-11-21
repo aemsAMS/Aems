@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AEMS Presale</title>
+<title>AEMS Presale - Professional</title>
 <link rel="icon" href="https://via.placeholder.com/32" type="image/png">
 
 <style>
@@ -13,58 +13,75 @@ body {font-family: 'Segoe UI', sans-serif; background:#0b0b0b; color:#fff; line-
 a {text-decoration:none; color:inherit;}
 
 /* ===== Header ===== */
-.header {position:fixed; top:0; left:0; width:100%; display:flex; justify-content:space-between; align-items:center; padding:15px 30px; background:rgba(17,17,17,0.95); border-bottom:2px solid #00f0ff; z-index:1000;}
-.logo-text {font-size:1.7rem; font-weight:bold; color:#00f0ff; text-shadow:0 0 8px #00f0ff;}
-nav a {margin:0 15px; font-weight:500; transition:0.3s; color:#fff; cursor:pointer;}
-nav a:hover {color:#00ffa0;}
+.header {
+  position:fixed; top:0; left:0; width:100%; display:flex; justify-content:space-between; align-items:center; 
+  padding:15px 40px; background:rgba(10,10,10,0.9); border-bottom:2px solid #00f0ff; z-index:1000; backdrop-filter:blur(6px);
+  transition:0.3s;
+}
+.header:hover {background:rgba(10,10,10,1);}
+.logo-text {font-size:1.8rem; font-weight:bold; color:#00f0ff; text-shadow:0 0 10px #00f0ff;}
+nav a {margin:0 18px; font-weight:500; transition:0.3s; color:#fff; cursor:pointer; position:relative;}
+nav a::after {content:""; position:absolute; left:0; bottom:-4px; width:0%; height:2px; background:#00ffa0; transition:0.3s;}
+nav a:hover::after {width:100%;}
 .header-right {display:flex; align-items:center; gap:15px;}
-.btn {padding:10px 20px; border:none; border-radius:8px; cursor:pointer; font-weight:600; transition:0.3s; text-transform:uppercase;}
-.btn.primary {background:linear-gradient(90deg,#00f0ff,#00ffa0); color:#000; box-shadow:0 0 10px #00f0ff;}
+.btn {padding:12px 24px; border:none; border-radius:12px; cursor:pointer; font-weight:600; transition:0.3s; text-transform:uppercase;}
+.btn.primary {background:linear-gradient(90deg,#00f0ff,#00ffa0); color:#000; box-shadow:0 0 15px #00f0ff;}
 .btn.secondary {background:#111; color:#00f0ff; border:2px solid #00f0ff;}
-.btn:hover {opacity:0.85; transform:scale(1.05);}
-.addr {font-size:0.9rem; color:#aaa;}
+.btn:hover {opacity:0.9; transform:scale(1.05);}
+.addr {font-size:0.85rem; color:#aaa; font-family:monospace;}
 
 /* ===== Sections ===== */
-section {padding:120px 20px 60px; max-width:1200px; margin:0 auto;}
-h1,h2,h3 {color:#00f0ff; text-shadow:0 0 6px #00f0ff; margin-bottom:15px;}
+section {padding:140px 20px 80px; max-width:1280px; margin:0 auto;}
+h1,h2,h3 {color:#00f0ff; text-shadow:0 0 6px #00f0ff; margin-bottom:18px;}
 .lead {font-size:1rem; color:#ccc; margin-bottom:15px;}
+.card {background:#1c1c1c; border-radius:20px; padding:30px; display:flex; flex-direction:column; gap:18px; box-shadow:0 8px 30px rgba(0,255,255,0.25); transition:0.3s;}
+.card:hover {box-shadow:0 12px 40px rgba(0,255,255,0.4); transform:translateY(-5px);}
+.container {display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:30px;}
 
 /* ===== Banner ===== */
-.banner {position:relative; margin:25px auto; overflow:hidden; border-radius:16px; box-shadow:0 0 20px rgba(0,255,255,0.3);}
-.banner-inner {display:flex; transition:transform 0.5s ease;}
-.banner-item {flex:0 0 100%;}
-.banner-item img {width:100%; height:auto; display:block; object-fit:contain; background:#000; border-radius:16px;}
+.banner {position:relative; margin:25px auto; overflow:hidden; border-radius:20px; box-shadow:0 0 30px rgba(0,255,255,0.4);}
+.banner-inner {display:flex; transition:transform 0.6s ease;}
+.banner-item {flex:0 0 100%; position:relative;}
+.banner-item img {width:100%; height:auto; display:block; object-fit:cover; border-radius:20px;}
+.banner-item h2 {position:absolute; bottom:30px; left:40px; font-size:2rem; color:#fff; text-shadow:2px 2px 10px #000;}
+
+/* Banner controls */
 .banner-controls {position:absolute; top:50%; width:100%; display:flex; justify-content:space-between; transform:translateY(-50%);}
-.banner-controls button {background:rgba(0,0,0,0.6); color:#fff; border:none; font-size:2rem; padding:8px 14px; cursor:pointer; border-radius:8px; transition:0.3s;}
+.banner-controls button {background:rgba(0,0,0,0.5); color:#fff; border:none; font-size:2rem; padding:10px 16px; cursor:pointer; border-radius:10px; transition:0.3s;}
 .banner-controls button:hover {background:#00f0ff; color:#000;}
 
-/* ===== Cards ===== */
-.container {display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:25px;}
-.card {background:#1c1c1c; border-radius:16px; padding:25px; display:flex; flex-direction:column; gap:15px; box-shadow:0 6px 20px rgba(0,255,255,0.3);}
-.stats-grid {display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; font-size:0.95rem;}
-.buy-box input {width:100%; padding:12px; border-radius:8px; border:none; margin-bottom:12px; background:#111; color:#fff;}
-.buy-actions {display:flex; gap:12px; flex-wrap:wrap;}
+/* ===== Presale Section ===== */
+.presale .stats-grid {display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:15px; font-size:0.95rem;}
+.presale .stats-grid div {background:#111; padding:10px 12px; border-radius:12px; text-align:center; box-shadow:0 0 12px rgba(0,255,255,0.2);}
+.buy-box input {width:100%; padding:14px; border-radius:12px; border:none; margin-bottom:15px; background:#111; color:#fff; font-size:1rem;}
+.buy-actions {display:flex; gap:15px; flex-wrap:wrap;}
 .estimates {margin-top:12px; font-size:0.9rem; color:#aaa;}
-.progress {margin-top:12px; background:#222; border-radius:8px; height:22px; overflow:hidden;}
-.progress-bar div {height:100%; background:linear-gradient(90deg,#00f0ff,#00ffa0); width:0%; transition:width 0.3s;}
+.progress {margin-top:18px; background:#222; border-radius:12px; height:24px; overflow:hidden; box-shadow:0 0 10px rgba(0,255,255,0.2);}
+.progress-bar div {height:100%; background:linear-gradient(90deg,#00f0ff,#00ffa0); width:0%; transition:width 0.4s;}
+
+/* ===== Vesting Section ===== */
+.vesting .card {position:relative;}
+.vesting .timer {font-size:0.9rem; color:#00ffa0; text-align:right;}
 
 /* ===== Admin Panel ===== */
-.admin-row {display:flex; gap:12px; flex-wrap:wrap;}
-.admin-info code {background:#000; padding:3px 6px; border-radius:6px;}
+.admin-row {display:flex; gap:15px; flex-wrap:wrap;}
+.admin-info code {background:#000; padding:4px 8px; border-radius:8px; font-family:monospace; font-size:0.85rem;}
 
 /* ===== Footer ===== */
-.footer {text-align:center; margin:40px 0; font-size:0.9rem; color:#aaa;}
+.footer {text-align:center; margin:50px 0; font-size:0.9rem; color:#aaa;}
+.footer a {color:#00f0ff;}
 
-/* ===== Smooth scroll for nav ===== */
-html {scroll-behavior:smooth;}
+/* ===== Scroll Animation ===== */
+[data-aos]{opacity:0; transform:translateY(40px); transition-property:transform, opacity; transition-duration:0.8s;}
+[data-aos].aos-animate{opacity:1; transform:translateY(0);}
 
 /* ===== Responsive ===== */
 @media(max-width:768px){
 nav a {margin:0 8px;}
 .banner-item img {height:auto;}
-.btn {padding:8px 16px;}
-.logo-text {font-size:1.3rem;}
-section {padding:100px 15px 40px;}
+.btn {padding:10px 20px;}
+.logo-text {font-size:1.5rem;}
+section {padding:120px 15px 50px;}
 .container {grid-template-columns:1fr;}
 }
 </style>
@@ -92,10 +109,9 @@ section {padding:100px 15px 40px;}
 
 <section id="home" class="banner">
   <div class="banner-inner" id="bannerInner">
-    <a href="#" class="banner-item"><img src="Y.png" alt="Banner 1"></a>
-    <a href="#" class="banner-item"><img src="https://via.placeholder.com/1200x350?text=Banner+2" alt="Banner 2"></a>
-    <a href="#" class="banner-item"><img src="https://via.placeholder.com/1200x350?text=Banner+3" alt="Banner 3"></a>
-    <a href="#" class="banner-item"><img src="https://via.placeholder.com/1200x350?text=Banner+4" alt="Banner 4"></a>
+    <a href="#" class="banner-item"><img src="Y.png" alt="Banner 1"><h2>Join AEMS Presale Now!</h2></a>
+    <a href="#" class="banner-item"><img src="https://via.placeholder.com/1200x350?text=Banner+2" alt="Banner 2"><h2>Secure Your Tokens</h2></a>
+    <a href="#" class="banner-item"><img src="https://via.placeholder.com/1200x350?text=Banner+3" alt="Banner 3"><h2>Fast & Transparent</h2></a>
   </div>
   <div class="banner-controls">
     <button id="bannerPrev">‹</button>
@@ -104,7 +120,7 @@ section {padding:100px 15px 40px;}
 </section>
 
 <section id="presale" class="container">
-  <div class="card presale">
+  <div class="card presale" data-aos="fade-up">
     <h1>AEMS Token Presale</h1>
     <p class="lead">Fixed price: <strong>0.007 USDT</strong> — Buy with USDT or BNB</p>
     <div class="stats-grid">
@@ -115,9 +131,8 @@ section {padding:100px 15px 40px;}
       <div>Raised (BNB USD): <span id="raisedBNBUSD">—</span></div>
       <div>Presale Status: <span id="presaleStatus">—</span></div>
     </div>
-
     <div class="buy-box">
-      <input id="usdInput" type="number" placeholder="Enter USD amount (e.g. 10)" min="0.01" step="0.01"/>
+      <input id="usdInput" type="number" placeholder="Enter USD amount" min="0.01" step="0.01"/>
       <div class="buy-actions">
         <button id="buyBNBBtn" class="btn primary">Buy with BNB</button>
         <button id="buyUSDTBtn" class="btn secondary">Buy with USDT</button>
@@ -127,7 +142,6 @@ section {padding:100px 15px 40px;}
         <div>Estimated BNB: <span id="estBNB">—</span></div>
       </div>
     </div>
-
     <div class="progress">
       <div id="progressFill"></div>
     </div>
@@ -135,18 +149,18 @@ section {padding:100px 15px 40px;}
 </section>
 
 <section id="vesting" class="container">
-  <div class="card vesting">
+  <div class="card vesting" data-aos="fade-up">
     <h2>Your Vesting</h2>
     <div>Purchased: <b id="myPurchased">—</b> AEMS</div>
     <div>Claimed: <b id="myClaimed">—</b> AEMS</div>
     <div>Claimable now: <b id="myClaimable">—</b> AEMS</div>
-    <div>Next unlock: <b id="nextUnlock">—</b></div>
+    <div class="timer">Next unlock: <b id="nextUnlock">—</b></div>
     <button id="claimBtn" class="btn primary">Claim Available Tokens</button>
   </div>
 </section>
 
 <section id="adminPanel" class="container" style="display:none;">
-  <div class="card admin">
+  <div class="card admin" data-aos="fade-up">
     <h2>Admin Panel (Owner)</h2>
     <div class="admin-row">
       <button id="endPresaleBtn" class="btn primary">Force End Presale</button>
@@ -168,6 +182,21 @@ section {padding:100px 15px 40px;}
   <div>© AEMS Presale</div>
   <div>Contract: <a id="contractLink" href="#" target="_blank"></a></div>
 </footer>
+
+<script>
+/* Simple Banner slider */
+let currentBanner = 0;
+const banners = document.querySelectorAll('.banner-item');
+const bannerInner = document.getElementById('bannerInner');
+document.getElementById('bannerNext').onclick = () => {
+  currentBanner = (currentBanner+1)%banners.length;
+  bannerInner.style.transform = `translateX(-${currentBanner*100}%)`;
+};
+document.getElementById('bannerPrev').onclick = () => {
+  currentBanner = (currentBanner-1+banners.length)%banners.length;
+  bannerInner.style.transform = `translateX(-${currentBanner*100}%)`;
+};
+</script>
 
 </body>
 </html>
