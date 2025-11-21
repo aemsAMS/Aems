@@ -1,16 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">  
-<head>  
-<meta charset="UTF-8">  
-<meta name="viewport" content="width=device-width, initial-scale=1.0">  
-<title>AEMS Presale</title>  
-<link rel="icon" href="https://via.placeholder.com/32" type="image/png">  
-<style>  
-/* ===== Reset ===== */  
-* {margin:0; padding:0; box-sizing:border-box;}  
-body {font-family: 'Segoe UI', sans-serif; background:#0b0b0b; color:#fff; line-height:1.5;}  
-
-/* ===== Header ===== */
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AEMS Presale</title>
+<link rel="icon" href="https://via.placeholder.com/32" type="image/png">
+<style>
+* {margin:0; padding:0; box-sizing:border-box;}
+body {font-family: 'Segoe UI', sans-serif; background:#0b0b0b; color:#fff; line-height:1.5;}
 .header {display:flex; justify-content:space-between; align-items:center; padding:15px 30px; background:#111; border-bottom:2px solid #00f0ff;}
 .logo-text {font-size:1.7rem; font-weight:bold; color:#00f0ff; text-shadow:0 0 8px #00f0ff;}
 nav a {margin:0 15px; font-weight:500; transition:0.3s; color:#fff;}
@@ -21,8 +18,6 @@ nav a:hover {color:#00f0ff;}
 .btn.secondary {background:#111; color:#00f0ff; border:2px solid #00f0ff;}
 .btn:hover {opacity:0.85; transform:scale(1.05);}
 .addr {font-size:0.9rem; color:#aaa;}
-
-/* ===== Banner ===== */
 .banner {position:relative; margin:25px auto; max-width:1200px; overflow:hidden; border-radius:16px; box-shadow:0 0 20px rgba(0,255,255,0.3);}
 .banner-inner {display:flex; transition:transform 0.5s ease;}
 .banner-item {flex:0 0 100%;}
@@ -30,31 +25,19 @@ nav a:hover {color:#00f0ff;}
 .banner-controls {position:absolute; top:50%; width:100%; display:flex; justify-content:space-between; transform:translateY(-50%);}
 .banner-controls button {background:rgba(0,0,0,0.6); color:#fff; border:none; font-size:2rem; padding:8px 14px; cursor:pointer; border-radius:8px; transition:0.3s;}
 .banner-controls button:hover {background:#00f0ff; color:#000;}
-
-/* ===== Main container ===== */
 .container {max-width:1200px; margin:30px auto; padding:0 20px; display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:25px;}
-
-/* ===== Cards ===== */
 .card {background:#1c1c1c; border-radius:16px; padding:25px; display:flex; flex-direction:column; gap:15px; box-shadow:0 6px 20px rgba(0,255,255,0.3);}
 .card h1, .card h2 {color:#00f0ff; text-shadow:0 0 6px #00f0ff;}
 .lead {font-size:1rem; color:#ccc;}
 .stats-grid {display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; font-size:0.95rem;}
-
-/* ===== Buy Box ===== */
 .buy-box input {width:100%; padding:12px; border-radius:8px; border:none; margin-bottom:12px; background:#111; color:#fff;}
 .buy-actions {display:flex; gap:12px; flex-wrap:wrap;}
 .estimates {margin-top:12px; font-size:0.9rem; color:#aaa;}
 .progress {margin-top:12px; background:#222; border-radius:8px; height:22px; overflow:hidden;}
 .progress-bar div {height:100%; background:linear-gradient(90deg,#00f0ff,#00ffa0); width:0%; transition:width 0.3s;}
-
-/* ===== Admin Panel ===== */
 .admin-row {display:flex; gap:12px; flex-wrap:wrap;}
 .admin-info code {background:#000; padding:3px 6px; border-radius:6px;}
-
-/* ===== Footer ===== */
 .footer {text-align:center; margin:40px 0; font-size:0.9rem; color:#aaa;}
-
-/* ===== Responsive ===== */
 @media(max-width:768px){
 nav a {margin:0 8px;}
 .banner-item img {height:auto;}
@@ -67,15 +50,15 @@ nav a {margin:0 8px;}
 <script src="abi.js" defer></script>
 <script src="main.js" defer></script>
 </head>
-
 <body>
+
 <header class="header">  
   <div class="logo-text">AEMS</div>  
   <nav>  
     <a id="navHome" href="index.php">Home</a>  
     <a id="navWhite" href="index2.php">Whitepaper</a>  
     <a id="navRoad" href="index2.php">Roadmap</a> 
-    <a id="navRoad" href="index3.php">Features</a> 
+    <a id="navFeatures" href="index3.php">Features</a> 
   </nav>  
   <div class="header-right">  
     <button id="connectWallet" class="btn primary">Connect Wallet</button>  
