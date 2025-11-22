@@ -1,105 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AEMS Presale - Professional</title>
-<link rel="icon" href="https://via.placeholder.com/32" type="image/png">
-
-<style>
-/* ===== Reset ===== */
-* {margin:0; padding:0; box-sizing:border-box;}
-body {font-family: 'Segoe UI', sans-serif; background:#0b0b0b; color:#fff; line-height:1.5; scroll-behavior: smooth;}
-a {text-decoration:none; color:inherit;}
-
-/* ===== Header ===== */
-.header {
-  position:fixed; top:0; left:0; width:100%; display:flex; justify-content:space-between; align-items:center; 
-  padding:15px 40px; background:rgba(10,10,10,0.9); border-bottom:2px solid #00f0ff; z-index:1000; backdrop-filter:blur(6px);
-  transition:0.3s;
-}
-.header:hover {background:rgba(10,10,10,1);}
-.logo-text {font-size:1.8rem; font-weight:bold; color:#00f0ff; text-shadow:0 0 10px #00f0ff;}
-nav a {margin:0 18px; font-weight:500; transition:0.3s; color:#fff; cursor:pointer; position:relative;}
-nav a::after {content:""; position:absolute; left:0; bottom:-4px; width:0%; height:2px; background:#00ffa0; transition:0.3s;}
-nav a:hover::after {width:100%;}
-.header-right {display:flex; align-items:center; gap:15px;}
-.btn {padding:12px 24px; border:none; border-radius:12px; cursor:pointer; font-weight:600; transition:0.3s; text-transform:uppercase;}
-.btn.primary {background:linear-gradient(90deg,#00f0ff,#00ffa0); color:#000; box-shadow:0 0 15px #00f0ff;}
-.btn.secondary {background:#111; color:#00f0ff; border:2px solid #00f0ff;}
-.btn:hover {opacity:0.9; transform:scale(1.05);}
-.addr {font-size:0.85rem; color:#aaa; font-family:monospace;}
-
-/* ===== Sections ===== */
-section {padding:140px 20px 80px; max-width:1280px; margin:0 auto;}
-h1,h2,h3 {color:#00f0ff; text-shadow:0 0 6px #00f0ff; margin-bottom:18px;}
-.lead {font-size:1rem; color:#ccc; margin-bottom:15px;}
-.card {background:#1c1c1c; border-radius:20px; padding:30px; display:flex; flex-direction:column; gap:18px; box-shadow:0 8px 30px rgba(0,255,255,0.25); transition:0.3s;}
-.card:hover {box-shadow:0 12px 40px rgba(0,255,255,0.4); transform:translateY(-5px);}
-.container {display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:30px;}
-
-/* ===== Banner ===== */
-.banner {position:relative; margin:25px auto; overflow:hidden; border-radius:20px; box-shadow:0 0 30px rgba(0,255,255,0.4);}
-.banner-inner {display:flex; transition:transform 0.6s ease;}
-.banner-item {flex:0 0 100%; position:relative;}
-.banner-item img {width:100%; height:auto; display:block; object-fit:cover; border-radius:20px;}
-.banner-item h2 {position:absolute; bottom:30px; left:40px; font-size:2rem; color:#fff; text-shadow:2px 2px 10px #000;}
-
-/* Banner controls */
-.banner-controls {position:absolute; top:50%; width:100%; display:flex; justify-content:space-between; transform:translateY(-50%);}
-.banner-controls button {background:rgba(0,0,0,0.5); color:#fff; border:none; font-size:2rem; padding:10px 16px; cursor:pointer; border-radius:10px; transition:0.3s;}
-.banner-controls button:hover {background:#00f0ff; color:#000;}
-
-/* ===== Presale Section ===== */
-.presale .stats-grid {display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:15px; font-size:0.95rem;}
-.presale .stats-grid div {background:#111; padding:10px 12px; border-radius:12px; text-align:center; box-shadow:0 0 12px rgba(0,255,255,0.2);}
-.buy-box input {width:100%; padding:14px; border-radius:12px; border:none; margin-bottom:15px; background:#111; color:#fff; font-size:1rem;}
-.buy-actions {display:flex; gap:15px; flex-wrap:wrap;}
-.estimates {margin-top:12px; font-size:0.9rem; color:#aaa;}
-.progress {margin-top:18px; background:#222; border-radius:12px; height:24px; overflow:hidden; box-shadow:0 0 10px rgba(0,255,255,0.2);}
-.progress-bar div {height:100%; background:linear-gradient(90deg,#00f0ff,#00ffa0); width:0%; transition:width 0.4s;}
-
-/* ===== Vesting Section ===== */
-.vesting .card {position:relative;}
-.vesting .timer {font-size:0.9rem; color:#00ffa0; text-align:right;}
-
-/* ===== Admin Panel ===== */
-.admin-row {display:flex; gap:15px; flex-wrap:wrap;}
-.admin-info code {background:#000; padding:4px 8px; border-radius:8px; font-family:monospace; font-size:0.85rem;}
-
-/* ===== Footer ===== */
-.footer {text-align:center; margin:50px 0; font-size:0.9rem; color:#aaa;}
-.footer a {color:#00f0ff;}
-
-/* ===== Scroll Animation ===== */
-[data-aos]{opacity:0; transform:translateY(40px); transition-property:transform, opacity; transition-duration:0.8s;}
-[data-aos].aos-animate{opacity:1; transform:translateY(0);}
-
-/* ===== Responsive ===== */
-@media(max-width:768px){
-nav a {margin:0 8px;}
-.banner-item img {height:auto;}
-.btn {padding:10px 20px;}
-.logo-text {font-size:1.5rem;}
-section {padding:120px 15px 50px;}
-.container {grid-template-columns:1fr;}
-}
-</style>
-
+<title>AEMS Presale</title>
+<link rel="icon" href="A.png" type="image/png">
+<link rel="stylesheet" href="style.css">
+<!-- ethers UMD (main.js و abi.js بدون تغییر) -->
 <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
 <script src="abi.js" defer></script>
 <script src="main.js" defer></script>
 </head>
-
 <body>
 
+<!-- HEADER -->
 <header class="header">
   <div class="logo-text">AEMS</div>
   <nav>
     <a href="#home">Home</a>
     <a href="#presale">Presale</a>
-    <a href="#vesting">Vesting</a>
-    <a href="#adminPanel">Admin</a>
+    <a href="#tokenomics">Tokenomics</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="#features">Features</a>
+    <a href="#team">Team</a>
+    <a href="#faq">FAQ</a>
   </nav>
   <div class="header-right">
     <button id="connectWallet" class="btn primary">Connect Wallet</button>
@@ -107,32 +31,64 @@ section {padding:120px 15px 50px;}
   </div>
 </header>
 
-<section id="home" class="banner">
-  <div class="banner-inner" id="bannerInner">
-    <a href="#" class="banner-item"><img src="Y.png" alt="Banner 1"><h2>Join AEMS Presale Now!</h2></a>
-    <a href="#" class="banner-item"><img src="https://via.placeholder.com/1200x350?text=Banner+2" alt="Banner 2"><h2>Secure Your Tokens</h2></a>
-    <a href="#" class="banner-item"><img src="https://via.placeholder.com/1200x350?text=Banner+3" alt="Banner 3"><h2>Fast & Transparent</h2></a>
-  </div>
-  <div class="banner-controls">
-    <button id="bannerPrev">‹</button>
-    <button id="bannerNext">›</button>
+<!-- HERO / BANNER -->
+<section id="home" class="hero">
+  <div class="hero-inner container">
+    <div class="hero-left">
+      <h1>AEMS — Next Gen Utility Token</h1>
+      <p class="subtitle">Fast, low-fee BEP-20 token for DeFi & gaming ecosystems. Join the presale now and secure early-bird benefits.</p>
+      <div class="hero-ctas">
+        <button class="btn primary" onclick="document.getElementById('usdInput').focus()">Buy Now (Presale)</button>
+        <a class="btn secondary" href="#roadmap">View Roadmap</a>
+      </div>
+
+      <div class="hero-stats">
+        <div>Token Contract: <code id="contractLinkStatic">0x4751C0DE56EFB3770615097347cbF131D302498A</code></div>
+        <div>Fixed price: <strong>0.007 USDT</strong></div>
+        <div>Network: <strong>BSC (BEP-20)</strong></div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="banner">
+        <div class="banner-inner" id="bannerInner">
+          <a class="banner-item"><img src="Y.png" alt="AEMS Banner 1"></a>
+          <a class="banner-item"><img src="https://via.placeholder.com/1200x350?text=Secure+Your+Tokens" alt=""></a>
+          <a class="banner-item"><img src="https://via.placeholder.com/1200x350?text=Join+Presale+Now" alt=""></a>
+        </div>
+        <div class="banner-controls">
+          <button id="bannerPrev">‹</button>
+          <button id="bannerNext">›</button>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<section id="presale" class="container">
-  <div class="card presale" data-aos="fade-up">
-    <h1>AEMS Token Presale</h1>
-    <p class="lead">Fixed price: <strong>0.007 USDT</strong> — Buy with USDT or BNB</p>
-    <div class="stats-grid">
-      <div>Total allocation: <span id="alloc">129,000,000</span></div>
-      <div>Sold: <span id="sold">—</span></div>
-      <div>Remaining: <span id="left">—</span></div>
-      <div>Raised (USDT): <span id="raisedUSDT">—</span></div>
-      <div>Raised (BNB USD): <span id="raisedBNBUSD">—</span></div>
-      <div>Presale Status: <span id="presaleStatus">—</span></div>
+<!-- MAIN GRID -->
+<main class="container">
+
+  <!-- PRESALE CARD -->
+  <section id="presale" class="card presale">
+    <h2>AEMS Token Presale</h2>
+    <p class="lead">Fixed price: <strong>0.007 USDT</strong> — Buy with USDT or BNB. Early buyers get bonus allocation.</p>
+
+    <div class="meta-row">
+      <div class="meta-item">Presale status: <span id="presaleStatus">—</span></div>
+      <div class="meta-item">Ends in: <span id="countdown">—</span></div>
     </div>
+
+    <div class="stats-grid">
+      <div title="Total tokens allocated for presale">Total allocation: <span id="alloc">129,000,000</span></div>
+      <div title="Amount sold so far">Sold: <span id="sold">—</span></div>
+      <div title="Tokens remaining">Remaining: <span id="left">—</span></div>
+      <div title="Total raised via USDT">Raised (USDT): <span id="raisedUSDT">—</span></div>
+      <div title="Total raised (BNB value)">Raised (BNB USD): <span id="raisedBNBUSD">—</span></div>
+      <div title="Contract address">Contract: <code id="contractAddr">0x4751C0DE56EFB3770615097347cbF131D302498A</code></div>
+    </div>
+
     <div class="buy-box">
-      <input id="usdInput" type="number" placeholder="Enter USD amount" min="0.01" step="0.01"/>
+      <input id="usdInput" type="number" placeholder="Enter USD amount (e.g. 10)" min="0.01" step="0.01"/>
       <div class="buy-actions">
         <button id="buyBNBBtn" class="btn primary">Buy with BNB</button>
         <button id="buyUSDTBtn" class="btn secondary">Buy with USDT</button>
@@ -142,26 +98,27 @@ section {padding:120px 15px 50px;}
         <div>Estimated BNB: <span id="estBNB">—</span></div>
       </div>
     </div>
-    <div class="progress">
-      <div id="progressFill"></div>
-    </div>
-  </div>
-</section>
 
-<section id="vesting" class="container">
-  <div class="card vesting" data-aos="fade-up">
-    <h2>Your Vesting</h2>
+    <div class="progress" aria-hidden="true">
+      <div id="progressFill" style="width:0%"></div>
+    </div>
+    <div class="progress-meta"><span id="progressPercent">0%</span> sold</div>
+  </section>
+
+  <!-- VESTING CARD -->
+  <section class="card vesting">
+    <h3>Your Vesting</h3>
+    <p class="lead">Tokens purchased in presale are vested. See your claimable balance below.</p>
     <div>Purchased: <b id="myPurchased">—</b> AEMS</div>
     <div>Claimed: <b id="myClaimed">—</b> AEMS</div>
     <div>Claimable now: <b id="myClaimable">—</b> AEMS</div>
-    <div class="timer">Next unlock: <b id="nextUnlock">—</b></div>
+    <div>Next unlock: <b id="nextUnlock">—</b></div>
     <button id="claimBtn" class="btn primary">Claim Available Tokens</button>
-  </div>
-</section>
+  </section>
 
-<section id="adminPanel" class="container" style="display:none;">
-  <div class="card admin" data-aos="fade-up">
-    <h2>Admin Panel (Owner)</h2>
+  <!-- ADMIN PANEL -->
+  <section id="adminPanel" class="card admin" style="display:none">
+    <h3>Admin Panel (Owner)</h3>
     <div class="admin-row">
       <button id="endPresaleBtn" class="btn primary">Force End Presale</button>
       <button id="withdrawBNBBtn" class="btn primary">Withdraw BNB</button>
@@ -172,30 +129,142 @@ section {padding:120px 15px 50px;}
       <button id="destroyBtn" class="btn secondary">Destroy Contract</button>
     </div>
     <div class="admin-info">
-      <div>Contract: <code id="contractAddr"></code></div>
+      <div>Contract: <code id="contractAddrMirror">0x4751C0DE56EFB3770615097347cbF131D302498A</code></div>
       <div>Owner: <code id="ownerAddr">—</code></div>
     </div>
-  </div>
-</section>
+  </section>
 
+  <!-- TOKENOMICS -->
+  <section id="tokenomics" class="section">
+    <h2>Tokenomics</h2>
+    <p>توضیحات توکن:</p>
+    <ul>
+      <li><strong>Total supply:</strong> 1,000,000,000 AEMS</li>
+      <li><strong>Presale allocation:</strong> 129,000,000 AEMS</li>
+      <li><strong>Decimals:</strong> 18</li>
+      <li><strong>Contract:</strong> 0x4751C0DE56EFB3770615097347cbF131D302498A</li>
+      <li><strong>Developer/Marketing:</strong> 10%</li>
+      <li><strong>Liquidity:</strong> 40%</li>
+      <li><strong>Staking & Rewards:</strong> 20%</li>
+      <li><strong>Reserve:</strong> 30%</li>
+    </ul>
+    <p>All tokenomics subject to community governance and audit.</p>
+  </section>
+
+  <!-- ROADMAP -->
+  <section id="roadmap" class="section">
+    <h2>Roadmap</h2>
+    <div class="roadmap-step">
+      <h4>Q4 2025 — Launch & Presale</h4>
+      <p>Website live, token contract deployed, presale started and early marketing.</p>
+    </div>
+    <div class="roadmap-step">
+      <h4>Q1 2026 — Liquidity & Listings</h4>
+      <p>Provide liquidity, list on DEXs, begin token utility integration.</p>
+    </div>
+    <div class="roadmap-step">
+      <h4>Q2 2026 — Product & Partners</h4>
+      <p>Integrate token into partner platforms, launch staking & reward program.</p>
+    </div>
+    <div class="roadmap-step">
+      <h4>Q3 2026 — Growth</h4>
+      <p>Expand community, CEX listings, add features and games using AEMS token.</p>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features" class="section">
+    <h2>Features</h2>
+    <div class="feature-item">🔒 Secure BEP-20 contract with vesting support</div>
+    <div class="feature-item">⚡ Fast transactions & low BSC fees</div>
+    <div class="feature-item">💡 Easy buy with BNB or USDT</div>
+    <div class="feature-item">📈 Transparent presale stats and vesting</div>
+    <div class="feature-item">🛠️ Admin tools for safe operation</div>
+  </section>
+
+  <!-- TEAM -->
+  <section id="team" class="section">
+    <h2>Team</h2>
+    <div class="team-grid">
+      <div class="team-member">
+        <img src="https://via.placeholder.com/100" alt="Dev">
+        <h4>محمدهادی</h4>
+        <p>Founder & Lead</p>
+      </div>
+      <div class="team-member">
+        <img src="https://via.placeholder.com/100" alt="CTO">
+        <h4>سارا</h4>
+        <p>CTO & Smart Contracts</p>
+      </div>
+      <div class="team-member">
+        <img src="https://via.placeholder.com/100" alt="Marketing">
+        <h4>علی</h4>
+        <p>Marketing Lead</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="section">
+    <h2>FAQ</h2>
+    <div class="faq-item">
+      <h4>چطور توکن بخرم؟</h4>
+      <p>کیف پول خود را متصل کنید، مبلغ USD را وارد کنید و روی Buy with BNB یا Buy with USDT کلیک کنید.</p>
+    </div>
+    <div class="faq-item">
+      <h4>آیا توکن امن است؟</h4>
+      <p>قرارداد BEP-20 بوده و ابزارهای مدیریتی برای امنیت و vesting در نظر گرفته شده است. توصیه می‌کنیم قرارداد را قبل از خرید بررسی کنید.</p>
+    </div>
+    <div class="faq-item">
+      <h4>نحوه Vesting چگونه است؟</h4>
+      <p>خریداران بر اساس برنامه زمانی vesting می‌توانند توکن‌های خود را claim کنند. جزئیات در پنل Vesting نمایش داده می‌شود.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
 <footer class="footer">
   <div>© AEMS Presale</div>
-  <div>Contract: <a id="contractLink" href="#" target="_blank"></a></div>
+  <div>Contract: <a id="contractLink" href="https://bscscan.com/address/0x4751C0DE56EFB3770615097347cbF131D302498A" target="_blank">0x4751C0DE56EFB3770615097347cbF131D302498A</a></div>
 </footer>
 
+<!-- small interactive bits (keep minimal — main logic in main.js) -->
 <script>
-/* Simple Banner slider */
-let currentBanner = 0;
-const banners = document.querySelectorAll('.banner-item');
+// Banner slider (keeps simple & independent of main.js)
+let bannerIndex = 0;
 const bannerInner = document.getElementById('bannerInner');
-document.getElementById('bannerNext').onclick = () => {
-  currentBanner = (currentBanner+1)%banners.length;
-  bannerInner.style.transform = `translateX(-${currentBanner*100}%)`;
-};
-document.getElementById('bannerPrev').onclick = () => {
-  currentBanner = (currentBanner-1+banners.length)%banners.length;
-  bannerInner.style.transform = `translateX(-${currentBanner*100}%)`;
-};
+const banners = bannerInner?.querySelectorAll('.banner-item') || [];
+function shiftBanner(i){
+  if(!banners.length) return;
+  bannerIndex = (bannerIndex + i + banners.length) % banners.length;
+  bannerInner.style.transform = `translateX(-${bannerIndex * 100}%)`;
+}
+document.getElementById('bannerNext')?.addEventListener('click', ()=> shiftBanner(1));
+document.getElementById('bannerPrev')?.addEventListener('click', ()=> shiftBanner(-1));
+setInterval(()=> shiftBanner(1), 7000);
+
+// FAQ toggle
+document.querySelectorAll('.faq-item h4').forEach(h => {
+  h.addEventListener('click', ()=> {
+    const p = h.nextElementSibling;
+    if(!p) return;
+    p.style.display = (p.style.display === 'block') ? 'none' : 'block';
+  });
+});
+
+// update progress percent when main.js updates width (observe)
+const progressFill = document.getElementById('progressFill');
+const progressPercent = document.getElementById('progressPercent');
+if(progressFill && progressPercent){
+  const obs = new MutationObserver(()=> {
+    const w = parseFloat(getComputedStyle(progressFill).width) || 0;
+    const parentW = parseFloat(getComputedStyle(progressFill.parentElement).width) || 1;
+    const pct = Math.round(w/parentW*100);
+    progressPercent.innerText = pct + '%';
+  });
+  obs.observe(progressFill, {attributes:true, attributeFilter:['style']});
+}
 </script>
 
 </body>
