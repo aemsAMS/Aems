@@ -1,271 +1,278 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AEMS Presale</title>
+<title>AEMS Token – Official Presale</title>
+
 <link rel="icon" href="A.png" type="image/png">
+
+<!-- ===== Main CSS ===== -->
 <link rel="stylesheet" href="style.css">
-<!-- ethers UMD (main.js و abi.js بدون تغییر) -->
+
+<!-- Ethers.js -->
 <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+
 <script src="abi.js" defer></script>
 <script src="main.js" defer></script>
 </head>
+
 <body>
 
-<!-- HEADER -->
+<!-- ================= HEADER ================= -->
 <header class="header">
-  <div class="logo-text">AEMS</div>
-  <nav>
-    <a href="#home">Home</a>
-    <a href="#presale">Presale</a>
-    <a href="#tokenomics">Tokenomics</a>
-    <a href="#roadmap">Roadmap</a>
-    <a href="#features">Features</a>
-    <a href="#team">Team</a>
-    <a href="#faq">FAQ</a>
-  </nav>
-  <div class="header-right">
-    <button id="connectWallet" class="btn primary">Connect Wallet</button>
-    <span id="walletAddr" class="addr">Not connected</span>
-  </div>
+    <div class="logo">AEMS</div>
+
+    <nav class="nav">
+        <a href="#home">Home</a>
+        <a href="#presale">Presale</a>
+        <a href="#tokenomics">Tokenomics</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#features">Features</a>
+        <a href="#team">Team</a>
+        <a href="#faq">FAQ</a>
+    </nav>
+
+    <div class="header-right">
+        <button id="connectWallet" class="btn primary">Connect</button>
+        <span id="walletAddr" class="wallet-label">Not connected</span>
+    </div>
 </header>
 
-<!-- HERO / BANNER -->
+<!-- ================= HERO ================= -->
 <section id="home" class="hero">
-  <div class="hero-inner container">
-    <div class="hero-left">
-      <h1>AEMS — Next Gen Utility Token</h1>
-      <p class="subtitle">Fast, low-fee BEP-20 token for DeFi & gaming ecosystems. Join the presale now and secure early-bird benefits.</p>
-      <div class="hero-ctas">
-        <button class="btn primary" onclick="document.getElementById('usdInput').focus()">Buy Now (Presale)</button>
-        <a class="btn secondary" href="#roadmap">View Roadmap</a>
-      </div>
-
-      <div class="hero-stats">
-        <div>Token Contract: <code id="contractLinkStatic">0x4751C0DE56EFB3770615097347cbF131D302498A</code></div>
-        <div>Fixed price: <strong>0.007 USDT</strong></div>
-        <div>Network: <strong>BSC (BEP-20)</strong></div>
-      </div>
+    <div class="hero-content">
+        <h1>Welcome to <span>AEMS Token</span></h1>
+        <p>The Next Generation Utility Token with Real Use-Case and Global Ecosystem.</p>
+        <a href="#presale" class="btn hero-btn">Join Presale</a>
     </div>
-
-    <div class="hero-right">
-      <div class="banner">
-        <div class="banner-inner" id="bannerInner">
-          <a class="banner-item"><img src="Y.png" alt="AEMS Banner 1"></a>
-          <a class="banner-item"><img src="https://via.placeholder.com/1200x350?text=Secure+Your+Tokens" alt=""></a>
-          <a class="banner-item"><img src="https://via.placeholder.com/1200x350?text=Join+Presale+Now" alt=""></a>
-        </div>
-        <div class="banner-controls">
-          <button id="bannerPrev">‹</button>
-          <button id="bannerNext">›</button>
-        </div>
-      </div>
-    </div>
-  </div>
 </section>
 
-<!-- MAIN GRID -->
-<main class="container">
-
-  <!-- PRESALE CARD -->
-  <section id="presale" class="card presale">
-    <h2>AEMS Token Presale</h2>
-    <p class="lead">Fixed price: <strong>0.007 USDT</strong> — Buy with USDT or BNB. Early buyers get bonus allocation.</p>
-
-    <div class="meta-row">
-      <div class="meta-item">Presale status: <span id="presaleStatus">—</span></div>
-      <div class="meta-item">Ends in: <span id="countdown">—</span></div>
+<!-- ================= BANNERS ================= -->
+<section class="banner">
+    <div class="banner-inner" id="bannerInner">
+        <a class="banner-item"><img src="Y.png" /></a>
+        <a class="banner-item"><img src="https://via.placeholder.com/1200x350?text=Banner+2" /></a>
+        <a class="banner-item"><img src="https://via.placeholder.com/1200x350?text=Banner+3" /></a>
     </div>
 
+    <div class="banner-controls">
+        <button id="bannerPrev">‹</button>
+        <button id="bannerNext">›</button>
+    </div>
+</section>
+
+<!-- ================= MAIN ================= -->
+<main class="container">
+
+<!-- ===== PRESALE CARD ===== -->
+<section id="presale" class="card">
+    <h1>AEMS Token Presale</h1>
+    <p class="lead">Presale Price: <strong>0.007 USDT</strong></p>
+
     <div class="stats-grid">
-      <div title="Total tokens allocated for presale">Total allocation: <span id="alloc">129,000,000</span></div>
-      <div title="Amount sold so far">Sold: <span id="sold">—</span></div>
-      <div title="Tokens remaining">Remaining: <span id="left">—</span></div>
-      <div title="Total raised via USDT">Raised (USDT): <span id="raisedUSDT">—</span></div>
-      <div title="Total raised (BNB value)">Raised (BNB USD): <span id="raisedBNBUSD">—</span></div>
-      <div title="Contract address">Contract: <code id="contractAddr">0x4751C0DE56EFB3770615097347cbF131D302498A</code></div>
+        <div>Total Allocation: <span id="alloc">129,000,000</span></div>
+        <div>Sold: <span id="sold">—</span></div>
+        <div>Remaining: <span id="left">—</span></div>
+        <div>Raised USDT: <span id="raisedUSDT">—</span></div>
+        <div>Raised BNB USD: <span id="raisedBNBUSD">—</span></div>
+        <div>Status: <span id="presaleStatus">—</span></div>
     </div>
 
     <div class="buy-box">
-      <input id="usdInput" type="number" placeholder="Enter USD amount (e.g. 10)" min="0.01" step="0.01"/>
-      <div class="buy-actions">
-        <button id="buyBNBBtn" class="btn primary">Buy with BNB</button>
-        <button id="buyUSDTBtn" class="btn secondary">Buy with USDT</button>
-      </div>
-      <div class="estimates">
-        <div>Estimated tokens: <span id="estTokens">—</span></div>
-        <div>Estimated BNB: <span id="estBNB">—</span></div>
-      </div>
+        <input id="usdInput" type="number" placeholder="Enter USD amount" />
+
+        <div class="buy-actions">
+            <button id="buyBNBBtn" class="btn primary">Buy with BNB</button>
+            <button id="buyUSDTBtn" class="btn secondary">Buy with USDT</button>
+        </div>
+
+        <div class="estimates">
+            <div>Estimated Tokens: <span id="estTokens">—</span></div>
+            <div>Estimated BNB: <span id="estBNB">—</span></div>
+        </div>
     </div>
 
-    <div class="progress" aria-hidden="true">
-      <div id="progressFill" style="width:0%"></div>
+    <div class="progress">
+        <div id="progressFill"></div>
     </div>
-    <div class="progress-meta"><span id="progressPercent">0%</span> sold</div>
-  </section>
+</section>
 
-  <!-- VESTING CARD -->
-  <section class="card vesting">
-    <h3>Your Vesting</h3>
-    <p class="lead">Tokens purchased in presale are vested. See your claimable balance below.</p>
-    <div>Purchased: <b id="myPurchased">—</b> AEMS</div>
-    <div>Claimed: <b id="myClaimed">—</b> AEMS</div>
-    <div>Claimable now: <b id="myClaimable">—</b> AEMS</div>
+<!-- ===== VESTING CARD ===== -->
+<section class="card">
+    <h2>Your Vesting</h2>
+    <div>Purchased: <b id="myPurchased">—</b></div>
+    <div>Claimed: <b id="myClaimed">—</b></div>
+    <div>Claimable: <b id="myClaimable">—</b></div>
     <div>Next unlock: <b id="nextUnlock">—</b></div>
-    <button id="claimBtn" class="btn primary">Claim Available Tokens</button>
-  </section>
+    <button id="claimBtn" class="btn primary">Claim Tokens</button>
+</section>
 
-  <!-- ADMIN PANEL -->
-  <section id="adminPanel" class="card admin" style="display:none">
-    <h3>Admin Panel (Owner)</h3>
+<!-- ===== ADMIN PANEL ===== -->
+<section id="adminPanel" class="card" style="display:none">
+    <h2>Admin Panel</h2>
+
     <div class="admin-row">
-      <button id="endPresaleBtn" class="btn primary">Force End Presale</button>
-      <button id="withdrawBNBBtn" class="btn primary">Withdraw BNB</button>
-      <button id="withdrawUSDTBtn" class="btn primary">Withdraw USDT</button>
+        <button id="endPresaleBtn" class="btn primary">End Presale</button>
+        <button id="withdrawBNBBtn" class="btn primary">Withdraw BNB</button>
+        <button id="withdrawUSDTBtn" class="btn primary">Withdraw USDT</button>
     </div>
+
     <div class="admin-row">
-      <button id="withdrawUnsoldBtn" class="btn secondary">Withdraw Unsold Tokens</button>
-      <button id="destroyBtn" class="btn secondary">Destroy Contract</button>
+        <button id="withdrawUnsoldBtn" class="btn secondary">Withdraw Unsold</button>
+        <button id="destroyBtn" class="btn secondary">Destroy Contract</button>
     </div>
+
     <div class="admin-info">
-      <div>Contract: <code id="contractAddrMirror">0x4751C0DE56EFB3770615097347cbF131D302498A</code></div>
-      <div>Owner: <code id="ownerAddr">—</code></div>
+        <div>Contract: <code id="contractAddr"></code></div>
+        <div>Owner: <code id="ownerAddr">—</code></div>
     </div>
-  </section>
-
-  <!-- TOKENOMICS -->
-  <section id="tokenomics" class="section">
-    <h2>Tokenomics</h2>
-    <p>توضیحات توکن:</p>
-    <ul>
-      <li><strong>Total supply:</strong> 1,000,000,000 AEMS</li>
-      <li><strong>Presale allocation:</strong> 129,000,000 AEMS</li>
-      <li><strong>Decimals:</strong> 18</li>
-      <li><strong>Contract:</strong> 0x4751C0DE56EFB3770615097347cbF131D302498A</li>
-      <li><strong>Developer/Marketing:</strong> 10%</li>
-      <li><strong>Liquidity:</strong> 40%</li>
-      <li><strong>Staking & Rewards:</strong> 20%</li>
-      <li><strong>Reserve:</strong> 30%</li>
-    </ul>
-    <p>All tokenomics subject to community governance and audit.</p>
-  </section>
-
-  <!-- ROADMAP -->
-  <section id="roadmap" class="section">
-    <h2>Roadmap</h2>
-    <div class="roadmap-step">
-      <h4>Q4 2025 — Launch & Presale</h4>
-      <p>Website live, token contract deployed, presale started and early marketing.</p>
-    </div>
-    <div class="roadmap-step">
-      <h4>Q1 2026 — Liquidity & Listings</h4>
-      <p>Provide liquidity, list on DEXs, begin token utility integration.</p>
-    </div>
-    <div class="roadmap-step">
-      <h4>Q2 2026 — Product & Partners</h4>
-      <p>Integrate token into partner platforms, launch staking & reward program.</p>
-    </div>
-    <div class="roadmap-step">
-      <h4>Q3 2026 — Growth</h4>
-      <p>Expand community, CEX listings, add features and games using AEMS token.</p>
-    </div>
-  </section>
-
-  <!-- FEATURES -->
-  <section id="features" class="section">
-    <h2>Features</h2>
-    <div class="feature-item">🔒 Secure BEP-20 contract with vesting support</div>
-    <div class="feature-item">⚡ Fast transactions & low BSC fees</div>
-    <div class="feature-item">💡 Easy buy with BNB or USDT</div>
-    <div class="feature-item">📈 Transparent presale stats and vesting</div>
-    <div class="feature-item">🛠️ Admin tools for safe operation</div>
-  </section>
-
-  <!-- TEAM -->
-  <section id="team" class="section">
-    <h2>Team</h2>
-    <div class="team-grid">
-      <div class="team-member">
-        <img src="https://via.placeholder.com/100" alt="Dev">
-        <h4>محمدهادی</h4>
-        <p>Founder & Lead</p>
-      </div>
-      <div class="team-member">
-        <img src="https://via.placeholder.com/100" alt="CTO">
-        <h4>سارا</h4>
-        <p>CTO & Smart Contracts</p>
-      </div>
-      <div class="team-member">
-        <img src="https://via.placeholder.com/100" alt="Marketing">
-        <h4>علی</h4>
-        <p>Marketing Lead</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section id="faq" class="section">
-    <h2>FAQ</h2>
-    <div class="faq-item">
-      <h4>چطور توکن بخرم؟</h4>
-      <p>کیف پول خود را متصل کنید، مبلغ USD را وارد کنید و روی Buy with BNB یا Buy with USDT کلیک کنید.</p>
-    </div>
-    <div class="faq-item">
-      <h4>آیا توکن امن است؟</h4>
-      <p>قرارداد BEP-20 بوده و ابزارهای مدیریتی برای امنیت و vesting در نظر گرفته شده است. توصیه می‌کنیم قرارداد را قبل از خرید بررسی کنید.</p>
-    </div>
-    <div class="faq-item">
-      <h4>نحوه Vesting چگونه است؟</h4>
-      <p>خریداران بر اساس برنامه زمانی vesting می‌توانند توکن‌های خود را claim کنند. جزئیات در پنل Vesting نمایش داده می‌شود.</p>
-    </div>
-  </section>
+</section>
 
 </main>
 
-<!-- FOOTER -->
+<!-- ================= TOKENOMICS ================= -->
+<section id="tokenomics" class="section tokenomics">
+    <h2>Tokenomics</h2>
+
+    <div class="tokenomics-grid">
+        <div class="t-card">
+            <h3>Total Supply</h3>
+            <p>1,000,000,000 AEMS</p>
+        </div>
+        <div class="t-card">
+            <h3>Presale</h3>
+            <p>12.9%</p>
+        </div>
+        <div class="t-card">
+            <h3>Liquidity</h3>
+            <p>50%</p>
+        </div>
+        <div class="t-card">
+            <h3>Team</h3>
+            <p>10%</p>
+        </div>
+        <div class="t-card">
+            <h3>Marketing</h3>
+            <p>12%</p>
+        </div>
+        <div class="t-card">
+            <h3>Staking Rewards</h3>
+            <p>15%</p>
+        </div>
+    </div>
+</section>
+
+<!-- ================= ROADMAP ================= -->
+<section id="roadmap" class="section roadmap">
+    <h2>Roadmap</h2>
+
+    <div class="roadmap-line">
+
+        <div class="road-item">
+            <h3>Q1 2025</h3>
+            <p>Token Launch, Website Release, Community Build</p>
+        </div>
+
+        <div class="road-item">
+            <h3>Q2 2025</h3>
+            <p>DEX Listing, Marketing Push, Partnerships</p>
+        </div>
+
+        <div class="road-item">
+            <h3>Q3 2025</h3>
+            <p>Staking Platform, More Exchanges, Utilities</p>
+        </div>
+
+        <div class="road-item">
+            <h3>Q4 2025</h3>
+            <p>Main Game Release, Global Expansion</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- ================= FEATURES ================= -->
+<section id="features" class="section features">
+    <h2>Main Features</h2>
+
+    <div class="features-grid">
+
+        <div class="f-card">
+            <h3>Fast Transactions</h3>
+            <p>Using BNB Chain for low fees and high speed.</p>
+        </div>
+
+        <div class="f-card">
+            <h3>Strong Utility</h3>
+            <p>AEMS powers our future games, staking and ecosystem.</p>
+        </div>
+
+        <div class="f-card">
+            <h3>Secure Smart Contract</h3>
+            <p>Contract verified and built professionally.</p>
+        </div>
+
+        <div class="f-card">
+            <h3>Long-Term Vision</h3>
+            <p>A sustainable ecosystem for years to come.</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- ================= TEAM ================= -->
+<section id="team" class="section team">
+    <h2>Our Team</h2>
+
+    <div class="team-grid">
+        <div class="team-card">
+            <img src="https://via.placeholder.com/150" />
+            <h3>Founder</h3>
+            <p>Lead strategist and architect of AEMS ecosystem.</p>
+        </div>
+
+        <div class="team-card">
+            <img src="https://via.placeholder.com/150" />
+            <h3>Developer</h3>
+            <p>Blockchain smart-contract & system developer.</p>
+        </div>
+
+        <div class="team-card">
+            <img src="https://via.placeholder.com/150" />
+            <h3>Marketing Lead</h3>
+            <p>Responsible for community and worldwide growth.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section id="faq" class="section faq">
+    <h2>FAQ</h2>
+
+    <div class="faq-item">
+        <h3>How do I buy the token?</h3>
+        <p>You can buy with BNB or USDT directly from the presale box above.</p>
+    </div>
+
+    <div class="faq-item">
+        <h3>When will I receive my tokens?</h3>
+        <p>Tokens unlock gradually based on vesting schedule.</p>
+    </div>
+
+    <div class="faq-item">
+        <h3>Is the smart contract safe?</h3>
+        <p>Yes, verified on BSCScan and deployed securely.</p>
+    </div>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
 <footer class="footer">
-  <div>© AEMS Presale</div>
-  <div>Contract: <a id="contractLink" href="https://bscscan.com/address/0x4751C0DE56EFB3770615097347cbF131D302498A" target="_blank">0x4751C0DE56EFB3770615097347cbF131D302498A</a></div>
+    <p>© 2025 AEMS Token</p>
+    <div>Contract Address: <span id="contractLink"></span></div>
 </footer>
-
-<!-- small interactive bits (keep minimal — main logic in main.js) -->
-<script>
-// Banner slider (keeps simple & independent of main.js)
-let bannerIndex = 0;
-const bannerInner = document.getElementById('bannerInner');
-const banners = bannerInner?.querySelectorAll('.banner-item') || [];
-function shiftBanner(i){
-  if(!banners.length) return;
-  bannerIndex = (bannerIndex + i + banners.length) % banners.length;
-  bannerInner.style.transform = `translateX(-${bannerIndex * 100}%)`;
-}
-document.getElementById('bannerNext')?.addEventListener('click', ()=> shiftBanner(1));
-document.getElementById('bannerPrev')?.addEventListener('click', ()=> shiftBanner(-1));
-setInterval(()=> shiftBanner(1), 7000);
-
-// FAQ toggle
-document.querySelectorAll('.faq-item h4').forEach(h => {
-  h.addEventListener('click', ()=> {
-    const p = h.nextElementSibling;
-    if(!p) return;
-    p.style.display = (p.style.display === 'block') ? 'none' : 'block';
-  });
-});
-
-// update progress percent when main.js updates width (observe)
-const progressFill = document.getElementById('progressFill');
-const progressPercent = document.getElementById('progressPercent');
-if(progressFill && progressPercent){
-  const obs = new MutationObserver(()=> {
-    const w = parseFloat(getComputedStyle(progressFill).width) || 0;
-    const parentW = parseFloat(getComputedStyle(progressFill.parentElement).width) || 1;
-    const pct = Math.round(w/parentW*100);
-    progressPercent.innerText = pct + '%';
-  });
-  obs.observe(progressFill, {attributes:true, attributeFilter:['style']});
-}
-</script>
 
 </body>
 </html>
