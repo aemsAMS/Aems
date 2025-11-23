@@ -36,6 +36,40 @@ nav a:hover {color:#00f0ff;}
 
 .footer {text-align:center; margin:40px 0; font-size:0.9rem; color:#aaa;}
 
+/* Tooltip style */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 180px;
+  background-color: #111;
+  color: #00f0ff;
+  text-align: left;
+  border-radius: 8px;
+  padding: 8px;
+  position: absolute;
+  z-index: 1;
+  bottom: 130%;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 10px #00f0ff;
+  font-size: 0.85rem;
+}
+.tooltip:hover .tooltiptext { visibility: visible; opacity: 1; transition: opacity 0.3s; }
+.tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: #111 transparent transparent transparent;
+}
+
 @media(max-width:768px){
   nav a {margin:0 8px; font-size:0.9rem;}
   .btn {padding:10px 16px; font-size:0.9rem;}
@@ -101,23 +135,29 @@ nav a:hover {color:#00f0ff;}
     <div style="margin-top:30px;">
       <h2 style="text-align:center; color:#00f0ff;">Token Distribution</h2>
       <ul style="list-style:none; margin-top:15px; padding:0;">
-        <li style="display:flex; justify-content:space-between; padding:8px 12px; background:#111; margin-bottom:6px; border-radius:8px;">
+        <li class="tooltip" style="display:flex; justify-content:space-between; padding:8px 12px; background:#111; margin-bottom:6px; border-radius:8px;">
           Presale <span>129,000,000</span>
+          <span class="tooltiptext">Presale tokens for public and private investors (~75.4% of total supply)</span>
         </li>
-        <li style="display:flex; justify-content:space-between; padding:8px 12px; background:#111; margin-bottom:6px; border-radius:8px;">
+        <li class="tooltip" style="display:flex; justify-content:space-between; padding:8px 12px; background:#111; margin-bottom:6px; border-radius:8px;">
           Team <span>6,000,000</span>
+          <span class="tooltiptext">Allocated to team members and founders (~3.5%)</span>
         </li>
-        <li style="display:flex; justify-content:space-between; padding:8px 12px; background:#111; margin-bottom:6px; border-radius:8px;">
+        <li class="tooltip" style="display:flex; justify-content:space-between; padding:8px 12px; background:#111; margin-bottom:6px; border-radius:8px;">
           Insurance Fund <span>1,500,000</span>
+          <span class="tooltiptext">Reserved for emergencies and insurance (~0.9%)</span>
         </li>
-        <li style="display:flex; justify-content:space-between; padding:8px 12px; background:#111; margin-bottom:6px; border-radius:8px;">
+        <li class="tooltip" style="display:flex; justify-content:space-between; padding:8px 12px; background:#111; margin-bottom:6px; border-radius:8px;">
           Reward Fund <span>1,500,000</span>
+          <span class="tooltiptext">For community rewards and incentives (~0.9%)</span>
         </li>
-        <li style="display:flex; justify-content:space-between; padding:8px 12px; background:#111; margin-bottom:6px; border-radius:8px;">
+        <li class="tooltip" style="display:flex; justify-content:space-between; padding:8px 12px; background:#111; margin-bottom:6px; border-radius:8px;">
           Token Development <span>3,000,000</span>
+          <span class="tooltiptext">Allocated for development & upgrades (~1.75%)</span>
         </li>
-        <li style="display:flex; justify-content:space-between; padding:8px 12px; background:#111; margin-bottom:6px; border-radius:8px;">
+        <li class="tooltip" style="display:flex; justify-content:space-between; padding:8px 12px; background:#111; margin-bottom:6px; border-radius:8px;">
           Liquidity <span>30,717,172</span>
+          <span class="tooltiptext">Added to exchange liquidity pools (~17.96%)</span>
         </li>
       </ul>
     </div>
