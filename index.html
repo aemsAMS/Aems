@@ -98,6 +98,8 @@ nav a:hover {color:#00f0ff;}
 }
 </style>
 
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
 <script src="abi.js" defer></script>
 <script src="main.js" defer></script>
@@ -158,6 +160,13 @@ nav a:hover {color:#00f0ff;}
       </p>
       <a href="index.php" class="btn primary neon-btn">Buy Token</a>
     </div>
+
+    <!-- Token Distribution Chart -->
+    <div style="margin-top:30px;">
+      <h2 style="text-align:center; color:#00f0ff;">Token Distribution</h2>
+      <canvas id="tokenChart" style="background:#111; border-radius:12px; padding:20px;"></canvas>
+    </div>
+
   </section>
 </main>
 
@@ -167,6 +176,7 @@ nav a:hover {color:#00f0ff;}
 </footer>
 
 <script>
+// Copy Token Address
 function copyTokenAddr() {
     const addr = document.getElementById('tokenAddr').innerText;
     navigator.clipboard.writeText(addr).then(() => {
@@ -175,6 +185,29 @@ function copyTokenAddr() {
         alert('Failed to copy: ' + err);
     });
 }
+
+// Chart.js - Token Distribution
+const ctx = document.getElementById('tokenChart').getContext('2d');
+const tokenChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Presale','Team','Marketing','Liquidity','Reserve'],
+        datasets: [{
+            label: 'Token Distribution',
+            data: [40, 20, 15, 15, 10],
+            backgroundColor: ['#00f0ff','#00ffa0','#ff00ff','#ffa500','#ff4444'],
+            borderColor: '#0b0b0b',
+            borderWidth: 2
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {position:'bottom', labels:{color:'#fff'}},
+            tooltip: {enabled:true, mode:'index'}
+        }
+    }
+});
 </script>
 
 </body>
