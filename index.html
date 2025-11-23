@@ -46,6 +46,35 @@ nav a:hover {color:#00f0ff;}
 .token-info div {background:#111; padding:15px; border-radius:12px;}
 .token-info div span {color:#00f0ff; font-weight:bold;}
 
+/* ===== Neon Button ===== */
+.neon-btn {
+  position: relative;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.neon-btn::before {
+  content: '';
+  position: absolute;
+  top: -3px; left: -3px; right: -3px; bottom: -3px;
+  background: linear-gradient(45deg, #00f0ff, #00ffa0, #00f0ff, #00ffa0);
+  z-index: -1;
+  filter: blur(8px);
+  opacity: 0;
+  border-radius: 8px;
+  transition: opacity 0.3s ease;
+}
+
+.neon-btn:hover::before {
+  opacity: 1;
+}
+
+.neon-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px #00f0ff, 0 0 30px #00ffa0;
+}
+
 /* ===== Footer ===== */
 .footer {text-align:center; margin:40px 0; font-size:0.9rem; color:#aaa;}
 
@@ -97,6 +126,12 @@ nav a {margin:0 8px;}
     <div><strong>Network:</strong> <span>BNB Smart Chain</span></div>
     <div><strong>Use Case:</strong> <span>Presale, Trading, Rewards in ecosystem</span></div>
     <div><strong>Purchase Methods:</strong> <span>BNB, USDT</span></div>
+
+    <!-- 🔹 Neon Button Features -->
+    <div style="margin-top:20px; text-align:center;">
+      <p style="margin-bottom:12px; color:#aaa;">For learning about the token's features and innovations, tap below</p>
+      <a href="index3.php" class="btn primary neon-btn">Features</a>
+    </div>
   </section>
 </main>
 
