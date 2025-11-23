@@ -3,221 +3,106 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LGD Token</title>
+<title>AEMS Token Info</title>
+<link rel="icon" href="https://via.placeholder.com/32" type="image/png">
 
 <style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #0b0e16;
-        color: white;
-    }
+/* ===== Reset ===== */
+* {margin:0; padding:0; box-sizing:border-box;}
+body {font-family: 'Segoe UI', sans-serif; background:#0b0b0b; color:#fff; line-height:1.5;}
 
-    /* HEADER */
-    header {
-        width: 100%;
-        padding: 20px 40px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: rgba(10, 10, 20, 0.8);
-        backdrop-filter: blur(10px);
-        position: sticky;
-        top: 0;
-        z-index: 50;
-    }
+/* ===== Header ===== */
+.header {display:flex; justify-content:space-between; align-items:center; padding:15px 30px; background:#111; border-bottom:2px solid #00f0ff;}
+.logo-text {font-size:1.7rem; font-weight:bold; color:#00f0ff; text-shadow:0 0 8px #00f0ff;}
+nav a {margin:0 15px; font-weight:500; transition:0.3s; color:#fff;}
+nav a:hover {color:#00f0ff;}
+.header-right {display:flex; align-items:center; gap:15px;}
+.btn {padding:10px 20px; border:none; border-radius:8px; cursor:pointer; font-weight:600; transition:0.3s; text-transform:uppercase;}
+.btn.primary {background:linear-gradient(90deg,#00f0ff,#00ffa0); color:#000; box-shadow:0 0 10px #00f0ff;}
+.btn.secondary {background:#111; color:#00f0ff; border:2px solid #00f0ff;}
+.btn:hover {opacity:0.85; transform:scale(1.05);}
+.addr {font-size:0.9rem; color:#aaa;}
 
-    header a {
-        color: white;
-        text-decoration: none;
-        margin: 0 20px;
-        font-size: 17px;
-        transition: 0.3s;
-    }
-    header a:hover {
-        color: #7b6dff;
-    }
+/* ===== Banner ===== */
+.banner {position:relative; margin:25px auto; max-width:1200px; overflow:hidden; border-radius:16px; box-shadow:0 0 20px rgba(0,255,255,0.3);}
+.banner-inner {display:flex; transition:transform 0.5s ease;}
+.banner-item {flex:0 0 100%;}
+.banner-item img {width:100%; height:auto; display:block; object-fit:contain; background:#000; border-radius:16px;}
+.banner-controls {position:absolute; top:50%; width:100%; display:flex; justify-content:space-between; transform:translateY(-50%);}
+.banner-controls button {background:rgba(0,0,0,0.6); color:#fff; border:none; font-size:2rem; padding:8px 14px; cursor:pointer; border-radius:8px; transition:0.3s;}
+.banner-controls button:hover {background:#00f0ff; color:#000;}
 
-    /* SLIDER */
-    .slider {
-        width: 100%;
-        height: 370px;
-        position: relative;
-        overflow: hidden;
-        margin-top: 10px;
-    }
+/* ===== Main container ===== */
+.container {max-width:1200px; margin:30px auto; padding:0 20px; display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:25px;}
 
-    .slides {
-        width: 300%;
-        height: 100%;
-        display: flex;
-        transition: 0.7s;
-    }
+/* ===== Cards ===== */
+.card {background:#1c1c1c; border-radius:16px; padding:25px; display:flex; flex-direction:column; gap:15px; box-shadow:0 6px 20px rgba(0,255,255,0.3);}
+.card h1, .card h2 {color:#00f0ff; text-shadow:0 0 6px #00f0ff;}
+.lead {font-size:1rem; color:#ccc;}
+.stats-grid {display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; font-size:0.95rem;}
 
-    .slides img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        cursor: pointer;
-    }
+/* ===== Token Details ===== */
+.token-info {display:flex; flex-direction:column; gap:15px;}
+.token-info div {background:#111; padding:15px; border-radius:12px;}
+.token-info div span {color:#00f0ff; font-weight:bold;}
 
-    /* BUTTONS */
-    .prev, .next {
-        position: absolute;
-        top: 50%;
-        padding: 12px 18px;
-        transform: translateY(-50%);
-        background: rgba(0,0,0,0.4);
-        border: none;
-        color: white;
-        font-size: 20px;
-        cursor: pointer;
-        transition: 0.3s;
-        border-radius: 50%;
-    }
+/* ===== Footer ===== */
+.footer {text-align:center; margin:40px 0; font-size:0.9rem; color:#aaa;}
 
-    .prev:hover, .next:hover {
-        background: rgba(80, 80, 255, 0.7);
-    }
-
-    .prev { left: 20px; }
-    .next { right: 20px; }
-
-    /* INDICATORS */
-    .indicator-box {
-        position: absolute;
-        width: 100%;
-        bottom: 15px;
-        display: flex;
-        justify-content: center;
-        gap: 12px;
-        z-index: 20;
-    }
-
-    .indicator {
-        width: 12px;
-        height: 12px;
-        background: #666;
-        border-radius: 50%;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-
-    .active-indicator {
-        background: #7b6dff;
-        box-shadow: 0 0 10px #7b6dff;
-    }
-
-    /* PAGE CONTENT */
-    .content {
-        width: 85%;
-        margin: 60px auto;
-        text-align: center;
-    }
-
-    h1 {
-        font-size: 40px;
-        color: #7b6dff;
-        text-shadow: 0 0 20px #7b6dff;
-    }
-
-    p {
-        font-size: 18px;
-        line-height: 1.9;
-        color: #cfcfcf;
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-        .slider {
-            height: 220px;
-        }
-        h1 { font-size: 30px; }
-    }
+/* ===== Responsive ===== */
+@media(max-width:768px){
+nav a {margin:0 8px;}
+.banner-item img {height:auto;}
+.btn {padding:8px 16px;}
+.logo-text {font-size:1.3rem;}
+}
 </style>
 
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+<script src="abi.js" defer></script>
+<script src="main.js" defer></script>
 </head>
-<body>
 
-<header>
-    <a href="index.html">Home</a>
-    <a href="features.html">Features</a>
-    <a href="presale.html">Presale</a>
-    <a href="roadmap.html">Roadmap</a>
-    <a href="contact.html">Contact</a>
+<body>
+<header class="header">
+  <div class="logo-text">AEMS</div>
+  <nav>
+    <a href="index.php">Home</a>
+    <a href="token.php">Token Info</a>
+    <a href="index2.php">Whitepaper</a>
+    <a href="index3.php">Features</a>
+  </nav>
+  <div class="header-right">
+    <button id="connectWallet" class="btn primary">Connect Wallet</button>
+    <span id="walletAddr" class="addr">Not connected</span>
+  </div>
 </header>
 
-<!-- SLIDER -->
-<div class="slider" id="slider">
-    <div class="slides" id="slides">
-        <img src="banner1.jpg" onclick="openPage('features.html')">
-        <img src="banner2.jpg" onclick="openPage('presale.html')">
-        <img src="banner3.jpg" onclick="openPage('roadmap.html')">
-    </div>
+<section class="banner">
+  <div class="banner-inner">
+    <a href="#" class="banner-item"><img src="Y.png" alt="Token Banner"></a>
+  </div>
+</section>
 
-    <button class="prev" onclick="prevSlide()">❮</button>
-    <button class="next" onclick="nextSlide()">❯</button>
+<main class="container">
+  <section class="card token-info">
+    <h1>AEMS Token Overview</h1>
+    <p class="lead">AEMS is a blockchain token designed for secure, fast, and transparent transactions within the AEMS ecosystem.</p>
 
-    <div class="indicator-box">
-        <div class="indicator active-indicator" onclick="goToSlide(0)"></div>
-        <div class="indicator" onclick="goToSlide(1)"></div>
-        <div class="indicator" onclick="goToSlide(2)"></div>
-    </div>
-</div>
+    <div><strong>Token Name:</strong> <span>AEMS</span></div>
+    <div><strong>Symbol:</strong> <span>AEMS</span></div>
+    <div><strong>Total Supply:</strong> <span>500,000,000</span></div>
+    <div><strong>Decimals:</strong> <span>18</span></div>
+    <div><strong>Contract Address:</strong> <span>0xa6452a6d7d399dd2b1d2c5e237eabd9c1c00379f</span></div>
+    <div><strong>Network:</strong> <span>BNB Smart Chain</span></div>
+    <div><strong>Use Case:</strong> <span>Presale, Trading, Rewards in ecosystem</span></div>
+    <div><strong>Purchase Methods:</strong> <span>BNB, USDT</span></div>
+  </section>
+</main>
 
-<script>
-let index = 0;
-const slides = document.getElementById("slides");
-const indicators = document.querySelectorAll(".indicator");
-let auto;
-
-function updateSlider() {
-    slides.style.transform = `translateX(-${index * 100}%)`;
-
-    indicators.forEach(i => i.classList.remove("active-indicator"));
-    indicators[index].classList.add("active-indicator");
-}
-
-function nextSlide() {
-    index = (index + 1) % 3;
-    updateSlider();
-}
-
-function prevSlide() {
-    index = (index - 1 + 3) % 3;
-    updateSlider();
-}
-
-function goToSlide(i) {
-    index = i;
-    updateSlider();
-}
-
-function startAuto() {
-    auto = setInterval(nextSlide, 4000);
-}
-
-function stopAuto() {
-    clearInterval(auto);
-}
-
-document.getElementById("slider").addEventListener("mouseover", stopAuto);
-document.getElementById("slider").addEventListener("mouseout", startAuto);
-
-startAuto();
-
-function openPage(page) {
-    window.location.href = page;
-}
-</script>
-
-<div class="content">
-    <h1>LGD Token</h1>
-    <p>
-        LGD is a next-generation decentralized token designed for utility, innovation,  
-        and real-world adoption across multiple Web3 ecosystems.
-    </p>
-</div>
-
+<footer class="footer">
+  <div>© AEMS Token</div>
+  <div>Contract: <a href="https://bscscan.com/address/0xa6452a6d7d399dd2b1d2c5e237eabd9c1c00379f" target="_blank">View on BSCScan</a></div>
+</footer>
 </body>
 </html>
