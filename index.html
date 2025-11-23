@@ -64,22 +64,14 @@ nav a:hover {color:#00f0ff;}
   border-radius: 8px;
   transition: opacity 0.3s ease;
 }
-.neon-btn:hover::before {
-  opacity: 1;
-}
-.neon-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 15px #00f0ff, 0 0 30px #00ffa0;
-}
+.neon-btn:hover::before { opacity: 1; }
+.neon-btn:hover { transform: scale(1.1); box-shadow: 0 0 15px #00f0ff, 0 0 30px #00ffa0; }
 
 /* ===== Footer ===== */
 .footer {text-align:center; margin:40px 0; font-size:0.9rem; color:#aaa;}
 
 /* ===== Responsive ===== */
-@media(max-width:1024px){
-  .container {grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px;}
-  .banner {margin:20px;}
-}
+@media(max-width:1024px){ .container {grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px;} .banner {margin:20px;} }
 @media(max-width:768px){
   nav a {margin:0 8px; font-size:0.9rem;}
   .banner-item img {height:auto;}
@@ -98,7 +90,6 @@ nav a:hover {color:#00f0ff;}
 }
 </style>
 
-<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
 <script src="abi.js" defer></script>
@@ -133,7 +124,7 @@ nav a:hover {color:#00f0ff;}
 
     <div><strong>Token Name:</strong> <span>AEMS</span></div>
     <div><strong>Symbol:</strong> <span>AEMS</span></div>
-    <div><strong>Total Supply:</strong> <span>500,000,000</span></div>
+    <div><strong>Total Supply:</strong> <span>171,171,172</span></div>
     <div><strong>Decimals:</strong> <span>18</span></div>
 
     <!-- Contract Address with Copy Button -->
@@ -186,25 +177,37 @@ function copyTokenAddr() {
     });
 }
 
-// Chart.js - Token Distribution
+// Chart.js - Interactive Token Distribution
 const ctx = document.getElementById('tokenChart').getContext('2d');
+const tokenData = {
+    labels: ['Presale','Team','Insurance Fund','Reward Fund','Token Development','Liquidity'],
+    datasets: [{
+        data: [129000000,6000000,1500000,1500000,3000000,30717172],
+        backgroundColor: ['#00f0ff','#00ffa0','#ff00ff','#ffa500','#ff4444','#44ff44'],
+        borderColor: '#0b0b0b',
+        borderWidth: 2
+    }]
+};
+
 const tokenChart = new Chart(ctx, {
     type: 'doughnut',
-    data: {
-        labels: ['Presale:129،000،000','Team:6،000،000','Marketing','Liquidity','Reserve'،'aaaaa'],
-        datasets: [{
-            label: 'Token Distribution',
-            data: [75.12, 3.49, 17.89, 0.87, 0.87، 1.75],
-            backgroundColor: ['#00f0ff','#00ffa0','#ff00ff','#ffa500','#ff4444','#ff4414'],
-            borderColor: '#0b0b0b',
-            borderWidth: 2
-        }]
-    },
+    data: tokenData,
     options: {
         responsive: true,
         plugins: {
-            legend: {position:'bottom', labels:{color:'#fff'}},
-            tooltip: {enabled:true, mode:'index'}
+            legend: { position:'bottom', labels:{ color:'#fff' } },
+            tooltip: {
+                enabled: true,
+                callbacks: {
+                    label: function(context) {
+                        const label = context.label || '';
+                        const value = context.raw;
+                        const total = context.dataset.data.reduce((a,b)=>a+b,0);
+                        const percent = ((value / total)*100).toFixed(2);
+                        return `${label}: ${value.toLocaleString()} (${percent}%)`;
+                    }
+                }
+            }
         }
     }
 });
