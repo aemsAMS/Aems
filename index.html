@@ -1,381 +1,223 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>AEMS — Official Presale</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LGD Token</title>
 
-  <!-- Inline CSS (modern + animated + responsive) -->
-  <style>
-    :root{
-      --bg-dark:#071021;
-      --panel:#ffffff;
-      --muted:#6b7280;
-      --accent1:#00d8ff;
-      --accent2:#6bffb8;
-      --glass: rgba(11,17,25,0.6);
-      --card-radius:12px;
-      --maxw:1150px;
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #0b0e16;
+        color: white;
     }
-    *{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%;font-family:Inter,system-ui,"Segoe UI",Roboto,Arial;color:#0b1320;background:#f6f8fb;overflow-x:hidden}
-    .wrap{max-width:var(--maxw);margin:0 auto;padding:0 18px}
 
-/* ---------- Header ---------- */
-    .site-header{position:sticky;top:0;left:0;width:100%;z-index:1200;background:linear-gradient(180deg, rgba(7,16,33,0.6), rgba(255,255,255,0.02));backdrop-filter:blur(6px);border-bottom:1px solid rgba(11,17,25,0.04)}
-    .site-header .wrap{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
-    .brand{font-weight:800;color:var(--accent1);font-size:20px}
-    .main-nav{display:flex;gap:18px}
-    .main-nav a{color:#06101a;font-weight:600;text-decoration:none}
-    .header-actions{display:flex;gap:12px;align-items:center}
-    .btn{border-radius:8px;padding:8px 12px;border:0;cursor:pointer;font-weight:700}
-    .btn-outline{background:#fff;border:1px solid rgba(11,17,25,0.06);color:#06101a}
-    .btn-primary{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#042225}
-
-/* ---------- Hero (dark) ---------- */
-    .hero-dark{background:linear-gradient(180deg,#071021 0%, #0b1a2b 60%);color:#e6fef6;padding:90px 0 50px}
-    .hero-grid{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:start}
-    .hero-left h1{font-size:34px;margin-bottom:12px;color:var(--accent1);animation:fadeInUp .9s ease both}
-    .hero-left p{margin-bottom:16px;color:rgba(230,255,246,0.95);max-width:720px;animation:fadeIn .9s .1s both}
-    .hero-ctas{display:flex;gap:10px;animation:fadeIn .9s .2s both}
-    .hero-stats{display:flex;gap:12px;margin-top:18px;list-style:none;padding:0;animation:fadeIn .9s .25s both}
-    .hero-stats li{background:rgba(255,255,255,0.03);padding:8px 12px;border-radius:8px;color:#dff;display:flex;flex-direction:column}
-
-/* ---------- Presale Panel (in hero-right) ---------- */
-    .presale-panel{background:linear-gradient(180deg,#07202d,#0a2940);border-radius:12px;padding:14px;color:#eafffb;box-shadow:0 14px 50px rgba(2,10,20,0.4);animation:slideIn .9s ease both}
-    .panel-head{margin-bottom:8px}
-    .panel-title{font-weight:800;font-size:18px}
-    .panel-sub{color:rgba(230,255,246,0.8);font-size:13px}
-    .stat-row{display:flex;gap:8px;margin:10px 0}
-    .stat{flex:1;background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;text-align:center}
-    .progress{height:10px;background:rgba(255,255,255,0.03);border-radius:8px;overflow:hidden;margin:10px 0}
-    #progressFill{height:100%;width:0;background:linear-gradient(90deg,var(--accent1),var(--accent2));transition:width .6s ease}
-
-/* buy controls */
-    .inputs{margin-top:6px}
-    .inputs input{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02);color:#eafffb;margin-bottom:8px}
-    .buy-row{display:flex;gap:8px}
-    .buy-row .btn{flex:1;padding:8px}
-
-/* vesting compact */
-    .vesting-compact{background:linear-gradient(180deg,#06202a,#08303c);padding:12px;border-radius:10px;margin-top:12px;color:#eafffb}
-
-/* ---------- Content (light sections) ---------- */
-    .content-wrap{background:#f5f7fb;padding-top:28px}
-    .section-light{padding:40px 0;background:#fff;margin-top:18px}
-    .section-light .wrap{padding:0 18px}
-    .section-light h2{font-size:20px;color:#06101a;margin-bottom:10px}
-    .muted{color:#6b7280;margin-bottom:12px}
-
-/* stats grid */
-    .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:12px}
-    .stat-card{background:#fff;border:1px solid rgba(11,17,25,0.04);padding:14px;border-radius:10px}
-    .stat-card .label{font-size:13px;color:var(--muted);margin-bottom:6px}
-    .stat-card .value{font-weight:800;color:#06101a}
-
-/* token grid */
-    .token-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-    .token-card{background:#fff;border:1px solid rgba(11,17,25,0.04);padding:14px;border-radius:10px;text-align:center}
-
-/* roadmap */
-    .roadmap-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-    .road-step{background:#fff;border:1px solid rgba(11,17,25,0.04);padding:12px;border-radius:10px}
-
-/* features */
-    .features-list{list-style:disc;margin-left:18px;color:var(--muted)}
-
-/* team */
-    .team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
-    .member{text-align:center;padding:12px;background:#fff;border-radius:10px}
-    .member img{width:100%;height:120px;object-fit:cover;border-radius:8px;margin-bottom:10px}
-
-/* faq */
-    .faq details{background:#fff;padding:10px;border-radius:8px;border:1px solid rgba(11,17,25,0.04);margin-bottom:8px}
-    .faq summary{font-weight:700;cursor:pointer}
-
-/* footer */
-    .site-footer{background:#fff;padding:18px 0;color:#6b7280}
-
-/* tiny helpers */
-    .narrow{max-width:980px;margin:0 auto}
-    .small{font-size:13px;color:var(--muted)}
-    .card{border-radius:10px;box-shadow:0 6px 24px rgba(11,17,25,0.04);background:#fff;padding:12px}
-
-/* animations */
-    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
-    @keyframes slideIn { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:none} }
-    @keyframes fadeInUp { from{opacity:0; transform: translateY(12px)} to{opacity:1; transform:none} }
-    @keyframes glowPulse { 0%{box-shadow:0 0 6px rgba(0,216,255,0.25)} 50%{box-shadow:0 0 18px rgba(0,216,255,0.6)} 100%{box-shadow:0 0 6px rgba(0,216,255,0.25)} }
-
-    .hero-left h1{animation:fadeInUp .9s ease both}
-    .hero-left p,.hero-stats{animation:fadeIn .9s .1s both}
-    .presale-panel{animation:slideIn .9s .12s both}
-    .card{animation:fadeIn .9s both}
-    .btn-primary:hover{animation:glowPulse 1.6s infinite}
-
-/* responsiveness */
-    @media (max-width:1000px){ .hero-grid{grid-template-columns:1fr 1fr;gap:18px} }
-    @media (max-width:820px){ .hero-grid{grid-template-columns:1fr; } .hero-dark{padding:90px 0 30px} .hero-right{order:2} }
-    @media (max-width:640px){
-      .main-nav{display:none}
-      .wrap{padding:0 14px}
-      .hero-left h1{font-size:22px}
-      .inputs input{padding:10px}
-      .buy-row{flex-direction:column}
+    /* HEADER */
+    header {
+        width: 100%;
+        padding: 20px 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(10, 10, 20, 0.8);
+        backdrop-filter: blur(10px);
+        position: sticky;
+        top: 0;
+        z-index: 50;
     }
-  </style>
 
-  <!-- Ethers & contract scripts (unchanged) -->
-  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-  <script src="abi.js" defer></script>
-  <script src="main.js" defer></script>
+    header a {
+        color: white;
+        text-decoration: none;
+        margin: 0 20px;
+        font-size: 17px;
+        transition: 0.3s;
+    }
+    header a:hover {
+        color: #7b6dff;
+    }
+
+    /* SLIDER */
+    .slider {
+        width: 100%;
+        height: 370px;
+        position: relative;
+        overflow: hidden;
+        margin-top: 10px;
+    }
+
+    .slides {
+        width: 300%;
+        height: 100%;
+        display: flex;
+        transition: 0.7s;
+    }
+
+    .slides img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        cursor: pointer;
+    }
+
+    /* BUTTONS */
+    .prev, .next {
+        position: absolute;
+        top: 50%;
+        padding: 12px 18px;
+        transform: translateY(-50%);
+        background: rgba(0,0,0,0.4);
+        border: none;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+        border-radius: 50%;
+    }
+
+    .prev:hover, .next:hover {
+        background: rgba(80, 80, 255, 0.7);
+    }
+
+    .prev { left: 20px; }
+    .next { right: 20px; }
+
+    /* INDICATORS */
+    .indicator-box {
+        position: absolute;
+        width: 100%;
+        bottom: 15px;
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        z-index: 20;
+    }
+
+    .indicator {
+        width: 12px;
+        height: 12px;
+        background: #666;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .active-indicator {
+        background: #7b6dff;
+        box-shadow: 0 0 10px #7b6dff;
+    }
+
+    /* PAGE CONTENT */
+    .content {
+        width: 85%;
+        margin: 60px auto;
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 40px;
+        color: #7b6dff;
+        text-shadow: 0 0 20px #7b6dff;
+    }
+
+    p {
+        font-size: 18px;
+        line-height: 1.9;
+        color: #cfcfcf;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+        .slider {
+            height: 220px;
+        }
+        h1 { font-size: 30px; }
+    }
+</style>
+
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header class="site-header" aria-label="Main header">
-    <div class="wrap">
-      <div class="brand">AEMS</div>
+<header>
+    <a href="index.html">Home</a>
+    <a href="features.html">Features</a>
+    <a href="presale.html">Presale</a>
+    <a href="roadmap.html">Roadmap</a>
+    <a href="contact.html">Contact</a>
+</header>
 
-      <nav class="main-nav" aria-label="Main navigation">
-        <a href="#home">Home</a>
-        <a href="#presale">Presale</a>
-        <a href="#tokenomics">Tokenomics</a>
-        <a href="#roadmap">Roadmap</a>
-        <a href="#features">Features</a>
-        <a href="#team">Team</a>
-        <a href="#faq">FAQ</a>
-      </nav>
-
-      <div class="header-actions" role="group" aria-label="Wallet">
-        <!-- kept IDs exactly as required by main.js -->
-        <button id="connectWallet" class="btn btn-outline">Connect Wallet</button>
-        <span id="walletAddr" class="small" style="margin-left:6px;color:#e6fef6">Not connected</span>
-      </div>
+<!-- SLIDER -->
+<div class="slider" id="slider">
+    <div class="slides" id="slides">
+        <img src="banner1.jpg" onclick="openPage('features.html')">
+        <img src="banner2.jpg" onclick="openPage('presale.html')">
+        <img src="banner3.jpg" onclick="openPage('roadmap.html')">
     </div>
-  </header>
 
-  <!-- HERO (Dark) -->
-  <section id="home" class="hero-dark" aria-label="Hero">
-    <div class="wrap hero-grid">
-      <div class="hero-left">
-        <h1>The Future of Decentralized Finance.</h1>
-        <p>
-          AEMS brings real utility, a powerful ecosystem, and a strong community-driven economy.
-          Join the presale and be part of the next big Web3 project.
-        </p>
-        <div class="hero-ctas">
-          <a href="#presale" class="btn btn-primary">Join Presale</a>
-          <a href="#roadmap" class="btn btn-outline">View Roadmap</a>
-        </div>
+    <button class="prev" onclick="prevSlide()">❮</button>
+    <button class="next" onclick="nextSlide()">❯</button>
 
-        <ul class="hero-stats" aria-hidden="false" style="margin-top:16px;">
-          <li><strong>Price</strong><span style="font-weight:700">0.007 USDT</span></li>
-          <li><strong>Network</strong><span style="font-weight:700">BNB Chain (BEP-20)</span></li>
-          <li><strong>Decimals</strong><span style="font-weight:700">18</span></li>
-        </ul>
-      </div>
-
-      <div class="hero-right">
-        <!-- PRESALE PANEL (IDs preserved) -->
-        <div class="presale-panel card" role="region" aria-label="Presale panel">
-          <div class="panel-head">
-            <div class="panel-title">Presale</div>
-            <div class="panel-sub">Buy with BNB or USDT</div>
-          </div>
-
-          <div class="panel-body">
-            <div class="stat-row" aria-hidden="true">
-              <div class="stat">Sold <div id="sold">—</div></div>
-              <div class="stat">Remaining <div id="left">—</div></div>
-            </div>
-
-            <div class="progress" aria-hidden="true">
-              <div id="progressFill" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-
-            <div class="inputs">
-              <!-- ID preserved -->
-              <input id="usdInput" type="number" placeholder="USD amount (e.g. 10)" min="0.01" step="0.01" aria-label="USD Amount" />
-              <div class="buy-row" style="margin-top:6px;">
-                <!-- IDs preserved -->
-                <button id="buyBNBBtn" class="btn btn-primary">Buy with BNB</button>
-                <button id="buyUSDTBtn" class="btn btn-outline">Buy with USDT</button>
-              </div>
-
-              <div class="estimates small" style="margin-top:8px;color:#cfeff2">
-                Estimated tokens: <span id="estTokens">—</span> • Estimated BNB: <span id="estBNB">—</span>
-              </div>
-            </div>
-
-            <div class="panel-footer" style="margin-top:12px;color:#cfeff2">
-              <div style="font-size:13px">Raised (USDT): <strong id="raisedUSDT">—</strong></div>
-              <div style="font-size:13px;margin-top:6px">Status: <strong id="presaleStatus">—</strong></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- quick vesting info (IDs preserved) -->
-        <div class="vesting-compact" style="margin-top:12px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-            <div style="font-size:13px;color:#dff">Claimable</div>
-            <div style="font-weight:800;color:#e6fef6" id="myClaimable">—</div>
-          </div>
-          <button id="claimBtn" class="btn btn-outline" style="width:100%">Claim Tokens</button>
-        </div>
-      </div>
+    <div class="indicator-box">
+        <div class="indicator active-indicator" onclick="goToSlide(0)"></div>
+        <div class="indicator" onclick="goToSlide(1)"></div>
+        <div class="indicator" onclick="goToSlide(2)"></div>
     </div>
-  </section>
+</div>
 
-  <!-- MAIN CONTENT (light sections) -->
-  <main class="content-wrap" role="main">
+<script>
+let index = 0;
+const slides = document.getElementById("slides");
+const indicators = document.querySelectorAll(".indicator");
+let auto;
 
-    <!-- PRESALE DETAILS (duplicate/extra layout but keep original IDs intact) -->
-    <section id="presale" class="section-light" aria-label="Presale details">
-      <div class="wrap narrow">
-        <h2>Presale Details</h2>
-        <p class="muted">Fixed price 0.007 USDT. Buy using BNB (value via oracle) or USDT (approve + buy).</p>
+function updateSlider() {
+    slides.style.transform = `translateX(-${index * 100}%)`;
 
-        <div class="stats-grid" aria-hidden="false">
-          <div class="stat-card"><div class="label">Allocation</div><div class="value" id="alloc">129,000,000</div></div>
-          <div class="stat-card"><div class="label">Sold</div><div class="value"><span id="sold-dup">—</span></div></div>
-          <div class="stat-card"><div class="label">Remaining</div><div class="value"><span id="left-dup">—span</span></div></div>
-          <div class="stat-card"><div class="label">Raised (USDT)</div><div class="value" id="raisedUSDT-dup">—</div></div>
-          <div class="stat-card"><div class="label">Raised (BNB USD)</div><div class="value" id="raisedBNBUSD">—</div></div>
-          <div class="stat-card"><div class="label">Contract</div><div class="value"><code id="contractAddr">—</code></div></div>
-        </div>
-      </div>
-    </section>
+    indicators.forEach(i => i.classList.remove("active-indicator"));
+    indicators[index].classList.add("active-indicator");
+}
 
-    <!-- TOKENOMICS (contract address displayed here only per your preference) -->
-    <section id="tokenomics" class="section-light" aria-label="Tokenomics">
-      <div class="wrap narrow">
-        <h2>Tokenomics</h2>
-        <div class="token-grid" style="margin-top:12px">
-          <div class="token-card"><h3>Total Supply</h3><p style="font-weight:700">1,000,000,000 AEMS</p></div>
-          <div class="token-card"><h3>Presale Allocation</h3><p style="font-weight:700">129,000,000 AEMS</p></div>
-          <div class="token-card"><h3>Contract Address</h3><p style="font-family:monospace;color:#0b1320">0xc923b937c683979DC391250F2Ef0ae9Ec4366830</p></div>
-        </div>
-      </div>
-    </section>
+function nextSlide() {
+    index = (index + 1) % 3;
+    updateSlider();
+}
 
-    <!-- ROADMAP -->
-    <section id="roadmap" class="section-light" aria-label="Roadmap">
-      <div class="wrap narrow">
-        <h2>Roadmap</h2>
-        <div class="roadmap-steps" style="margin-top:12px">
-          <div class="road-step"><h4>Phase 1</h4><p>Token launch, website, presale.</p></div>
-          <div class="road-step"><h4>Phase 2</h4><p>DEX listing, partnerships.</p></div>
-          <div class="road-step"><h4>Phase 3</h4><p>Staking & product integration.</p></div>
-        </div>
-      </div>
-    </section>
+function prevSlide() {
+    index = (index - 1 + 3) % 3;
+    updateSlider();
+}
 
-    <!-- FEATURES -->
-    <section id="features" class="section-light" aria-label="Features">
-      <div class="wrap narrow">
-        <h2>Main Features</h2>
-        <ul class="features-list" style="margin-top:12px">
-          <li>Fast transactions on BNB Chain</li>
-          <li>Vesting to protect long-term holders</li>
-          <li>Transparent on-chain presale</li>
-        </ul>
-      </div>
-    </section>
+function goToSlide(i) {
+    index = i;
+    updateSlider();
+}
 
-    <!-- TEAM -->
-    <section id="team" class="section-light" aria-label="Team">
-      <div class="wrap narrow">
-        <h2>Team</h2>
-        <div class="team-grid" style="margin-top:12px">
-          <div class="member"><img src="https://via.placeholder.com/160" alt=""><h4>Founder</h4><p>Project lead</p></div>
-          <div class="member"><img src="https://via.placeholder.com/160" alt=""><h4>Developer</h4><p>Smart contracts</p></div>
-          <div class="member"><img src="https://via.placeholder.com/160" alt=""><h4>Marketing</h4><p>Growth</p></div>
-        </div>
-      </div>
-    </section>
+function startAuto() {
+    auto = setInterval(nextSlide, 4000);
+}
 
-    <!-- FAQ -->
-    <section id="faq" class="section-light" aria-label="FAQ">
-      <div class="wrap narrow">
-        <h2>FAQ</h2>
-        <div class="faq" style="margin-top:12px">
-          <details><summary>How to buy?</summary><p>Connect wallet, enter USD, choose BNB or USDT, confirm in wallet.</p></details>
-          <details><summary>When can I claim?</summary><p>Claim follows vesting schedule in contract.</p></details>
-        </div>
-      </div>
-    </section>
+function stopAuto() {
+    clearInterval(auto);
+}
 
-    <!-- ADMIN PANEL (kept but hidden until owner) -->
-    <section class="section-light" aria-label="Admin">
-      <div class="wrap narrow">
-        <div id="adminPanel" style="display:none;">
-          <h3>Admin Panel</h3>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
-            <button id="endPresaleBtn" class="btn btn-outline">End Presale</button>
-            <button id="withdrawBNBBtn" class="btn btn-outline">Withdraw BNB</button>
-            <button id="withdrawUSDTBtn" class="btn btn-outline">Withdraw USDT</button>
-            <button id="withdrawUnsoldBtn" class="btn btn-outline">Withdraw Unsold</button>
-            <button id="destroyBtn" class="btn btn-outline">Destroy Contract</button>
-          </div>
-          <div style="margin-top:12px">
-            <div>Contract: <code id="contractAddrFooter">—</code></div>
-            <div>Owner: <code id="ownerAddr">—</code></div>
-          </div>
-        </div>
-      </div>
-    </section>
+document.getElementById("slider").addEventListener("mouseover", stopAuto);
+document.getElementById("slider").addEventListener("mouseout", startAuto);
 
-  </main>
+startAuto();
 
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center">
-      <div style="color:#6b7280">© 2025 AEMS</div>
-      <div style="color:#6b7280">Contract: <a id="contractLink" href="#" target="_blank">view on BscScan</a></div>
-    </div>
-  </footer>
+function openPage(page) {
+    window.location.href = page;
+}
+</script>
 
-  <!-- Small UI scripts (banner + observers) -->
-  <script>
-    // banner slider support (if bannerInner exists)
-    const bannerInner = document.getElementById('bannerInner');
-    const banners = bannerInner?.querySelectorAll('.banner-item') || [];
-    let bannerIndex = 0;
-    function shiftBanner(dir){
-      if(!banners.length) return;
-      bannerIndex = (bannerIndex + dir + banners.length) % banners.length;
-      bannerInner.style.transform = `translateX(-${bannerIndex * 100}%)`;
-    }
-    document.getElementById('bannerNext')?.addEventListener('click', ()=> shiftBanner(1));
-    document.getElementById('bannerPrev')?.addEventListener('click', ()=> shiftBanner(-1));
-    setInterval(()=> shiftBanner(1),7000);
-
-    // progress observer - main.js sets width of #progressFill, we compute percent for display if desired
-    const fill = document.getElementById('progressFill');
-    if(fill){
-      new MutationObserver(()=> {
-        const parent = fill.parentElement;
-        if(!parent) return;
-        const pct = Math.round((fill.clientWidth / parent.clientWidth) * 100);
-        // if you want to display percent somewhere, you can add element and update here
-      }).observe(fill, {attributes:true,attributeFilter:['style']});
-    }
-
-    // copy contract info set by main.js into footer & admin if available
-    window.addEventListener('load', ()=>{
-      // main.js will set #contractAddr and #contractLink — let them update naturally
-      const cLink = document.getElementById('contractLink');
-      const cAddr = document.getElementById('contractAddr');
-      const cFooter = document.getElementById('contractAddrFooter');
-      if(cAddr && cFooter) cFooter.innerText = cAddr.innerText || cFooter.innerText;
-      // keep small periodic sync (in case main.js updates later)
-      setInterval(()=>{
-        if(cAddr && cFooter && cAddr.innerText) cFooter.innerText = cAddr.innerText;
-        if(cLink && cAddr && cAddr.innerText && cLink.href.includes('#')) cLink.href = `https://bscscan.com/address/${cAddr.innerText}`;
-      },1500);
-    });
-  </script>
+<div class="content">
+    <h1>LGD Token</h1>
+    <p>
+        LGD is a next-generation decentralized token designed for utility, innovation,  
+        and real-world adoption across multiple Web3 ecosystems.
+    </p>
+</div>
 
 </body>
 </html>
