@@ -1,285 +1,327 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AEMS Token – Official Presale</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AEMS Token — Official Presale</title>
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="style.css" />
+  <!-- main stylesheet (use the style.css previously provided) -->
+  <link rel="stylesheet" href="style.css">
 
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <!-- Ethers.js (UMD) -->
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
 
-    <!-- Web3 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.5/web3.min.js"></script>
-
+  <!-- ABI and main logic (do not change) -->
+  <script src="abi.js" defer></script>
+  <script src="main.js" defer></script>
 </head>
 <body>
 
-<!-- ============================================================
-                        HEADER
-============================================================ -->
-<header class="header">
-    <div class="container header-content">
-        <div class="logo">AEMS TOKEN</div>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container">
+      <div class="logo">AEMS</div>
 
-        <nav class="nav">
-            <a href="#home">خانه</a>
-            <a href="#presale">پیش فروش</a>
-            <a href="#tokenomics">توکنومیک</a>
-            <a href="#roadmap">رودمپ</a>
-            <a href="#faq">سوالات</a>
-            <a href="#team">تیم</a>
-        </nav>
+      <nav class="nav">
+        <a href="#home">Home</a>
+        <a href="#presale">Presale</a>
+        <a href="#tokenomics">Tokenomics</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#features">Features</a>
+        <a href="#team">Team</a>
+        <a href="#faq">FAQ</a>
+      </nav>
 
-        <button id="connectWallet" class="btn connect-btn">
-            اتصال کیف پول
-        </button>
+      <div class="header-right">
+        <button id="connectWallet" class="btn primary">Connect Wallet</button>
+        <span id="walletAddr" class="wallet-label">Not connected</span>
+      </div>
     </div>
-</header>
+  </header>
 
-
-<!-- ============================================================
-                        HERO SECTION
-============================================================ -->
-<section id="home" class="hero">
+  <!-- HERO -->
+  <section id="home" class="hero">
     <div class="container hero-content">
-        <h1>AEMS TOKEN</h1>
-        <p>نسل جدید توکن‌های Web3 با تمرکز بر سرعت، امنیت و اقتصاد پیشرفته.  
-           هم‌اکنون در پیش‌فروش رسمی شرکت کنید!</p>
+      <div style="max-width:780px;">
+        <h1>The Future of Decentralized Finance.</h1>
+        <p class="subtitle">
+          AEMS brings real utility, a powerful ecosystem, and a strong community-driven economy.
+          Join the presale and be part of the next big Web3 project.
+        </p>
+        <div style="margin-top:16px;">
+          <a href="#presale" class="btn primary">Join Presale</a>
+          <a href="#roadmap" class="btn secondary" style="margin-left:10px;">View Roadmap</a>
+        </div>
+      </div>
 
-        <button onclick="document.querySelector('#presale').scrollIntoView({behavior:'smooth'})"
-                class="btn primary-btn">
-            شرکت در پیش‌فروش
-        </button>
+      <div style="min-width:320px; max-width:480px;">
+        <div class="banner">
+          <div class="banner-inner" id="bannerInner">
+            <a class="banner-item"><img src="Y.png" alt="AEMS banner 1"></a>
+            <a class="banner-item"><img src="https://via.placeholder.com/1200x350?text=Secure+Your+Tokens" alt="Banner 2"></a>
+            <a class="banner-item"><img src="https://via.placeholder.com/1200x350?text=Join+the+Presale" alt="Banner 3"></a>
+          </div>
+          <div class="banner-controls">
+            <button id="bannerPrev">‹</button>
+            <button id="bannerNext">›</button>
+          </div>
+        </div>
+      </div>
     </div>
-</section>
+  </section>
 
+  <!-- MAIN GRID -->
+  <main class="container">
 
-<!-- ============================================================
-                        PRESALE PANEL (REAL)
-============================================================ -->
-<section id="presale" class="presale-section">
-    <div class="container">
+    <!-- PRESALE CARD -->
+    <section id="presale" class="card">
+      <h1>AEMS Token Presale</h1>
+      <p class="lead">Presale Price: <strong>0.007 USDT</strong> — Buy with USDT or BNB</p>
 
-        <h2 class="section-title">🔥 پیش فروش رسمی AEMS</h2>
+      <div class="meta-row">
+        <div class="meta-item">Status: <strong><span id="presaleStatus">—</span></strong></div>
+        <div class="meta-item">Allocation: <strong><span id="alloc">129,000,000</span></strong></div>
+      </div>
 
-        <div class="presale-card">
+      <div class="stats-grid">
+        <div title="Total tokens allocated for presale">Total allocation: <span id="alloc">129,000,000</span></div>
+        <div title="Amount sold so far">Sold: <span id="sold">—</span></div>
+        <div title="Tokens remaining">Remaining: <span id="left">—</span></div>
+        <div title="Total raised in USDT">Raised (USDT): <span id="raisedUSDT">—</span></div>
+        <div title="Total raised in USD value of BNB">Raised (BNB USD): <span id="raisedBNBUSD">—</span></div>
+        <div title="Presale contract address">Contract: <code id="contractAddr">—</code></div>
+      </div>
 
-            <div class="wallet-status">
-                <span>کیف پول:</span>
-                <span id="walletAddr">Not Connected</span>
-            </div>
+      <div class="buy-box">
+        <input id="usdInput" type="number" placeholder="Enter USD amount (e.g. 10)" min="0.01" step="0.01" />
 
-            <div class="progress-area">
-                <div class="progress-text">توکن‌های فروخته شده</div>
-                <div class="progress-bar">
-                    <div id="progressFill"></div>
-                </div>
-            </div>
-
-            <div class="buy-box">
-                <input id="usdInput" type="number" placeholder="مقدار (USD)" />
-
-                <div class="row-buttons">
-                    <button id="buyBNBBtn" class="btn buy-btn">خرید با BNB</button>
-                    <button id="buyUSDTBtn" class="btn buy-btn">خرید با USDT</button>
-                </div>
-            </div>
-
-            <div class="claim-box">
-                <h3>Claim Tokens</h3>
-                <p id="myClaimable">0 AEMS</p>
-                <button id="claimBtn" class="btn claim-btn">دریافت توکن</button>
-            </div>
-
+        <div class="buy-actions">
+          <button id="buyBNBBtn" class="btn primary">Buy with BNB</button>
+          <button id="buyUSDTBtn" class="btn secondary">Buy with USDT</button>
         </div>
 
-    </div>
-</section>
-
-
-
-<!-- ============================================================
-                        TOKENOMICS
-============================================================ -->
-<section id="tokenomics" class="tokenomics-section">
-    <div class="container">
-        <h2 class="section-title">📊 توکنومیک</h2>
-
-        <div class="tokenomics-grid">
-
-            <div class="token-box">
-                <h3>نام توکن</h3>
-                <p>AEMS Token</p>
-            </div>
-
-            <div class="token-box">
-                <h3>آدرس قرارداد</h3>
-                <p class="token-address">
-                    0xc923b937c683979DC391250F2Ef0ae9Ec4366830
-                </p>
-            </div>
-
-            <div class="token-box">
-                <h3>عرضه کل</h3>
-                <p>100,000,000 AEMS</p>
-            </div>
-
-            <div class="token-box">
-                <h3>حداکثر خرید</h3>
-                <p>نامحدود</p>
-            </div>
-
+        <div class="estimates">
+          <div>Estimated tokens: <span id="estTokens">—</span></div>
+          <div>Estimated BNB: <span id="estBNB">—</span></div>
         </div>
-    </div>
-</section>
+      </div>
 
+      <div class="progress">
+        <div id="progressFill"></div>
+      </div>
+      <div class="progress-meta">Progress: <span id="progressPercent">0%</span></div>
+    </section>
 
+    <!-- VESTING CARD -->
+    <section class="card vesting">
+      <h2>Your Vesting</h2>
+      <div>Purchased: <b id="myPurchased">—</b> AEMS</div>
+      <div>Claimed: <b id="myClaimed">—</b> AEMS</div>
+      <div>Claimable now: <b id="myClaimable">—</b> AEMS</div>
+      <div>Next unlock: <b id="nextUnlock">—</b></div>
+      <button id="claimBtn" class="btn primary">Claim Available Tokens</button>
+    </section>
 
-<!-- ============================================================
-                        FEATURES
-============================================================ -->
-<section id="features" class="features-section">
-    <div class="container">
-        <h2 class="section-title">✨ ویژگی‌های AEMS</h2>
+    <!-- ADMIN PANEL -->
+    <section id="adminPanel" class="card" style="display:none;">
+      <h2>Admin Panel (Owner)</h2>
+      <div class="admin-row">
+        <button id="endPresaleBtn" class="btn primary">Force End Presale</button>
+        <button id="withdrawBNBBtn" class="btn primary">Withdraw BNB</button>
+        <button id="withdrawUSDTBtn" class="btn primary">Withdraw USDT</button>
+      </div>
+      <div class="admin-row">
+        <button id="withdrawUnsoldBtn" class="btn secondary">Withdraw Unsold</button>
+        <button id="destroyBtn" class="btn secondary">Destroy Contract</button>
+      </div>
+      <div class="admin-info">
+        <div>Contract (on-chain): <code id="contractLink"><a href="#" id="contractLinkAnchor" target="_blank">—</a></code></div>
+        <div>Owner: <code id="ownerAddr">—</code></div>
+      </div>
+    </section>
 
-        <div class="features-grid">
+  </main>
 
-            <div class="feature-box">
-                <i class="fa fa-shield"></i>
-                <h3>امنیت بالا</h3>
-                <p>قرارداد هوشمند به طور کامل بررسی شده و امنیت سطح بالا تضمینی است.</p>
-            </div>
+  <!-- TOKENOMICS (contract address displayed here only) -->
+  <section id="tokenomics" class="section tokenomics">
+    <div class="container grid-full">
+      <h2 class="section-title">Tokenomics</h2>
 
-            <div class="feature-box">
-                <i class="fa fa-bolt"></i>
-                <h3>سرعت تراکنش عالی</h3>
-                <p>بهینه‌سازی شده برای تراکنش‌های سریع در شبکه BSC.</p>
-            </div>
-
-            <div class="feature-box">
-                <i class="fa fa-globe"></i>
-                <h3>اقتصاد جهانی</h3>
-                <p>مناسب برای اپلیکیشن‌ها، گیم‌ها و بازارهای بین‌المللی Web3.</p>
-            </div>
-
+      <div class="tokenomics-grid">
+        <div class="t-card">
+          <h3>Total Supply</h3>
+          <p>1,000,000,000 AEMS</p>
         </div>
-    </div>
-</section>
-
-
-
-<!-- ============================================================
-                        ROADMAP
-============================================================ -->
-<section id="roadmap" class="roadmap-section">
-    <div class="container">
-        <h2 class="section-title">🚀 رودمپ AEMS</h2>
-
-        <div class="roadmap">
-
-            <div class="roadmap-item">
-                <h3>فاز 1</h3>
-                <p>ساخت قرارداد – توسعه وبسایت – شروع پیش‌فروش</p>
-            </div>
-
-            <div class="roadmap-item">
-                <h3>فاز 2</h3>
-                <p>لیست شدن در DEX – بازاریابی گسترده – همکاری‌ها</p>
-            </div>
-
-            <div class="roadmap-item">
-                <h3>فاز 3</h3>
-                <p>راه‌اندازی بازی‌های Web3 – توسعه اکوسیستم</p>
-            </div>
-
-            <div class="roadmap-item">
-                <h3>فاز 4</h3>
-                <p>لیست در CEX – گسترش جهانی – DAO</p>
-            </div>
-
+        <div class="t-card">
+          <h3>Presale Allocation</h3>
+          <p>129,000,000 AEMS</p>
         </div>
-
-    </div>
-</section>
-
-
-
-<!-- ============================================================
-                        TEAM
-============================================================ -->
-<section id="team" class="team-section">
-    <div class="container">
-        <h2 class="section-title">👥 تیم پروژه</h2>
-
-        <div class="team-grid">
-
-            <div class="team-member">
-                <div class="avatar"></div>
-                <h3>Founder</h3>
-                <p>طراح و توسعه‌دهنده اصلی پروژه AEMS.</p>
-            </div>
-
-            <div class="team-member">
-                <div class="avatar"></div>
-                <h3>Blockchain Dev</h3>
-                <p>مسئول قراردادهای هوشمند و امنیت.</p>
-            </div>
-
-            <div class="team-member">
-                <div class="avatar"></div>
-                <h3>Marketing Lead</h3>
-                <p>برندینگ، کمپین‌ها و تبلیغات جهانی.</p>
-            </div>
-
+        <div class="t-card">
+          <h3>Decimals</h3>
+          <p>18</p>
         </div>
-    </div>
-</section>
-
-
-
-<!-- ============================================================
-                        FAQ
-============================================================ -->
-<section id="faq" class="faq-section">
-    <div class="container">
-        <h2 class="section-title">❓ سوالات متداول</h2>
-
-        <div class="faq-box">
-            <h3>چطور می‌توانم توکن خریداری کنم؟</h3>
-            <p>از بخش پیش‌فروش با پرداخت BNB یا USDT خرید انجام می‌شود.</p>
+        <div class="t-card">
+          <h3>Contract Address</h3>
+          <p><code id="contractAddrDisplay">0xc923b937c683979DC391250F2Ef0ae9Ec4366830</code></p>
+          <p style="font-size:0.9rem;color:var(--muted)">(Displayed here only)</p>
         </div>
-
-        <div class="faq-box">
-            <h3>کی می‌توانم توکن‌هایم را Claim کنم؟</h3>
-            <p>طبق زمان‌بندی قرارداد و فعالسازی تیم توسعه.</p>
-        </div>
-
-        <div class="faq-box">
-            <h3>آیا توکن در صرافی‌ها لیست می‌شود؟</h3>
-            <p>بله — طبق رودمپ، فاز 2 و 4.</p>
-        </div>
-
+      </div>
     </div>
-</section>
+  </section>
 
-
-
-<!-- ============================================================
-                        FOOTER
-============================================================ -->
-<footer class="footer">
-    <div class="container">
-        <p>© 2025 AEMS Token – All Rights Reserved.</p>
+  <!-- ROADMAP -->
+  <section id="roadmap" class="section roadmap">
+    <div class="container grid-full">
+      <h2 class="section-title">Roadmap</h2>
+      <div class="roadmap-line">
+        <div class="road-item">
+          <h3>Q4 2025</h3>
+          <p>Token launch, website release, presale open.</p>
+        </div>
+        <div class="road-item">
+          <h3>Q1 2026</h3>
+          <p>Provide liquidity, DEX listings, partnerships.</p>
+        </div>
+        <div class="road-item">
+          <h3>Q2 2026</h3>
+          <p>Staking & rewards, partner integrations, utility rollouts.</p>
+        </div>
+        <div class="road-item">
+          <h3>Q3 2026</h3>
+          <p>Expand ecosystem, game launch, CEX considerations.</p>
+        </div>
+      </div>
     </div>
-</footer>
+  </section>
 
+  <!-- FEATURES -->
+  <section id="features" class="section features">
+    <div class="container grid-full">
+      <h2 class="section-title">Main Features</h2>
+      <div class="features-grid">
+        <div class="f-card">
+          <h3>Fast & Low-cost</h3>
+          <p>Built on BNB Chain for micro fees and fast confirmations.</p>
+        </div>
+        <div class="f-card">
+          <h3>Vesting & Fair Launch</h3>
+          <p>Vesting implemented to protect long-term holders.</p>
+        </div>
+        <div class="f-card">
+          <h3>Transparent</h3>
+          <p>All contract functions are public and verifiable on BscScan.</p>
+        </div>
+        <div class="f-card">
+          <h3>Admin Tools</h3>
+          <p>Owner can manage presale lifecycle safely via admin panel.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<!-- JS -->
-<script src="abi.js"></script>
-<script src="main.js"></script>
+  <!-- TEAM -->
+  <section id="team" class="section team">
+    <div class="container grid-full">
+      <h2 class="section-title">Team</h2>
+      <div class="team-grid">
+        <div class="team-card">
+          <img src="https://via.placeholder.com/220x140" alt="Founder">
+          <h3>Founder</h3>
+          <p>Project lead & ecosystem architect.</p>
+        </div>
+        <div class="team-card">
+          <img src="https://via.placeholder.com/220x140" alt="Developer">
+          <h3>Blockchain Developer</h3>
+          <p>Smart contracts & backend services.</p>
+        </div>
+        <div class="team-card">
+          <img src="https://via.placeholder.com/220x140" alt="Marketing">
+          <h3>Marketing Lead</h3>
+          <p>Community growth & partnerships.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="section faq">
+    <div class="container grid-full">
+      <h2 class="section-title">FAQ</h2>
+
+      <div class="faq-item">
+        <h3>How do I buy AEMS?</h3>
+        <p>Connect your wallet (BSC), enter USD amount, choose BNB or USDT, then confirm transaction in your wallet.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>When will tokens be claimable?</h3>
+        <p>Claiming follows the vesting schedule set in the contract — check your Vesting panel for claimable amount.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Is the contract verified?</h3>
+        <p>Yes — contract is deployed on BSC and verifiable on BscScan.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container grid-full">
+      <p>© 2025 AEMS Token. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Small interactions (banner + progress percent observer + faq toggle) -->
+  <script>
+    // Banner slider
+    let bannerIndex = 0;
+    const bannerInner = document.getElementById('bannerInner');
+    const banners = bannerInner?.querySelectorAll('.banner-item') || [];
+    function shiftBanner(i){
+      if(!banners.length) return;
+      bannerIndex = (bannerIndex + i + banners.length) % banners.length;
+      bannerInner.style.transform = `translateX(-${bannerIndex * 100}%)`;
+    }
+    document.getElementById('bannerNext')?.addEventListener('click', ()=> shiftBanner(1));
+    document.getElementById('bannerPrev')?.addEventListener('click', ()=> shiftBanner(-1));
+    setInterval(()=> shiftBanner(1), 7000);
+
+    // Progress percent (observe width changes from main.js)
+    const fill = document.getElementById('progressFill');
+    const pct = document.getElementById('progressPercent');
+    if(fill && pct){
+      const mo = new MutationObserver(()=> {
+        const parentW = fill.parentElement.clientWidth || 1;
+        const fillW = fill.clientWidth || 0;
+        const per = Math.round((fillW/parentW)*100);
+        pct.innerText = per + '%';
+      });
+      mo.observe(fill, { attributes:true, attributeFilter:['style'], subtree:false });
+    }
+
+    // FAQ toggle (simple)
+    document.querySelectorAll('.faq-item h3').forEach(h => {
+      h.style.cursor = 'pointer';
+      h.addEventListener('click', ()=> {
+        const p = h.nextElementSibling;
+        if(!p) return;
+        p.style.display = p.style.display === 'block' ? 'none' : 'block';
+      });
+    });
+
+    // Copy contract address from abi/main if they set it (main.js sets #contractLink and #contractAddr)
+    // ensure contractLinkAnchor exists
+    window.addEventListener('load', ()=> {
+      // if main.js set contractLink (anchor), copy href into displayed tokenomics if needed
+      const contractAnchor = document.getElementById('contractLinkAnchor');
+      const display = document.getElementById('contractAddrDisplay');
+      if(contractAnchor && contractAnchor.innerText && display){
+        // do nothing: we want the display to show the real token address (we already put user's address)
+      }
+      // also ensure admin panel contractAddr element updated by main.js (main.js writes #contractAddr)
+    });
+  </script>
 
 </body>
 </html>
