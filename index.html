@@ -7,11 +7,9 @@
 <link rel="icon" href="https://via.placeholder.com/32" type="image/png">
 
 <style>
-/* ===== Reset ===== */
 * {margin:0; padding:0; box-sizing:border-box;}
 body {font-family: 'Segoe UI', sans-serif; background:#0b0b0b; color:#fff; line-height:1.5;}
 
-/* ===== Header ===== */
 .header {display:flex; justify-content:space-between; align-items:center; padding:15px 30px; background:#111; border-bottom:2px solid #00f0ff;}
 .logo-text {font-size:1.7rem; font-weight:bold; color:#00f0ff; text-shadow:0 0 8px #00f0ff;}
 nav a {margin:0 15px; font-weight:500; transition:0.3s; color:#fff;}
@@ -23,75 +21,31 @@ nav a:hover {color:#00f0ff;}
 .btn:hover {opacity:0.85; transform:scale(1.05);}
 .addr {font-size:0.9rem; color:#aaa;}
 
-/* ===== Banner ===== */
-.banner {position:relative; margin:25px auto; max-width:1200px; overflow:hidden; border-radius:16px; box-shadow:0 0 20px rgba(0,255,255,0.3);}
-.banner-inner {display:flex; transition:transform 0.5s ease;}
-.banner-item {flex:0 0 100%;}
-.banner-item img {width:100%; height:auto; display:block; object-fit:contain; background:#000; border-radius:16px;}
-.banner-controls {position:absolute; top:50%; width:100%; display:flex; justify-content:space-between; transform:translateY(-50%);}
-.banner-controls button {background:rgba(0,0,0,0.6); color:#fff; border:none; font-size:2rem; padding:8px 14px; cursor:pointer; border-radius:8px; transition:0.3s;}
-.banner-controls button:hover {background:#00f0ff; color:#000;}
-
-/* ===== Main container ===== */
 .container {max-width:1200px; margin:30px auto; padding:0 20px; display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:25px;}
-
-/* ===== Cards ===== */
 .card {background:#1c1c1c; border-radius:16px; padding:25px; display:flex; flex-direction:column; gap:15px; box-shadow:0 6px 20px rgba(0,255,255,0.3);}
 .card h1, .card h2 {color:#00f0ff; text-shadow:0 0 6px #00f0ff;}
 .lead {font-size:1rem; color:#ccc;}
-.stats-grid {display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; font-size:0.95rem;}
 
-/* ===== Token Details ===== */
-.token-info {display:flex; flex-direction:column; gap:15px;}
-.token-info div {background:#111; padding:15px; border-radius:12px;}
+.token-info div {background:#111; padding:15px; border-radius:12px; display:flex; justify-content:space-between; align-items:center;}
 .token-info div span {color:#00f0ff; font-weight:bold;}
 
-/* ===== Neon Buttons ===== */
-.neon-btn {
-  position: relative;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  display: inline-block;
-}
-.neon-btn::before {
-  content: '';
-  position: absolute;
-  top: -3px; left: -3px; right: -3px; bottom: -3px;
-  background: linear-gradient(45deg, #00f0ff, #00ffa0, #00f0ff, #00ffa0);
-  z-index: -1;
-  filter: blur(8px);
-  opacity: 0;
-  border-radius: 8px;
-  transition: opacity 0.3s ease;
-}
+.neon-btn {position: relative; transition: all 0.3s ease; text-decoration: none; display: inline-block;}
+.neon-btn::before {content: ''; position: absolute; top: -3px; left: -3px; right: -3px; bottom: -3px; background: linear-gradient(45deg, #00f0ff, #00ffa0, #00f0ff, #00ffa0); z-index: -1; filter: blur(8px); opacity: 0; border-radius: 8px; transition: opacity 0.3s;}
 .neon-btn:hover::before { opacity: 1; }
 .neon-btn:hover { transform: scale(1.1); box-shadow: 0 0 15px #00f0ff, 0 0 30px #00ffa0; }
 
-/* ===== Footer ===== */
 .footer {text-align:center; margin:40px 0; font-size:0.9rem; color:#aaa;}
 
-/* ===== Responsive ===== */
-@media(max-width:1024px){ .container {grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px;} .banner {margin:20px;} }
 @media(max-width:768px){
   nav a {margin:0 8px; font-size:0.9rem;}
-  .banner-item img {height:auto;}
   .btn {padding:10px 16px; font-size:0.9rem;}
   .logo-text {font-size:1.5rem;}
   .token-info div {padding:12px; font-size:0.95rem;}
   .lead {font-size:0.95rem;}
-  .neon-btn {padding:10px 18px; font-size:0.95rem;}
-}
-@media(max-width:480px){
-  .header {flex-direction:column; align-items:flex-start; gap:10px; padding:15px;}
-  .header-right {flex-wrap:wrap;}
-  .token-info div {font-size:0.9rem;}
-  .lead {font-size:0.9rem;}
-  .neon-btn {width:100%; text-align:center;}
 }
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
 <script src="abi.js" defer></script>
 <script src="main.js" defer></script>
@@ -112,12 +66,6 @@ nav a:hover {color:#00f0ff;}
   </div>
 </header>
 
-<section class="banner">
-  <div class="banner-inner">
-    <a href="#" class="banner-item"><img src="Y.png" alt="Token Banner"></a>
-  </div>
-</section>
-
 <main class="container">
   <section class="card token-info">
     <h1>AEMS Token Overview</h1>
@@ -128,7 +76,6 @@ nav a:hover {color:#00f0ff;}
     <div><strong>Total Supply:</strong> <span>171,171,172</span></div>
     <div><strong>Decimals:</strong> <span>18</span></div>
 
-    <!-- Contract Address with Copy Button -->
     <div style="display:flex; align-items:center; gap:10px;">
       <strong>Contract Address:</strong> 
       <span id="tokenAddr" style="font-size:0.85rem; word-break:break-all;">0xa6452a6d7d399dd2b1d2c5e237eabd9c1c00379f</span>
@@ -137,15 +84,12 @@ nav a:hover {color:#00f0ff;}
 
     <div><strong>Network:</strong> <span>BNB Smart Chain</span></div>
     <div><strong>Use Case:</strong> <span>Presale, Trading, Rewards in ecosystem</span></div>
-    <div><strong>Purchase Methods:</strong> <span>BNB, USDT</span></div>
 
-    <!-- Neon Button Features -->
     <div style="margin-top:20px; text-align:center;">
       <p style="margin-bottom:12px; color:#aaa;">For learning about the token's features and innovations, tap below</p>
       <a href="index3.php" class="btn primary neon-btn">Features</a>
     </div>
 
-    <!-- Neon Button Buy Token -->
     <div style="margin-top:30px; text-align:center;">
       <p style="margin-bottom:12px; color:#00ffa0; font-weight:bold; font-size:1.05rem;">
         🚀 Don’t miss out! Grab your AEMS tokens now and join the next-gen blockchain revolution! 🚀
@@ -153,10 +97,29 @@ nav a:hover {color:#00f0ff;}
       <a href="index.php" class="btn primary neon-btn">Buy Token</a>
     </div>
 
-    <!-- Token Distribution Chart -->
+    <!-- Token Distribution List -->
     <div style="margin-top:30px;">
       <h2 style="text-align:center; color:#00f0ff;">Token Distribution</h2>
-      <canvas id="tokenChart" style="background:#111; border-radius:12px; padding:20px;"></canvas>
+      <ul style="list-style:none; margin-top:15px; padding:0;">
+        <li style="display:flex; justify-content:space-between; padding:8px 12px; background:#111; margin-bottom:6px; border-radius:8px;">
+          Presale <span>129,000,000</span>
+        </li>
+        <li style="display:flex; justify-content:space-between; padding:8px 12px; background:#111; margin-bottom:6px; border-radius:8px;">
+          Team <span>6,000,000</span>
+        </li>
+        <li style="display:flex; justify-content:space-between; padding:8px 12px; background:#111; margin-bottom:6px; border-radius:8px;">
+          Insurance Fund <span>1,500,000</span>
+        </li>
+        <li style="display:flex; justify-content:space-between; padding:8px 12px; background:#111; margin-bottom:6px; border-radius:8px;">
+          Reward Fund <span>1,500,000</span>
+        </li>
+        <li style="display:flex; justify-content:space-between; padding:8px 12px; background:#111; margin-bottom:6px; border-radius:8px;">
+          Token Development <span>3,000,000</span>
+        </li>
+        <li style="display:flex; justify-content:space-between; padding:8px 12px; background:#111; margin-bottom:6px; border-radius:8px;">
+          Liquidity <span>30,717,172</span>
+        </li>
+      </ul>
     </div>
 
   </section>
@@ -168,58 +131,12 @@ nav a:hover {color:#00f0ff;}
 </footer>
 
 <script>
-// Copy Token Address
 function copyTokenAddr() {
     const addr = document.getElementById('tokenAddr').innerText;
     navigator.clipboard.writeText(addr).then(() => {
         alert('Token address copied to clipboard!');
-    }).catch(err => {
-        alert('Failed to copy: ' + err);
-    });
+    }).catch(err => { alert('Failed to copy: '+err); });
 }
-
-// Chart.js - Interactive Token Distribution with Data Labels
-const ctx = document.getElementById('tokenChart').getContext('2d');
-const tokenData = {
-    labels: ['Presale','Team','Insurance Fund','Reward Fund','Token Development','Liquidity'],
-    datasets: [{
-        data: [129000000,6000000,1500000,1500000,3000000,30717172],
-        backgroundColor: ['#00f0ff','#00ffa0','#ff00ff','#ffa500','#ff4444','#44ff44'],
-        borderColor: '#0b0b0b',
-        borderWidth: 2
-    }]
-};
-
-const tokenChart = new Chart(ctx, {
-    type: 'doughnut',
-    data: tokenData,
-    plugins: [ChartDataLabels],
-    options: {
-        responsive: true,
-        plugins: {
-            legend: { position:'bottom', labels:{ color:'#fff' } },
-            tooltip: {
-                enabled: true,
-                callbacks: {
-                    label: function(context) {
-                        const label = context.label || '';
-                        const value = context.raw;
-                        const total = context.dataset.data.reduce((a,b)=>a+b,0);
-                        const percent = ((value / total)*100).toFixed(2);
-                        return `${label}: ${value.toLocaleString()} (${percent}%)`;
-                    }
-                }
-            },
-            datalabels: {
-                color: '#fff',
-                font: { weight: 'bold', size:14 },
-                formatter: function(value, context) {
-                    return value.toLocaleString();
-                }
-            }
-        }
-    }
-});
 </script>
 
 </body>
