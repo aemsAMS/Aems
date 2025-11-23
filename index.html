@@ -3,325 +3,252 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>AEMS Token — Official Presale</title>
+  <title>AEMS — Official Presale</title>
 
-  <!-- main stylesheet (use the style.css previously provided) -->
+  <!-- CSS -->
   <link rel="stylesheet" href="style.css">
 
-  <!-- Ethers.js (UMD) -->
+  <!-- Ethers & contract scripts (unchanged) -->
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-
-  <!-- ABI and main logic (do not change) -->
   <script src="abi.js" defer></script>
   <script src="main.js" defer></script>
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header class="header">
-    <div class="container">
-      <div class="logo">AEMS</div>
+<!-- HEADER (compact) -->
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand">AEMS</div>
 
-      <nav class="nav">
-        <a href="#home">Home</a>
-        <a href="#presale">Presale</a>
-        <a href="#tokenomics">Tokenomics</a>
-        <a href="#roadmap">Roadmap</a>
-        <a href="#features">Features</a>
-        <a href="#team">Team</a>
-        <a href="#faq">FAQ</a>
-      </nav>
+    <nav class="main-nav">
+      <a href="#home">Home</a>
+      <a href="#presale">Presale</a>
+      <a href="#tokenomics">Tokenomics</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#faq">FAQ</a>
+      <a href="#team">Team</a>
+    </nav>
 
-      <div class="header-right">
-        <button id="connectWallet" class="btn primary">Connect Wallet</button>
-        <span id="walletAddr" class="wallet-label">Not connected</span>
+    <div class="header-actions">
+      <button id="connectWallet" class="btn btn-outline">Connect Wallet</button>
+      <span id="walletAddr" class="wallet-addr">Not connected</span>
+    </div>
+  </div>
+</header>
+
+<!-- HERO (dark neon) -->
+<section id="home" class="hero-dark">
+  <div class="wrap hero-grid">
+    <div class="hero-left">
+      <h1>The Future of Decentralized Finance</h1>
+      <p class="hero-sub">
+        AEMS brings real utility, a powerful ecosystem, and a strong community-driven economy.
+        Join the presale and be part of the next big Web3 project.
+      </p>
+      <div class="hero-ctas">
+        <a href="#presale" class="btn btn-cta">Join Presale</a>
+        <a href="#roadmap" class="btn btn-ghost">Roadmap</a>
+      </div>
+
+      <ul class="hero-stats">
+        <li><strong>Price</strong><span>0.007 USDT</span></li>
+        <li><strong>Network</strong><span>BSC (BEP-20)</span></li>
+        <li><strong>Decimals</strong><span>18</span></li>
+      </ul>
+    </div>
+
+    <div class="hero-right">
+      <div class="card presale-panel">
+        <div class="panel-head">
+          <div class="panel-title">Presale</div>
+          <div class="panel-sub">Buy with BNB or USDT</div>
+        </div>
+
+        <div class="panel-body">
+          <div class="stat-row">
+            <div class="stat">Sold <div id="sold">—</div></div>
+            <div class="stat">Remaining <div id="left">—</div></div>
+          </div>
+
+          <div class="progress">
+            <div id="progressFill"></div>
+          </div>
+
+          <div class="inputs">
+            <input id="usdInput" type="number" placeholder="USD amount (e.g. 10)" min="0.01" step="0.01" />
+            <div class="buy-row">
+              <button id="buyBNBBtn" class="btn btn-primary">Buy with BNB</button>
+              <button id="buyUSDTBtn" class="btn btn-secondary">Buy with USDT</button>
+            </div>
+            <div class="estimates small">
+              Estimated tokens: <span id="estTokens">—</span> • Estimated BNB: <span id="estBNB">—</span>
+            </div>
+          </div>
+
+          <div class="panel-footer">
+            <div class="small">Raised (USDT): <span id="raisedUSDT">—</span></div>
+            <div class="small">Status: <span id="presaleStatus">—</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- quick vesting info -->
+      <div class="card vesting-compact">
+        <div class="v-row"><span>Claimable</span><strong id="myClaimable">—</strong></div>
+        <button id="claimBtn" class="btn btn-outline">Claim Tokens</button>
       </div>
     </div>
-  </header>
+  </div>
+</section>
 
-  <!-- HERO -->
-  <section id="home" class="hero">
-    <div class="container hero-content">
-      <div style="max-width:780px;">
-        <h1>The Future of Decentralized Finance.</h1>
-        <p class="subtitle">
-          AEMS brings real utility, a powerful ecosystem, and a strong community-driven economy.
-          Join the presale and be part of the next big Web3 project.
-        </p>
-        <div style="margin-top:16px;">
-          <a href="#presale" class="btn primary">Join Presale</a>
-          <a href="#roadmap" class="btn secondary" style="margin-left:10px;">View Roadmap</a>
-        </div>
+<!-- MAIN CONTENT (light sections) -->
+<main class="content-wrap">
+
+  <!-- PRESALE DETAILS (keeps same IDs used in main.js) -->
+  <section id="presale" class="section-light">
+    <div class="wrap narrow">
+      <h2>Presale Details</h2>
+      <p class="muted">Fixed price 0.007 USDT. Buy using BNB (value calculated via oracle) or USDT (approve + buy).</p>
+
+      <div class="stats-grid">
+        <div class="stat-card"><div class="label">Allocation</div><div class="value" id="alloc">129,000,000</div></div>
+        <div class="stat-card"><div class="label">Sold</div><div class="value" id="sold-2">—</div></div>
+        <div class="stat-card"><div class="label">Remaining</div><div class="value" id="left-2">—</div></div>
+        <div class="stat-card"><div class="label">Raised (USDT)</div><div class="value" id="raisedUSDT">—</div></div>
+        <div class="stat-card"><div class="label">Raised (BNB USD)</div><div class="value" id="raisedBNBUSD">—</div></div>
+        <div class="stat-card"><div class="label">Contract</div><div class="value"><code id="contractAddr">—</code></div></div>
       </div>
 
-      <div style="min-width:320px; max-width:480px;">
-        <div class="banner">
-          <div class="banner-inner" id="bannerInner">
-            <a class="banner-item"><img src="Y.png" alt="AEMS banner 1"></a>
-            <a class="banner-item"><img src="https://via.placeholder.com/1200x350?text=Secure+Your+Tokens" alt="Banner 2"></a>
-            <a class="banner-item"><img src="https://via.placeholder.com/1200x350?text=Join+the+Presale" alt="Banner 3"></a>
-          </div>
-          <div class="banner-controls">
-            <button id="bannerPrev">‹</button>
-            <button id="bannerNext">›</button>
-          </div>
-        </div>
-      </div>
+      <!-- note: main.js already updates #alloc #sold #left #raisedUSDT #raisedBNBUSD #contractAddr etc.
+           We added duplicate ids sold-2/left-2 intentionally for presentation but main ids remain unchanged. -->
     </div>
   </section>
 
-  <!-- MAIN GRID -->
-  <main class="container">
-
-    <!-- PRESALE CARD -->
-    <section id="presale" class="card">
-      <h1>AEMS Token Presale</h1>
-      <p class="lead">Presale Price: <strong>0.007 USDT</strong> — Buy with USDT or BNB</p>
-
-      <div class="meta-row">
-        <div class="meta-item">Status: <strong><span id="presaleStatus">—</span></strong></div>
-        <div class="meta-item">Allocation: <strong><span id="alloc">129,000,000</span></strong></div>
-      </div>
-
-      <div class="stats-grid">
-        <div title="Total tokens allocated for presale">Total allocation: <span id="alloc">129,000,000</span></div>
-        <div title="Amount sold so far">Sold: <span id="sold">—</span></div>
-        <div title="Tokens remaining">Remaining: <span id="left">—</span></div>
-        <div title="Total raised in USDT">Raised (USDT): <span id="raisedUSDT">—</span></div>
-        <div title="Total raised in USD value of BNB">Raised (BNB USD): <span id="raisedBNBUSD">—</span></div>
-        <div title="Presale contract address">Contract: <code id="contractAddr">—</code></div>
-      </div>
-
-      <div class="buy-box">
-        <input id="usdInput" type="number" placeholder="Enter USD amount (e.g. 10)" min="0.01" step="0.01" />
-
-        <div class="buy-actions">
-          <button id="buyBNBBtn" class="btn primary">Buy with BNB</button>
-          <button id="buyUSDTBtn" class="btn secondary">Buy with USDT</button>
+  <!-- TOKENOMICS -->
+  <section id="tokenomics" class="section-light">
+    <div class="wrap narrow">
+      <h2>Tokenomics</h2>
+      <div class="token-grid">
+        <div class="token-card">
+          <h3>Total Supply</h3><p>1,000,000,000 AEMS</p>
         </div>
-
-        <div class="estimates">
-          <div>Estimated tokens: <span id="estTokens">—</span></div>
-          <div>Estimated BNB: <span id="estBNB">—</span></div>
+        <div class="token-card">
+          <h3>Presale Allocation</h3><p>129,000,000 AEMS</p>
         </div>
-      </div>
-
-      <div class="progress">
-        <div id="progressFill"></div>
-      </div>
-      <div class="progress-meta">Progress: <span id="progressPercent">0%</span></div>
-    </section>
-
-    <!-- VESTING CARD -->
-    <section class="card vesting">
-      <h2>Your Vesting</h2>
-      <div>Purchased: <b id="myPurchased">—</b> AEMS</div>
-      <div>Claimed: <b id="myClaimed">—</b> AEMS</div>
-      <div>Claimable now: <b id="myClaimable">—</b> AEMS</div>
-      <div>Next unlock: <b id="nextUnlock">—</b></div>
-      <button id="claimBtn" class="btn primary">Claim Available Tokens</button>
-    </section>
-
-    <!-- ADMIN PANEL -->
-    <section id="adminPanel" class="card" style="display:none;">
-      <h2>Admin Panel (Owner)</h2>
-      <div class="admin-row">
-        <button id="endPresaleBtn" class="btn primary">Force End Presale</button>
-        <button id="withdrawBNBBtn" class="btn primary">Withdraw BNB</button>
-        <button id="withdrawUSDTBtn" class="btn primary">Withdraw USDT</button>
-      </div>
-      <div class="admin-row">
-        <button id="withdrawUnsoldBtn" class="btn secondary">Withdraw Unsold</button>
-        <button id="destroyBtn" class="btn secondary">Destroy Contract</button>
-      </div>
-      <div class="admin-info">
-        <div>Contract (on-chain): <code id="contractLink"><a href="#" id="contractLinkAnchor" target="_blank">—</a></code></div>
-        <div>Owner: <code id="ownerAddr">—</code></div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- TOKENOMICS (contract address displayed here only) -->
-  <section id="tokenomics" class="section tokenomics">
-    <div class="container grid-full">
-      <h2 class="section-title">Tokenomics</h2>
-
-      <div class="tokenomics-grid">
-        <div class="t-card">
-          <h3>Total Supply</h3>
-          <p>1,000,000,000 AEMS</p>
-        </div>
-        <div class="t-card">
-          <h3>Presale Allocation</h3>
-          <p>129,000,000 AEMS</p>
-        </div>
-        <div class="t-card">
-          <h3>Decimals</h3>
-          <p>18</p>
-        </div>
-        <div class="t-card">
-          <h3>Contract Address</h3>
+        <div class="token-card">
+          <h3>Contract</h3>
           <p><code id="contractAddrDisplay">0xc923b937c683979DC391250F2Ef0ae9Ec4366830</code></p>
-          <p style="font-size:0.9rem;color:var(--muted)">(Displayed here only)</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ROADMAP -->
-  <section id="roadmap" class="section roadmap">
-    <div class="container grid-full">
-      <h2 class="section-title">Roadmap</h2>
-      <div class="roadmap-line">
-        <div class="road-item">
-          <h3>Q4 2025</h3>
-          <p>Token launch, website release, presale open.</p>
-        </div>
-        <div class="road-item">
-          <h3>Q1 2026</h3>
-          <p>Provide liquidity, DEX listings, partnerships.</p>
-        </div>
-        <div class="road-item">
-          <h3>Q2 2026</h3>
-          <p>Staking & rewards, partner integrations, utility rollouts.</p>
-        </div>
-        <div class="road-item">
-          <h3>Q3 2026</h3>
-          <p>Expand ecosystem, game launch, CEX considerations.</p>
-        </div>
+  <section id="roadmap" class="section-light">
+    <div class="wrap narrow">
+      <h2>Roadmap</h2>
+      <div class="roadmap-steps">
+        <div class="road-step"><h4>Phase 1</h4><p>Contract deployment, presale, website.</p></div>
+        <div class="road-step"><h4>Phase 2</h4><p>DEX listing, liquidity, partnerships.</p></div>
+        <div class="road-step"><h4>Phase 3</h4><p>Staking, integrations, product launches.</p></div>
       </div>
     </div>
   </section>
 
   <!-- FEATURES -->
-  <section id="features" class="section features">
-    <div class="container grid-full">
-      <h2 class="section-title">Main Features</h2>
-      <div class="features-grid">
-        <div class="f-card">
-          <h3>Fast & Low-cost</h3>
-          <p>Built on BNB Chain for micro fees and fast confirmations.</p>
-        </div>
-        <div class="f-card">
-          <h3>Vesting & Fair Launch</h3>
-          <p>Vesting implemented to protect long-term holders.</p>
-        </div>
-        <div class="f-card">
-          <h3>Transparent</h3>
-          <p>All contract functions are public and verifiable on BscScan.</p>
-        </div>
-        <div class="f-card">
-          <h3>Admin Tools</h3>
-          <p>Owner can manage presale lifecycle safely via admin panel.</p>
-        </div>
-      </div>
+  <section id="features" class="section-light">
+    <div class="wrap narrow">
+      <h2>Main Features</h2>
+      <ul class="features-list">
+        <li>Fast transactions on BSC</li>
+        <li>Vesting to protect buyers</li>
+        <li>Transparent on-chain presale contract</li>
+      </ul>
     </div>
   </section>
 
   <!-- TEAM -->
-  <section id="team" class="section team">
-    <div class="container grid-full">
-      <h2 class="section-title">Team</h2>
+  <section id="team" class="section-light">
+    <div class="wrap narrow">
+      <h2>Team</h2>
       <div class="team-grid">
-        <div class="team-card">
-          <img src="https://via.placeholder.com/220x140" alt="Founder">
-          <h3>Founder</h3>
-          <p>Project lead & ecosystem architect.</p>
+        <div class="member">
+          <img src="https://via.placeholder.com/160" alt="Founder">
+          <h4>Founder</h4>
+          <p>Project lead</p>
         </div>
-        <div class="team-card">
-          <img src="https://via.placeholder.com/220x140" alt="Developer">
-          <h3>Blockchain Developer</h3>
-          <p>Smart contracts & backend services.</p>
+        <div class="member">
+          <img src="https://via.placeholder.com/160" alt="Dev">
+          <h4>Blockchain Dev</h4>
+          <p>Smart contracts</p>
         </div>
-        <div class="team-card">
-          <img src="https://via.placeholder.com/220x140" alt="Marketing">
-          <h3>Marketing Lead</h3>
-          <p>Community growth & partnerships.</p>
+        <div class="member">
+          <img src="https://via.placeholder.com/160" alt="Marketing">
+          <h4>Marketing</h4>
+          <p>Growth & PR</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- FAQ -->
-  <section id="faq" class="section faq">
-    <div class="container grid-full">
-      <h2 class="section-title">FAQ</h2>
-
-      <div class="faq-item">
-        <h3>How do I buy AEMS?</h3>
-        <p>Connect your wallet (BSC), enter USD amount, choose BNB or USDT, then confirm transaction in your wallet.</p>
-      </div>
-
-      <div class="faq-item">
-        <h3>When will tokens be claimable?</h3>
-        <p>Claiming follows the vesting schedule set in the contract — check your Vesting panel for claimable amount.</p>
-      </div>
-
-      <div class="faq-item">
-        <h3>Is the contract verified?</h3>
-        <p>Yes — contract is deployed on BSC and verifiable on BscScan.</p>
+  <section id="faq" class="section-light">
+    <div class="wrap narrow">
+      <h2>FAQ</h2>
+      <div class="faq">
+        <details><summary>How to buy?</summary><p>Connect wallet, enter USD amount, choose BNB or USDT and confirm.</p></details>
+        <details><summary>When can I claim?</summary><p>Claim according to vesting schedule — check Vesting panel.</p></details>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="container grid-full">
-      <p>© 2025 AEMS Token. All rights reserved.</p>
+  <!-- ADMIN (keeps ID adminPanel) -->
+  <section class="section-light">
+    <div class="wrap narrow">
+      <div id="adminPanel" style="display:none;">
+        <h3>Admin Panel</h3>
+        <div class="admin-actions">
+          <button id="endPresaleBtn" class="btn btn-outline">End Presale</button>
+          <button id="withdrawBNBBtn" class="btn btn-outline">Withdraw BNB</button>
+          <button id="withdrawUSDTBtn" class="btn btn-outline">Withdraw USDT</button>
+        </div>
+      </div>
     </div>
-  </footer>
+  </section>
 
-  <!-- Small interactions (banner + progress percent observer + faq toggle) -->
-  <script>
-    // Banner slider
-    let bannerIndex = 0;
-    const bannerInner = document.getElementById('bannerInner');
-    const banners = bannerInner?.querySelectorAll('.banner-item') || [];
-    function shiftBanner(i){
-      if(!banners.length) return;
-      bannerIndex = (bannerIndex + i + banners.length) % banners.length;
-      bannerInner.style.transform = `translateX(-${bannerIndex * 100}%)`;
-    }
-    document.getElementById('bannerNext')?.addEventListener('click', ()=> shiftBanner(1));
-    document.getElementById('bannerPrev')?.addEventListener('click', ()=> shiftBanner(-1));
-    setInterval(()=> shiftBanner(1), 7000);
+</main>
 
-    // Progress percent (observe width changes from main.js)
-    const fill = document.getElementById('progressFill');
-    const pct = document.getElementById('progressPercent');
-    if(fill && pct){
-      const mo = new MutationObserver(()=> {
-        const parentW = fill.parentElement.clientWidth || 1;
-        const fillW = fill.clientWidth || 0;
-        const per = Math.round((fillW/parentW)*100);
-        pct.innerText = per + '%';
-      });
-      mo.observe(fill, { attributes:true, attributeFilter:['style'], subtree:false });
-    }
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div>© 2025 AEMS</div>
+    <div>Contract: <a id="contractLink" href="#" target="_blank">view on BscScan</a></div>
+  </div>
+</footer>
 
-    // FAQ toggle (simple)
-    document.querySelectorAll('.faq-item h3').forEach(h => {
-      h.style.cursor = 'pointer';
-      h.addEventListener('click', ()=> {
-        const p = h.nextElementSibling;
-        if(!p) return;
-        p.style.display = p.style.display === 'block' ? 'none' : 'block';
-      });
-    });
+<!-- Small UI JS (banner & progress observer) -->
+<script>
+  // banner slider (keeps same ids bannerInner/bannerNext/bannerPrev if present)
+  const bannerInner = document.getElementById('bannerInner');
+  const banners = bannerInner?.querySelectorAll('.banner-item') || [];
+  let bannerIndex = 0;
+  function shiftBanner(dir){
+    if(!banners.length) return;
+    bannerIndex = (bannerIndex + dir + banners.length) % banners.length;
+    bannerInner.style.transform = `translateX(-${bannerIndex * 100}%)`;
+  }
+  document.getElementById('bannerNext')?.addEventListener('click', ()=> shiftBanner(1));
+  document.getElementById('bannerPrev')?.addEventListener('click', ()=> shiftBanner(-1));
+  setInterval(()=> shiftBanner(1),7000);
 
-    // Copy contract address from abi/main if they set it (main.js sets #contractLink and #contractAddr)
-    // ensure contractLinkAnchor exists
-    window.addEventListener('load', ()=> {
-      // if main.js set contractLink (anchor), copy href into displayed tokenomics if needed
-      const contractAnchor = document.getElementById('contractLinkAnchor');
-      const display = document.getElementById('contractAddrDisplay');
-      if(contractAnchor && contractAnchor.innerText && display){
-        // do nothing: we want the display to show the real token address (we already put user's address)
-      }
-      // also ensure admin panel contractAddr element updated by main.js (main.js writes #contractAddr)
-    });
-  </script>
+  // Observe progress fill width and copy percent (optional)
+  const fill = document.getElementById('progressFill');
+  if(fill){
+    new MutationObserver(()=> {
+      // nothing critical here — main.js sets width; we can compute percent if needed
+    }).observe(fill, {attributes:true, attributeFilter:['style']});
+  }
+</script>
 
 </body>
 </html>
