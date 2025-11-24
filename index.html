@@ -9,13 +9,13 @@
 <style>
 * {margin:0; padding:0; box-sizing:border-box;}
 body {font-family: 'Segoe UI', sans-serif; background:#0b0b0b; color:#fff; line-height:1.5;}
-html, body {overflow-x:hidden;}
+html, body {overflow-x:hidden; max-width:100%;}
 
 /* HEADER */
 .header {display:flex; justify-content:space-between; align-items:center; padding:15px 30px; background:#111; border-bottom:2px solid #00f0ff;}
 .logo-text {font-size:1.7rem; font-weight:bold; color:#00f0ff; text-shadow:0 0 8px #00f0ff;}
 
-nav a {margin:0 15px; font-weight:500; transition:0.3s; color:#fff;}
+nav a {margin:0 15px; font-weight:500; transition:0.3s; color:#fff; white-space:nowrap;}
 nav a:hover {color:#00f0ff;}
 
 .header-right {display:flex; align-items:center; gap:15px;}
@@ -44,6 +44,7 @@ nav a:hover {color:#00f0ff;}
   display:grid;
   grid-template-columns:1fr;
   gap:25px;
+  overflow:hidden;
 }
 
 .card {
@@ -87,6 +88,7 @@ nav a:hover {color:#00f0ff;}
   padding:15px;
   border-radius:16px;
   box-shadow:0 6px 20px rgba(0,255,255,0.3);
+  overflow:hidden;
 }
 
 .list-container ul {list-style:none; padding:0; margin:0;}
@@ -101,7 +103,7 @@ nav a:hover {color:#00f0ff;}
 
 .footer {text-align:center; margin:40px 0; font-size:0.9rem; color:#aaa;}
 
-/* MOBILE FIX + RESPONSIVE */
+/* RESPONSIVE FIX */
 @media(max-width:768px){
 
   body, html {width:100%; overflow-x:hidden;}
@@ -120,15 +122,29 @@ nav a:hover {color:#00f0ff;}
     gap:10px;
   }
 
-  nav a {margin:0 6px; font-size:0.9rem;}
+  nav a {
+    margin:0 6px;
+    font-size:0.9rem;
+  }
 
-  .container {width:100%; padding:0 12px;}
+  .container {
+    width:100%;
+    padding:0 10px;
+  }
 
-  .card {padding:18px; width:100%;}
+  .card {
+    padding:18px;
+    width:100%;
+  }
 
-  .distribution {flex-direction:column; width:100%;}
+  .distribution {
+    flex-direction:column;
+    width:100%;
+  }
 
-  .chart-container, .list-container {width:100%!important;}
+  .chart-container, .list-container {
+    width:100%!important;
+  }
 
   #tokenAddr {
     font-size:0.75rem;
@@ -137,9 +153,10 @@ nav a:hover {color:#00f0ff;}
     word-break:break-all;
   }
 
-  .list-container li {font-size:0.9rem;}
+  .list-container li {
+    font-size:0.9rem;
+  }
 }
-
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -177,7 +194,7 @@ nav a:hover {color:#00f0ff;}
     <div><strong>Total Supply:</strong> <span>171,171,172</span></div>
     <div><strong>Decimals:</strong> <span>18</span></div>
 
-    <div style="display:flex; align-items:center; gap:10px;">
+    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
       <strong>Contract Address:</strong>
       <span id="tokenAddr" style="font-size:0.85rem; word-break:break-all;">
         0xa6452a6d7d399dd2b1d2c5e237eabd9c1c00379f
