@@ -21,7 +21,7 @@ nav a:hover {color:#00f0ff;}
 .btn:hover {opacity:0.85; transform:scale(1.05);}
 .addr {font-size:0.9rem; color:#aaa;}
 
-.container {max-width:1200px; margin:30px auto; padding:0 20px; display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:25px;}
+.container {max-width:1200px; margin:30px auto; padding:0 20px; display:grid; grid-template-columns:1fr; gap:25px;}
 .card {background:#1c1c1c; border-radius:16px; padding:25px; display:flex; flex-direction:column; gap:15px; box-shadow:0 6px 20px rgba(0,255,255,0.3);}
 .card h1, .card h2 {color:#00f0ff; text-shadow:0 0 6px #00f0ff;}
 .lead {font-size:1rem; color:#ccc;}
@@ -70,12 +70,21 @@ nav a:hover {color:#00f0ff;}
   border-color: #111 transparent transparent transparent;
 }
 
+/* Token distribution chart and list */
+.distribution {display:flex; flex-wrap:wrap; gap:25px; margin-top:20px;}
+.chart-container {flex:1 1 300px; background:#111; padding:15px; border-radius:16px; box-shadow:0 6px 20px rgba(0,255,255,0.3);}
+.list-container {flex:1 1 300px; background:#111; padding:15px; border-radius:16px; box-shadow:0 6px 20px rgba(0,255,255,0.3);}
+.list-container ul {list-style:none; padding:0; margin:0;}
+.list-container li {display:flex; justify-content:space-between; padding:10px; border-radius:8px; background:#0f0f0f; margin-bottom:6px; transition:0.3s; cursor:pointer;}
+.list-container li:hover {background:#1a1a1a; color:#00f0ff;}
+
 @media(max-width:768px){
   nav a {margin:0 8px; font-size:0.9rem;}
   .btn {padding:10px 16px; font-size:0.9rem;}
   .logo-text {font-size:1.5rem;}
   .token-info div {padding:12px; font-size:0.95rem;}
   .lead {font-size:0.95rem;}
+  .distribution {flex-direction:column;}
 }
 </style>
 
@@ -131,35 +140,22 @@ nav a:hover {color:#00f0ff;}
       <a href="index.php" class="btn primary neon-btn">Buy Token</a>
     </div>
 
-    <!-- Token Distribution List -->
-    <div style="margin-top:30px;">
-      <h2 style="text-align:center; color:#00f0ff;">Token Distribution</h2>
-      <ul style="list-style:none; margin-top:15px; padding:0;">
-        <li class="tooltip" style="display:flex; justify-content:space-between; padding:8px 12px; background:#111; margin-bottom:6px; border-radius:8px;">
-          Presale <span>129,000,000</span>
-          <span class="tooltiptext">Presale tokens for public and private investors (~75.4% of total supply)</span>
-        </li>
-        <li class="tooltip" style="display:flex; justify-content:space-between; padding:8px 12px; background:#111; margin-bottom:6px; border-radius:8px;">
-          Team <span>6,000,000</span>
-          <span class="tooltiptext">Allocated to team members and founders (~3.5%)</span>
-        </li>
-        <li class="tooltip" style="display:flex; justify-content:space-between; padding:8px 12px; background:#111; margin-bottom:6px; border-radius:8px;">
-          Insurance Fund <span>1,500,000</span>
-          <span class="tooltiptext">Reserved for emergencies and insurance (~0.9%)</span>
-        </li>
-        <li class="tooltip" style="display:flex; justify-content:space-between; padding:8px 12px; background:#111; margin-bottom:6px; border-radius:8px;">
-          Reward Fund <span>1,500,000</span>
-          <span class="tooltiptext">For community rewards and incentives (~0.9%)</span>
-        </li>
-        <li class="tooltip" style="display:flex; justify-content:space-between; padding:8px 12px; background:#111; margin-bottom:6px; border-radius:8px;">
-          Token Development <span>3,000,000</span>
-          <span class="tooltiptext">Allocated for development & upgrades (~1.75%)</span>
-        </li>
-        <li class="tooltip" style="display:flex; justify-content:space-between; padding:8px 12px; background:#111; margin-bottom:6px; border-radius:8px;">
-          Liquidity <span>30,717,172</span>
-          <span class="tooltiptext">Added to exchange liquidity pools (~17.96%)</span>
-        </li>
-      </ul>
+    <!-- Interactive Token Distribution -->
+    <div class="distribution">
+      <div class="chart-container">
+        <canvas id="tokenChart"></canvas>
+      </div>
+      <div class="list-container">
+        <ul id="tokenList">
+          <li data-section="Presale" data-percent="75.4%" data-desc="Presale tokens for public and private investors">Presale <span>129,000,000</span></li>
+          <li data-section="Team" data-percent="3.5%" data-desc="Allocated to team members and founders">Team <span>6,000,000</span></li>
+          <li data-section="Insurance Fund" data-percent="0.9%" data-desc="Reserved for emergencies and insurance">Insurance Fund <span>1,500,000</span></li>
+          <li data-section="Reward Fund" data-percent="0.9%" data-desc="For community rewards and incentives">Reward Fund <span>1,500,000</span></li>
+          <li data-section="Token Development" data-percent="1.75%" data-desc="Allocated for development & upgrades">Token Development <span>3,000,000</span></li>
+          <li data-section="Liquidity" data-percent="17.96%" data-desc="Added to exchange liquidity pools">Liquidity <span>30,717,172</span></li>
+        </ul>
+        <div id="tooltipBox" style="margin-top:10px; color:#00ffa0; min-height:40px;"></div>
+      </div>
     </div>
 
   </section>
@@ -177,6 +173,57 @@ function copyTokenAddr() {
         alert('Token address copied to clipboard!');
     }).catch(err => { alert('Failed to copy: '+err); });
 }
+
+// Chart.js setup
+const ctx = document.getElementById('tokenChart').getContext('2d');
+const data = {
+  labels: ['Presale','Team','Insurance Fund','Reward Fund','Token Development','Liquidity'],
+  datasets: [{
+    data: [129000000,6000000,1500000,1500000,3000000,30717172],
+    backgroundColor: ['#00f0ff','#00ffa0','#0080ff','#00c8ff','#0055ff','#00d0ff'],
+    borderWidth: 2,
+    borderColor: '#0b0b0b'
+  }]
+};
+const tokenChart = new Chart(ctx, {
+  type: 'pie',
+  data: data,
+  options: {
+    responsive:true,
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function(context) {
+            const section = context.label;
+            const val = context.raw.toLocaleString();
+            let perc = '';
+            switch(section){
+              case 'Presale': perc='75.4%'; break;
+              case 'Team': perc='3.5%'; break;
+              case 'Insurance Fund': perc='0.9%'; break;
+              case 'Reward Fund': perc='0.9%'; break;
+              case 'Token Development': perc='1.75%'; break;
+              case 'Liquidity': perc='17.96%'; break;
+            }
+            return section + ': ' + val + ' (' + perc + ')';
+          }
+        }
+      }
+    }
+  }
+});
+
+// List hover tooltip
+const listItems = document.querySelectorAll('#tokenList li');
+const tooltipBox = document.getElementById('tooltipBox');
+listItems.forEach(item => {
+  item.addEventListener('mouseenter', ()=>{
+    tooltipBox.innerHTML = `<strong>${item.dataset.section}</strong> — ${item.dataset.desc} (${item.dataset.percent})`;
+  });
+  item.addEventListener('mouseleave', ()=>{
+    tooltipBox.innerHTML = '';
+  });
+});
 </script>
 
 </body>
