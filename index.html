@@ -3,33 +3,46 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AEMS Presale - Animated Pro</title>
+<title>AEMS Presale & Features</title>
 <link rel="icon" href="https://via.placeholder.com/32" type="image/png">
-<style>
-/* ===== Reset ===== */
-* {margin:0; padding:0; box-sizing:border-box;}
-body {font-family: 'Segoe UI', sans-serif; background:#0b0b0b; color:#fff; line-height:1.5; overflow-x:hidden; position:relative;}
 
-/* ===== PARTICLES BACKGROUND ===== */
+<!-- FONTS -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+<!-- PARTICLES JS -->
+<script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+<!-- ethers UMD -->
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+<script src="abi.js" defer></script>
+<script src="main.js" defer></script>
+
+<style>
+* {margin:0; padding:0; box-sizing:border-box;}
+body {font-family:'Poppins',sans-serif; color:#fff; background:#0b0b0b; min-height:100vh; overflow-x:hidden; position:relative;}
+
+/* PARTICLES BACKGROUND */
 #particles-js {
   position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1;
-  background: linear-gradient(135deg,#0b0b0b,#111111);
+  background: linear-gradient(135deg,#0b0b0b,#111);
 }
 
-/* ===== Header ===== */
-.header {display:flex; justify-content:space-between; align-items:center; padding:15px 30px; background:rgba(0,0,0,0.6); backdrop-filter: blur(12px); border-bottom:2px solid #00f0ff; flex-wrap:wrap; position:sticky; top:0; z-index:999;}
-.logo-text {font-size:1.7rem; font-weight:bold; color:#00f0ff; text-shadow:0 0 8px #00f0ff;}
-nav a {margin:0 15px; font-weight:500; transition:0.3s; color:#fff; position:relative;}
+/* HEADER */
+.header {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:15px 30px; background:rgba(0,0,0,0.6); backdrop-filter: blur(12px);
+  border-bottom:2px solid #00f0ff; position:sticky; top:0; z-index:999; flex-wrap:wrap;
+}
+.logo-text {font-size:2rem; font-weight:700; color:#00f0ff; text-shadow:0 0 10px #00f0ff;}
+nav a {margin:0 15px; font-weight:500; color:#fff; position:relative; transition:0.3s;}
 nav a::after {content:''; position:absolute; width:0%; height:2px; bottom:-3px; left:0; background:#00ffa0; transition:0.3s;}
 nav a:hover::after {width:100%;}
-.header-right {display:flex; align-items:center; gap:15px;}
-.btn {padding:10px 20px; border:none; border-radius:8px; cursor:pointer; font-weight:600; transition:0.3s; text-transform:uppercase;}
-.btn.primary {background:linear-gradient(90deg,#00f0ff,#00ffa0); color:#000; box-shadow:0 0 10px #00f0ff;}
+.header-right {display:flex; align-items:center; gap:15px; margin-top:5px;}
+.btn {padding:10px 22px; border:none; border-radius:12px; cursor:pointer; font-weight:600; transition:0.3s; text-transform:uppercase; font-size:0.95rem;}
+.btn.primary {background:linear-gradient(135deg,#00f0ff,#00ffa0); color:#000; box-shadow:0 0 20px rgba(0,255,255,0.4);}
 .btn.secondary {background:#111; color:#00f0ff; border:2px solid #00f0ff;}
-.btn:hover {opacity:0.85; transform:scale(1.05);}
 .addr {font-size:0.9rem; color:#aaa;}
 
-/* ===== Banner ===== */
+/* BANNER */
 .banner {position:relative; margin:25px auto; max-width:1200px; overflow:hidden; border-radius:16px; box-shadow:0 0 20px rgba(0,255,255,0.3);}
 .banner-inner {display:flex; transition:transform 0.5s ease;}
 .banner-item {flex:0 0 100%;}
@@ -38,59 +51,57 @@ nav a:hover::after {width:100%;}
 .banner-controls button {background:rgba(0,0,0,0.6); color:#fff; border:none; font-size:2rem; padding:8px 14px; cursor:pointer; border-radius:8px; transition:0.3s;}
 .banner-controls button:hover {background:#00f0ff; color:#000;}
 
-/* ===== Main container ===== */
-.container {max-width:1200px; margin:30px auto; padding:0 20px; display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:25px;}
+/* MAIN CONTAINER */
+.container {max-width:1300px; margin:50px auto; padding:0 20px; display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:30px;}
 
-/* ===== Cards ===== */
-.card {background: rgba(15,15,15,0.35); border-radius:16px; padding:25px; display:flex; flex-direction:column; gap:15px; box-shadow:0 10px 30px rgba(0,255,255,0.2); backdrop-filter: blur(15px); cursor:pointer; transition:0.5s;}
-.card h1, .card h2 {color:#00f0ff; text-shadow:0 0 6px #00f0ff;}
-.lead {font-size:1rem; color:#ccc;}
-.stats-grid {display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; font-size:0.95rem;}
-
-/* ===== Buy Box ===== */
+/* PRESALE CARD */
+.card {background: rgba(15,15,15,0.35); border-radius:25px; padding:25px; backdrop-filter: blur(15px); box-shadow:0 10px 35px rgba(0,255,255,0.2);}
+.card h1,h2 {color:#00f0ff; text-shadow:0 0 12px #00f0ff;}
 .buy-box input {width:100%; padding:12px; border-radius:8px; border:none; margin-bottom:12px; background:#111; color:#fff;}
 .buy-actions {display:flex; gap:12px; flex-wrap:wrap;}
 .estimates {margin-top:12px; font-size:0.9rem; color:#aaa;}
 .progress {margin-top:12px; background:#222; border-radius:8px; height:22px; overflow:hidden;}
 .progress-bar div {height:100%; background:linear-gradient(90deg,#00f0ff,#00ffa0); width:0%; transition:width 0.3s;}
 
-/* ===== Feature detail toggle ===== */
-.feature-detail {
-  height:0; overflow:hidden; transition: height 0.5s ease, padding 0.3s ease; font-size:0.95rem; color:#ccc; line-height:1.5; max-height:400px; padding-right:5px;
+/* FEATURES GRID */
+.features {display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:30px;}
+.feature-card {
+  background: rgba(15,15,15,0.35); border-radius:25px; padding:25px; backdrop-filter: blur(15px);
+  box-shadow:0 10px 35px rgba(0,255,255,0.2);
+  transition: transform 0.5s, box-shadow 0.5s; cursor:pointer; display:flex; flex-direction:column; perspective:1000px;
 }
-.feature-header {display:flex; justify-content:space-between; align-items:center; cursor:pointer;}
-.feature-title {font-size:1.2rem; font-weight:600; color:#00f0ff;}
-.feature-arrow {transition: transform 0.3s; font-size:1.2rem; color:#00ffa0;}
+.feature-card:hover {transform: rotateY(10deg) rotateX(5deg) translateY(-10px); box-shadow:0 20px 60px rgba(0,255,255,0.6);}
+.feature-header {display:flex; justify-content:space-between; align-items:center;}
+.feature-title {font-size:1.3rem; font-weight:600; display:flex; align-items:center; gap:10px; color:#00f0ff;}
+.feature-arrow {transition: transform 0.3s; font-size:1.3rem; color:#00ffa0;}
 .feature-arrow.open {transform: rotate(90deg);}
+.feature-detail {height:0; overflow:hidden; transition: height 0.5s ease, padding 0.3s ease; margin-top:10px; font-size:0.95rem; color:#ccc; line-height:1.5; overflow-y:auto; max-height:400px; padding-right:5px;}
 
-/* ===== Admin Panel ===== */
-.admin-row {display:flex; gap:12px; flex-wrap:wrap;}
-.admin-info code {background:#000; padding:3px 6px; border-radius:6px;}
+/* FOOTER */
+.footer {text-align:center; margin:50px 0; font-size:0.9rem; color:#aaa;}
 
-/* ===== Footer ===== */
-.footer {text-align:center; margin:40px 0; font-size:0.9rem; color:#aaa;}
-
-/* ===== Responsive ===== */
+/* RESPONSIVE */
 @media(max-width:768px){
-nav a {margin:0 8px;}
+.header {flex-direction:column; text-align:center; padding:15px 10px;}
+nav {display:flex; flex-wrap:wrap; justify-content:center; gap:10px;}
+nav a {margin:5px;}
+.container {padding:0 12px;}
 .banner-item img {height:auto;}
-.btn {padding:8px 16px;}
-.logo-text {font-size:1.3rem;}
 }
 </style>
 </head>
-<body>
 
+<body>
 <div id="particles-js"></div>
 
 <header class="header">
   <div class="logo-text">AEMS</div>
   <nav>
-    <a id="navHome" href="index.php">Home</a>
-    <a id="navWhite" href="index2.php">Whitepaper</a>
-    <a id="navRoad" href="index2.php">Roadmap</a>
-    <a id="navRoad" href="index3.php">Features</a>
-    <a id="navRoad" href="index3.php">Token Info</a>
+    <a href="index.php">Home</a>
+    <a href="index2.php">Whitepaper</a>
+    <a href="index2.php">Roadmap</a>
+    <a href="index3.php">Features</a>
+    <a href="index3.php">Token Info</a>
   </nav>
   <div class="header-right">
     <button id="connectWallet" class="btn primary">Connect Wallet</button>
@@ -112,7 +123,7 @@ nav a {margin:0 8px;}
 </section>
 
 <main class="container">
-
+  <!-- PRESALE CARD -->
   <section class="card presale">
     <h1>AEMS Token Presale</h1>
     <p class="lead">Fixed price: <strong>0.007 USDT</strong> — Buy with USDT or BNB</p>
@@ -124,6 +135,7 @@ nav a {margin:0 8px;}
       <div>Raised (BNB USD): <span id="raisedBNBUSD">—</span></div>
       <div>Presale Status: <span id="presaleStatus">—</span></div>
     </div>
+
     <div class="buy-box">
       <input id="usdInput" type="number" placeholder="Enter USD amount (e.g. 10)" min="0.01" step="0.01"/>
       <div class="buy-actions">
@@ -135,11 +147,10 @@ nav a {margin:0 8px;}
         <div>Estimated BNB: <span id="estBNB">—</span></div>
       </div>
     </div>
-    <div class="progress">
-      <div id="progressFill"></div>
-    </div>
+    <div class="progress"><div id="progressFill"></div></div>
   </section>
 
+  <!-- VESTING -->
   <section class="card vesting">
     <h2>Your Vesting</h2>
     <div>Purchased: <b id="myPurchased">—</b> AEMS</div>
@@ -149,32 +160,30 @@ nav a {margin:0 8px;}
     <button id="claimBtn" class="btn primary">Claim Available Tokens</button>
   </section>
 
-  <section id="adminPanel" class="card admin" style="display:none">
-    <h2>Admin Panel (Owner)</h2>
-    <div class="admin-row">
-      <button id="endPresaleBtn" class="btn primary">Force End Presale</button>
-      <button id="withdrawBNBBtn" class="btn primary">Withdraw BNB</button>
-      <button id="withdrawUSDTBtn" class="btn primary">Withdraw USDT</button>
+  <!-- FEATURES CARDS -->
+  <div class="features">
+    <div class="feature-card">
+      <div class="feature-header"><div class="feature-title">💎 ERC20 Standard</div><div class="feature-arrow">▶</div></div>
+      <div class="feature-detail">Full ERC20 compliance for wallets, exchanges, DeFi.</div>
     </div>
-    <div class="admin-row">
-      <button id="withdrawUnsoldBtn" class="btn secondary">Withdraw Unsold Tokens</button>
-      <button id="destroyBtn" class="btn secondary">Destroy Contract</button>
+    <div class="feature-card">
+      <div class="feature-header"><div class="feature-title">🔥 Burnable Token</div><div class="feature-arrow">▶</div></div>
+      <div class="feature-detail">Token holders can burn tokens to reduce supply.</div>
     </div>
-    <div class="admin-info">
-      <div>Contract: <code id="contractAddr"></code></div>
-      <div>Owner: <code id="ownerAddr">—</code></div>
+    <div class="feature-card">
+      <div class="feature-header"><div class="feature-title">💰 Fee Distribution</div><div class="feature-arrow">▶</div></div>
+      <div class="feature-detail">Fees distributed to owner, insurance, and reward fund.</div>
     </div>
-  </section>
-
+  </div>
 </main>
 
+<!-- FOOTER -->
 <footer class="footer">
   <div>© AEMS Presale</div>
-  <div>Contract: <a id="contractLink" href="https://bscscan.com/address/0xc923b937c683979DC391250F2Ef0ae9Ec4366830" target="_blank">View on BSCScan</a></div>
+  <div>Contract: <a id="contractLink" href="#" target="_blank"></a></div>
 </footer>
 
-<!-- PARTICLES JS -->
-<script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+<!-- PARTICLES INIT -->
 <script>
 particlesJS("particles-js", {
   "particles": {
@@ -191,41 +200,25 @@ particlesJS("particles-js", {
 });
 </script>
 
-<!-- FEATURE TOGGLE -->
+<!-- FEATURES TOGGLE -->
 <script>
-const cards = document.querySelectorAll('.card');
+const cards = document.querySelectorAll('.feature-card');
 cards.forEach(card => {
   const detail = card.querySelector('.feature-detail');
   const arrow = card.querySelector('.feature-arrow');
-  if(detail && arrow){
-    detail.style.overflowY = 'auto';
-    card.addEventListener('click', () => {
-      if(card.classList.contains('active')){
-        detail.style.height='0';
-        card.classList.remove('active');
-        arrow.classList.remove('open');
-      } else {
-        detail.style.height=detail.scrollHeight+'px';
-        card.classList.add('active');
-        arrow.classList.add('open');
-      }
-    });
-  }
-});
-
-// Banner slider
-const bannerInner = document.getElementById('bannerInner');
-const bannerItems = bannerInner.querySelectorAll('.banner-item');
-let bannerIndex = 0;
-document.getElementById('bannerPrev').addEventListener('click',()=>{
-  bannerIndex = (bannerIndex-1+bannerItems.length)%bannerItems.length;
-  bannerInner.style.transform = `translateX(-${bannerIndex*100}%)`;
-});
-document.getElementById('bannerNext').addEventListener('click',()=>{
-  bannerIndex = (bannerIndex+1)%bannerItems.length;
-  bannerInner.style.transform = `translateX(-${bannerIndex*100}%)`;
+  card.addEventListener('click', ()=>{
+    if(card.classList.contains('active')){
+      detail.style.height='0';
+      card.classList.remove('active');
+      arrow.classList.remove('open');
+    } else {
+      detail.style.height=detail.scrollHeight+'px';
+      card.classList.add('active');
+      arrow.classList.add('open');
+    }
+  });
 });
 </script>
 
 </body>
-                                    </html> 
+      </html> 
