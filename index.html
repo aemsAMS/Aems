@@ -3,131 +3,229 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AEMS Token Advanced Features</title>
+<title>AEMS Presale - Animated Pro</title>
 <link rel="icon" href="https://via.placeholder.com/32" type="image/png">
-
-<!-- Swiper.js for mobile slider -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
-
 <style>
+/* ===== Reset ===== */
 * {margin:0; padding:0; box-sizing:border-box;}
-body {font-family: 'Segoe UI', sans-serif; background:#0b0b0b; color:#fff; line-height:1.5;}
-html, body {overflow-x:hidden;}
+body {font-family: 'Segoe UI', sans-serif; background:#0b0b0b; color:#fff; line-height:1.5; overflow-x:hidden; position:relative;}
 
-.header {display:flex; justify-content:space-between; align-items:center; padding:15px 30px; background:#111; border-bottom:2px solid #00f0ff; flex-wrap:wrap;}
+/* ===== PARTICLES BACKGROUND ===== */
+#particles-js {
+  position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1;
+  background: linear-gradient(135deg,#0b0b0b,#111111);
+}
+
+/* ===== Header ===== */
+.header {display:flex; justify-content:space-between; align-items:center; padding:15px 30px; background:rgba(0,0,0,0.6); backdrop-filter: blur(12px); border-bottom:2px solid #00f0ff; flex-wrap:wrap; position:sticky; top:0; z-index:999;}
 .logo-text {font-size:1.7rem; font-weight:bold; color:#00f0ff; text-shadow:0 0 8px #00f0ff;}
-nav a {margin:0 15px; font-weight:500; transition:0.3s; color:#fff;}
-nav a:hover {color:#00f0ff;}
-.header-right {display:flex; align-items:center; gap:15px; margin-top:10px;}
+nav a {margin:0 15px; font-weight:500; transition:0.3s; color:#fff; position:relative;}
+nav a::after {content:''; position:absolute; width:0%; height:2px; bottom:-3px; left:0; background:#00ffa0; transition:0.3s;}
+nav a:hover::after {width:100%;}
+.header-right {display:flex; align-items:center; gap:15px;}
 .btn {padding:10px 20px; border:none; border-radius:8px; cursor:pointer; font-weight:600; transition:0.3s; text-transform:uppercase;}
 .btn.primary {background:linear-gradient(90deg,#00f0ff,#00ffa0); color:#000; box-shadow:0 0 10px #00f0ff;}
+.btn.secondary {background:#111; color:#00f0ff; border:2px solid #00f0ff;}
 .btn:hover {opacity:0.85; transform:scale(1.05);}
+.addr {font-size:0.9rem; color:#aaa;}
 
-.container {max-width:1200px; margin:30px auto; padding:0 20px;}
+/* ===== Banner ===== */
+.banner {position:relative; margin:25px auto; max-width:1200px; overflow:hidden; border-radius:16px; box-shadow:0 0 20px rgba(0,255,255,0.3);}
+.banner-inner {display:flex; transition:transform 0.5s ease;}
+.banner-item {flex:0 0 100%;}
+.banner-item img {width:100%; height:auto; display:block; object-fit:contain; border-radius:16px;}
+.banner-controls {position:absolute; top:50%; width:100%; display:flex; justify-content:space-between; transform:translateY(-50%);}
+.banner-controls button {background:rgba(0,0,0,0.6); color:#fff; border:none; font-size:2rem; padding:8px 14px; cursor:pointer; border-radius:8px; transition:0.3s;}
+.banner-controls button:hover {background:#00f0ff; color:#000;}
 
-.card {background:#1c1c1c; border-radius:16px; padding:25px; box-shadow:0 6px 20px rgba(0,255,255,0.3);}
-.card h1 {color:#00f0ff; text-shadow:0 0 6px #00f0ff; margin-bottom:20px;}
-.lead {color:#ccc; margin-bottom:25px; font-size:1rem;}
+/* ===== Main container ===== */
+.container {max-width:1200px; margin:30px auto; padding:0 20px; display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:25px;}
 
-/* Features Grid */
-.features-grid {display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
-.feature {background:#111; padding:20px; border-radius:16px; text-align:center; box-shadow:0 6px 20px rgba(0,255,255,0.3); transition:0.3s; cursor:pointer; position:relative;}
-.feature:hover {transform:scale(1.05); box-shadow:0 0 15px #00f0ff, 0 0 30px #00ffa0;}
-.feature h3 {color:#00f0ff; margin-bottom:10px;}
-.feature p {color:#ccc; font-size:0.95rem; line-height:1.4; display:none;}
-.feature.active p {display:block; margin-top:10px;}
-.feature .icon {font-size:2.2rem; margin-bottom:10px; color:#00ffa0;}
+/* ===== Cards ===== */
+.card {background: rgba(15,15,15,0.35); border-radius:16px; padding:25px; display:flex; flex-direction:column; gap:15px; box-shadow:0 10px 30px rgba(0,255,255,0.2); backdrop-filter: blur(15px); cursor:pointer; transition:0.5s;}
+.card h1, .card h2 {color:#00f0ff; text-shadow:0 0 6px #00f0ff;}
+.lead {font-size:1rem; color:#ccc;}
+.stats-grid {display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; font-size:0.95rem;}
 
-/* Footer */
+/* ===== Buy Box ===== */
+.buy-box input {width:100%; padding:12px; border-radius:8px; border:none; margin-bottom:12px; background:#111; color:#fff;}
+.buy-actions {display:flex; gap:12px; flex-wrap:wrap;}
+.estimates {margin-top:12px; font-size:0.9rem; color:#aaa;}
+.progress {margin-top:12px; background:#222; border-radius:8px; height:22px; overflow:hidden;}
+.progress-bar div {height:100%; background:linear-gradient(90deg,#00f0ff,#00ffa0); width:0%; transition:width 0.3s;}
+
+/* ===== Feature detail toggle ===== */
+.feature-detail {
+  height:0; overflow:hidden; transition: height 0.5s ease, padding 0.3s ease; font-size:0.95rem; color:#ccc; line-height:1.5; max-height:400px; padding-right:5px;
+}
+.feature-header {display:flex; justify-content:space-between; align-items:center; cursor:pointer;}
+.feature-title {font-size:1.2rem; font-weight:600; color:#00f0ff;}
+.feature-arrow {transition: transform 0.3s; font-size:1.2rem; color:#00ffa0;}
+.feature-arrow.open {transform: rotate(90deg);}
+
+/* ===== Admin Panel ===== */
+.admin-row {display:flex; gap:12px; flex-wrap:wrap;}
+.admin-info code {background:#000; padding:3px 6px; border-radius:6px;}
+
+/* ===== Footer ===== */
 .footer {text-align:center; margin:40px 0; font-size:0.9rem; color:#aaa;}
 
-/* MOBILE SWIPER */
-.swiper {display:none;}
-.swiper-slide .feature {width:100%;}
-
-/* RESPONSIVE */
-@media(max-width:1024px){.features-grid {grid-template-columns:repeat(2,1fr);}}
-@media(max-width:600px){
-  .features-grid {display:none;} /* hide grid on mobile */
-  .swiper {display:block; padding:20px 0;}
+/* ===== Responsive ===== */
+@media(max-width:768px){
+nav a {margin:0 8px;}
+.banner-item img {height:auto;}
+.btn {padding:8px 16px;}
+.logo-text {font-size:1.3rem;}
 }
 </style>
 </head>
 <body>
 
+<div id="particles-js"></div>
+
 <header class="header">
   <div class="logo-text">AEMS</div>
   <nav>
-    <a href="index.php">Home</a>
-    <a href="token.php">Token Info</a>
-    <a href="features-advanced.php">Features</a>
-    <a href="index2.php">Whitepaper</a>
+    <a id="navHome" href="index.php">Home</a>
+    <a id="navWhite" href="index2.php">Whitepaper</a>
+    <a id="navRoad" href="index2.php">Roadmap</a>
+    <a id="navRoad" href="index3.php">Features</a>
+    <a id="navRoad" href="index3.php">Token Info</a>
   </nav>
   <div class="header-right">
-    <button class="btn primary">Connect Wallet</button>
+    <button id="connectWallet" class="btn primary">Connect Wallet</button>
+    <span id="walletAddr" class="addr">Not connected</span>
   </div>
 </header>
 
+<section class="banner">
+  <div class="banner-inner" id="bannerInner">
+    <a href="#" class="banner-item"><img src="Y.png" alt=""></a>
+    <a href="#" class="banner-item"><img src="https://via.placeholder.com/1200x350?text=Banner+2" alt=""></a>
+    <a href="#" class="banner-item"><img src="https://via.placeholder.com/1200x350?text=Banner+3" alt=""></a>
+    <a href="#" class="banner-item"><img src="https://via.placeholder.com/1200x350?text=Banner+4" alt=""></a>
+  </div>
+  <div class="banner-controls">
+    <button id="bannerPrev">‹</button>
+    <button id="bannerNext">›</button>
+  </div>
+</section>
+
 <main class="container">
-  <section class="card">
-    <h1>AEMS Token Advanced Features</h1>
-    <p class="lead">Explore the powerful features of AEMS (AMS) token in a modern interactive layout.</p>
 
-    <!-- DESKTOP / TABLET GRID -->
-    <div class="features-grid">
-      <div class="feature"><div class="icon">💎</div><h3>ERC20 Standard</h3><p>Fully ERC20 compliant.</p></div>
-      <div class="feature"><div class="icon">🔥</div><h3>Burnable</h3><p>Reduce total supply and increase scarcity.</p></div>
-      <div class="feature"><div class="icon">👑</div><h3>Ownable</h3><p>Owner can manage key contract aspects securely.</p></div>
-      <div class="feature"><div class="icon">🎁</div><h3>Holder Rewards</h3><p>Earn daily rewards of 0.1% by holding tokens.</p></div>
-      <div class="feature"><div class="icon">⚡</div><h3>Auto-Trader Detection</h3><p>Tracks high-frequency traders to protect ecosystem.</p></div>
-      <div class="feature"><div class="icon">💰</div><h3>Fee Distribution</h3><p>Transaction fees go to owner, insurance, and reward funds.</p></div>
-      <div class="feature"><div class="icon">🛡️</div><h3>Exempt Addresses</h3><p>Certain addresses are exempt from fees and rewards.</p></div>
-      <div class="feature"><div class="icon">🔧</div><h3>Upgradeable (UUPS)</h3><p>Contract upgradeable securely via UUPS pattern.</p></div>
-      <div class="feature"><div class="icon">🏦</div><h3>Insurance & Reward Funds</h3><p>Separate funds ensure coverage and rewards for holders.</p></div>
+  <section class="card presale">
+    <h1>AEMS Token Presale</h1>
+    <p class="lead">Fixed price: <strong>0.007 USDT</strong> — Buy with USDT or BNB</p>
+    <div class="stats-grid">
+      <div>Total allocation: <span id="alloc">129,000,000</span></div>
+      <div>Sold: <span id="sold">—</span></div>
+      <div>Remaining: <span id="left">—</span></div>
+      <div>Raised (USDT): <span id="raisedUSDT">—</span></div>
+      <div>Raised (BNB USD): <span id="raisedBNBUSD">—</span></div>
+      <div>Presale Status: <span id="presaleStatus">—</span></div>
     </div>
-
-    <!-- MOBILE SWIPER -->
-    <div class="swiper mySwiper">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide feature"><div class="icon">💎</div><h3>ERC20 Standard</h3><p>Fully ERC20 compliant.</p></div>
-        <div class="swiper-slide feature"><div class="icon">🔥</div><h3>Burnable</h3><p>Reduce total supply and increase scarcity.</p></div>
-        <div class="swiper-slide feature"><div class="icon">👑</div><h3>Ownable</h3><p>Owner can manage key contract aspects securely.</p></div>
-        <div class="swiper-slide feature"><div class="icon">🎁</div><h3>Holder Rewards</h3><p>Earn daily rewards of 0.1% by holding tokens.</p></div>
-        <div class="swiper-slide feature"><div class="icon">⚡</div><h3>Auto-Trader Detection</h3><p>Tracks high-frequency traders to protect ecosystem.</p></div>
-        <div class="swiper-slide feature"><div class="icon">💰</div><h3>Fee Distribution</h3><p>Transaction fees go to owner, insurance, and reward funds.</p></div>
-        <div class="swiper-slide feature"><div class="icon">🛡️</div><h3>Exempt Addresses</h3><p>Certain addresses are exempt from fees and rewards.</p></div>
-        <div class="swiper-slide feature"><div class="icon">🔧</div><h3>Upgradeable (UUPS)</h3><p>Contract upgradeable securely via UUPS pattern.</p></div>
-        <div class="swiper-slide feature"><div class="icon">🏦</div><h3>Insurance & Reward Funds</h3><p>Separate funds ensure coverage and rewards for holders.</p></div>
+    <div class="buy-box">
+      <input id="usdInput" type="number" placeholder="Enter USD amount (e.g. 10)" min="0.01" step="0.01"/>
+      <div class="buy-actions">
+        <button id="buyBNBBtn" class="btn primary">Buy with BNB</button>
+        <button id="buyUSDTBtn" class="btn secondary">Buy with USDT</button>
       </div>
-      <div class="swiper-pagination"></div>
+      <div class="estimates">
+        <div>Estimated tokens: <span id="estTokens">—</span></div>
+        <div>Estimated BNB: <span id="estBNB">—</span></div>
+      </div>
     </div>
-
+    <div class="progress">
+      <div id="progressFill"></div>
+    </div>
   </section>
+
+  <section class="card vesting">
+    <h2>Your Vesting</h2>
+    <div>Purchased: <b id="myPurchased">—</b> AEMS</div>
+    <div>Claimed: <b id="myClaimed">—</b> AEMS</div>
+    <div>Claimable now: <b id="myClaimable">—</b> AEMS</div>
+    <div>Next unlock: <b id="nextUnlock">—</b></div>
+    <button id="claimBtn" class="btn primary">Claim Available Tokens</button>
+  </section>
+
+  <section id="adminPanel" class="card admin" style="display:none">
+    <h2>Admin Panel (Owner)</h2>
+    <div class="admin-row">
+      <button id="endPresaleBtn" class="btn primary">Force End Presale</button>
+      <button id="withdrawBNBBtn" class="btn primary">Withdraw BNB</button>
+      <button id="withdrawUSDTBtn" class="btn primary">Withdraw USDT</button>
+    </div>
+    <div class="admin-row">
+      <button id="withdrawUnsoldBtn" class="btn secondary">Withdraw Unsold Tokens</button>
+      <button id="destroyBtn" class="btn secondary">Destroy Contract</button>
+    </div>
+    <div class="admin-info">
+      <div>Contract: <code id="contractAddr"></code></div>
+      <div>Owner: <code id="ownerAddr">—</code></div>
+    </div>
+  </section>
+
 </main>
 
-<footer class="footer">© AEMS Token</footer>
+<footer class="footer">
+  <div>© AEMS Presale</div>
+  <div>Contract: <a id="contractLink" href="https://bscscan.com/address/0xc923b937c683979DC391250F2Ef0ae9Ec4366830" target="_blank">View on BSCScan</a></div>
+</footer>
 
-<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<!-- PARTICLES JS -->
+<script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
 <script>
-// Toggle description on click for desktop/tablet
-document.querySelectorAll('.features-grid .feature').forEach(f=>{
-  f.addEventListener('click',()=>{ f.classList.toggle('active'); });
+particlesJS("particles-js", {
+  "particles": {
+    "number": {"value":60,"density":{"enable":true,"value_area":800}},
+    "color":{"value":["#00f0ff","#00ffa0","#0080ff"]},
+    "shape":{"type":"circle"},
+    "opacity":{"value":0.6,"random":true},
+    "size":{"value":3,"random":true},
+    "line_linked":{"enable":true,"distance":150,"color":"#00f0ff","opacity":0.4,"width":1},
+    "move":{"enable":true,"speed":2,"random":true,"straight":false,"out_mode":"out"}
+  },
+  "interactivity":{"detect_on":"canvas","events":{"onhover":{"enable":true,"mode":"grab"},"onclick":{"enable":true,"mode":"push"}},"modes":{"grab":{"distance":140,"line_linked":{"opacity":0.5}},"push":{"particles_nb":4}}},
+  "retina_detect":true
+});
+</script>
+
+<!-- FEATURE TOGGLE -->
+<script>
+const cards = document.querySelectorAll('.card');
+cards.forEach(card => {
+  const detail = card.querySelector('.feature-detail');
+  const arrow = card.querySelector('.feature-arrow');
+  if(detail && arrow){
+    detail.style.overflowY = 'auto';
+    card.addEventListener('click', () => {
+      if(card.classList.contains('active')){
+        detail.style.height='0';
+        card.classList.remove('active');
+        arrow.classList.remove('open');
+      } else {
+        detail.style.height=detail.scrollHeight+'px';
+        card.classList.add('active');
+        arrow.classList.add('open');
+      }
+    });
+  }
 });
 
-// Initialize Swiper for mobile
-function initSwiper() {
-  if(window.innerWidth <= 600){
-    document.querySelector('.features-grid').style.display = 'none';
-    document.querySelector('.swiper').style.display = 'block';
-    new Swiper(".mySwiper", { slidesPerView:1, spaceBetween:20, pagination:{el:".swiper-pagination", clickable:true}});
-  } else {
-    document.querySelector('.features-grid').style.display = 'grid';
-    document.querySelector('.swiper').style.display = 'none';
-  }
-}
-window.addEventListener('load', initSwiper);
-window.addEventListener('resize', initSwiper);
+// Banner slider
+const bannerInner = document.getElementById('bannerInner');
+const bannerItems = bannerInner.querySelectorAll('.banner-item');
+let bannerIndex = 0;
+document.getElementById('bannerPrev').addEventListener('click',()=>{
+  bannerIndex = (bannerIndex-1+bannerItems.length)%bannerItems.length;
+  bannerInner.style.transform = `translateX(-${bannerIndex*100}%)`;
+});
+document.getElementById('bannerNext').addEventListener('click',()=>{
+  bannerIndex = (bannerIndex+1)%bannerItems.length;
+  bannerInner.style.transform = `translateX(-${bannerIndex*100}%)`;
+});
 </script>
 
 </body>
-  </html> 
+                                    </html> 
