@@ -3,286 +3,131 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AEMS Token Info</title>
+<title>AEMS Token Advanced Features</title>
 <link rel="icon" href="https://via.placeholder.com/32" type="image/png">
+
+<!-- Swiper.js for mobile slider -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
 
 <style>
 * {margin:0; padding:0; box-sizing:border-box;}
 body {font-family: 'Segoe UI', sans-serif; background:#0b0b0b; color:#fff; line-height:1.5;}
-html, body {overflow-x:hidden; max-width:100%;}
+html, body {overflow-x:hidden;}
 
-/* HEADER */
-.header {display:flex; justify-content:space-between; align-items:center; padding:15px 30px; background:#111; border-bottom:2px solid #00f0ff;}
+.header {display:flex; justify-content:space-between; align-items:center; padding:15px 30px; background:#111; border-bottom:2px solid #00f0ff; flex-wrap:wrap;}
 .logo-text {font-size:1.7rem; font-weight:bold; color:#00f0ff; text-shadow:0 0 8px #00f0ff;}
-
-nav a {margin:0 15px; font-weight:500; transition:0.3s; color:#fff; white-space:nowrap;}
+nav a {margin:0 15px; font-weight:500; transition:0.3s; color:#fff;}
 nav a:hover {color:#00f0ff;}
-
-.header-right {display:flex; align-items:center; gap:15px;}
-
-.btn {
-  padding:10px 20px;
-  border:none; border-radius:8px;
-  cursor:pointer; font-weight:600;
-  transition:0.3s; text-transform:uppercase;
-}
-
-.btn.primary {
-  background:linear-gradient(90deg,#00f0ff,#00ffa0);
-  color:#000; box-shadow:0 0 10px #00f0ff;
-}
-
-.btn.secondary {background:#111; color:#00f0ff; border:2px solid #00f0ff;}
+.header-right {display:flex; align-items:center; gap:15px; margin-top:10px;}
+.btn {padding:10px 20px; border:none; border-radius:8px; cursor:pointer; font-weight:600; transition:0.3s; text-transform:uppercase;}
+.btn.primary {background:linear-gradient(90deg,#00f0ff,#00ffa0); color:#000; box-shadow:0 0 10px #00f0ff;}
 .btn:hover {opacity:0.85; transform:scale(1.05);}
-.addr {font-size:0.9rem; color:#aaa;}
 
-/* CONTENT */
-.container {
-  max-width:1200px;
-  margin:30px auto;
-  padding:0 20px;
-  display:grid;
-  grid-template-columns:1fr;
-  gap:25px;
-  overflow:hidden;
-}
+.container {max-width:1200px; margin:30px auto; padding:0 20px;}
 
-.card {
-  background:#1c1c1c;
-  border-radius:16px;
-  padding:25px;
-  display:flex;
-  flex-direction:column;
-  gap:15px;
-  box-shadow:0 6px 20px rgba(0,255,255,0.3);
-}
+.card {background:#1c1c1c; border-radius:16px; padding:25px; box-shadow:0 6px 20px rgba(0,255,255,0.3);}
+.card h1 {color:#00f0ff; text-shadow:0 0 6px #00f0ff; margin-bottom:20px;}
+.lead {color:#ccc; margin-bottom:25px; font-size:1rem;}
 
-.card h1, .card h2 {color:#00f0ff; text-shadow:0 0 6px #00f0ff;}
-.lead {font-size:1rem; color:#ccc;}
+/* Features Grid */
+.features-grid {display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+.feature {background:#111; padding:20px; border-radius:16px; text-align:center; box-shadow:0 6px 20px rgba(0,255,255,0.3); transition:0.3s; cursor:pointer; position:relative;}
+.feature:hover {transform:scale(1.05); box-shadow:0 0 15px #00f0ff, 0 0 30px #00ffa0;}
+.feature h3 {color:#00f0ff; margin-bottom:10px;}
+.feature p {color:#ccc; font-size:0.95rem; line-height:1.4; display:none;}
+.feature.active p {display:block; margin-top:10px;}
+.feature .icon {font-size:2.2rem; margin-bottom:10px; color:#00ffa0;}
 
-.token-info div {
-  background:#111; padding:15px;
-  border-radius:12px;
-  display:flex; justify-content:space-between;
-  align-items:center;
-}
-
-.token-info div span {color:#00f0ff; font-weight:bold;}
-
-.neon-btn {position: relative; transition: all 0.3s ease; text-decoration: none; display: inline-block;}
-.neon-btn::before {
-  content: ''; position: absolute;
-  top: -3px; left: -3px; right: -3px; bottom: -3px;
-  background: linear-gradient(45deg, #00f0ff, #00ffa0, #00f0ff, #00ffa0);
-  z-index: -1; filter: blur(8px); opacity: 0;
-  border-radius: 8px; transition: opacity 0.3s;
-}
-.neon-btn:hover::before {opacity: 1;}
-.neon-btn:hover {transform: scale(1.1); box-shadow: 0 0 15px #00f0ff, 0 0 30px #00ffa0;}
-
-/* DISTRIBUTION */
-.distribution {display:flex; flex-wrap:wrap; gap:25px; margin-top:20px;}
-.chart-container, .list-container {
-  flex:1 1 300px;
-  background:#111;
-  padding:15px;
-  border-radius:16px;
-  box-shadow:0 6px 20px rgba(0,255,255,0.3);
-  overflow:hidden;
-}
-
-.list-container ul {list-style:none; padding:0; margin:0;}
-
-.list-container li {
-  display:flex; justify-content:space-between;
-  padding:10px; border-radius:8px;
-  background:#0f0f0f; margin-bottom:6px;
-  transition:0.3s; cursor:pointer;
-}
-.list-container li:hover {background:#1a1a1a; color:#00f0ff;}
-
+/* Footer */
 .footer {text-align:center; margin:40px 0; font-size:0.9rem; color:#aaa;}
 
-/* RESPONSIVE FIX */
-@media(max-width:768px){
+/* MOBILE SWIPER */
+.swiper {display:none;}
+.swiper-slide .feature {width:100%;}
 
-  body, html {width:100%; overflow-x:hidden;}
-
-  .header {
-    flex-direction:column;
-    text-align:center;
-    gap:12px;
-    padding:15px 10px;
-  }
-
-  nav {
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:10px;
-  }
-
-  nav a {
-    margin:0 6px;
-    font-size:0.9rem;
-  }
-
-  .container {
-    width:100%;
-    padding:0 10px;
-  }
-
-  .card {
-    padding:18px;
-    width:100%;
-  }
-
-  .distribution {
-    flex-direction:column;
-    width:100%;
-  }
-
-  .chart-container, .list-container {
-    width:100%!important;
-  }
-
-  #tokenAddr {
-    font-size:0.75rem;
-    max-width:65%;
-    display:inline-block;
-    word-break:break-all;
-  }
-
-  .list-container li {
-    font-size:0.9rem;
-  }
+/* RESPONSIVE */
+@media(max-width:1024px){.features-grid {grid-template-columns:repeat(2,1fr);}}
+@media(max-width:600px){
+  .features-grid {display:none;} /* hide grid on mobile */
+  .swiper {display:block; padding:20px 0;}
 }
 </style>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-<script src="abi.js" defer></script>
-<script src="main.js" defer></script>
 </head>
-
 <body>
 
 <header class="header">
   <div class="logo-text">AEMS</div>
-
   <nav>
     <a href="index.php">Home</a>
     <a href="token.php">Token Info</a>
+    <a href="features-advanced.php">Features</a>
     <a href="index2.php">Whitepaper</a>
-    <a href="index3.php">Features</a>
-    <a href="index3.php">Roadmap</a>
   </nav>
-
+  <div class="header-right">
+    <button class="btn primary">Connect Wallet</button>
+  </div>
 </header>
 
 <main class="container">
-  <section class="card token-info">
-    <h1>AEMS Token Overview</h1>
+  <section class="card">
+    <h1>AEMS Token Advanced Features</h1>
+    <p class="lead">Explore the powerful features of AEMS (AMS) token in a modern interactive layout.</p>
 
-    <p class="lead">AEMS is a blockchain token designed for secure, fast, and transparent transactions within the AEMS ecosystem.</p>
-
-    <div><strong>Token Name:</strong> <span>AEMS</span></div>
-    <div><strong>Symbol:</strong> <span>AMS</span></div>
-    <div><strong>Total Supply:</strong> <span>171,171,172</span></div>
-    <div><strong>Decimals:</strong> <span>18</span></div>
-
-    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-      <strong>Contract Address:</strong>
-      <span id="tokenAddr" style="font-size:0.85rem; word-break:break-all;">
-        0xa6452a6d7d399dd2b1d2c5e237eabd9c1c00379f
-      </span>
-
-      <button onclick="copyTokenAddr()" style="padding:4px 8px; font-size:0.8rem; border-radius:6px; border:none; cursor:pointer; background:#00f0ff; color:#000; transition:0.3s;">
-        Copy
-      </button>
+    <!-- DESKTOP / TABLET GRID -->
+    <div class="features-grid">
+      <div class="feature"><div class="icon">💎</div><h3>ERC20 Standard</h3><p>Fully ERC20 compliant.</p></div>
+      <div class="feature"><div class="icon">🔥</div><h3>Burnable</h3><p>Reduce total supply and increase scarcity.</p></div>
+      <div class="feature"><div class="icon">👑</div><h3>Ownable</h3><p>Owner can manage key contract aspects securely.</p></div>
+      <div class="feature"><div class="icon">🎁</div><h3>Holder Rewards</h3><p>Earn daily rewards of 0.1% by holding tokens.</p></div>
+      <div class="feature"><div class="icon">⚡</div><h3>Auto-Trader Detection</h3><p>Tracks high-frequency traders to protect ecosystem.</p></div>
+      <div class="feature"><div class="icon">💰</div><h3>Fee Distribution</h3><p>Transaction fees go to owner, insurance, and reward funds.</p></div>
+      <div class="feature"><div class="icon">🛡️</div><h3>Exempt Addresses</h3><p>Certain addresses are exempt from fees and rewards.</p></div>
+      <div class="feature"><div class="icon">🔧</div><h3>Upgradeable (UUPS)</h3><p>Contract upgradeable securely via UUPS pattern.</p></div>
+      <div class="feature"><div class="icon">🏦</div><h3>Insurance & Reward Funds</h3><p>Separate funds ensure coverage and rewards for holders.</p></div>
     </div>
 
-    <div><strong>Network:</strong> <span>BNB Smart Chain</span></div>
-    <div><strong>Use Case:</strong> <span>Pre-sale, trading, DeFi, crypto game, NFT internal store, forex trading in the ecosystem, daily rewards</span></div>
-
-    <!-- FEATURES BTN -->
-    <div style="margin-top:20px; text-align:center;">
-      <p style="margin-bottom:12px; color:#aaa;">For learning about the token's features and innovations, tap below</p>
-      <a href="index3.php" class="btn primary neon-btn">Features</a>
-    </div>
-
-    <!-- BUY BTN -->
-    <div style="margin-top:30px; text-align:center;">
-      <p style="margin-bottom:12px; color:#00ffa0; font-weight:bold; font-size:1.05rem;">
-        🚀 Don’t miss out! Grab your AEMS tokens now and join the next-gen blockchain revolution! 🚀
-      </p>
-      <a href="index.php" class="btn primary neon-btn">Buy Token</a>
-    </div>
-
-    <!-- TOKEN DISTRIBUTION -->
-    <div class="distribution">
-
-      <div class="chart-container">
-        <canvas id="tokenChart"></canvas>
+    <!-- MOBILE SWIPER -->
+    <div class="swiper mySwiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide feature"><div class="icon">💎</div><h3>ERC20 Standard</h3><p>Fully ERC20 compliant.</p></div>
+        <div class="swiper-slide feature"><div class="icon">🔥</div><h3>Burnable</h3><p>Reduce total supply and increase scarcity.</p></div>
+        <div class="swiper-slide feature"><div class="icon">👑</div><h3>Ownable</h3><p>Owner can manage key contract aspects securely.</p></div>
+        <div class="swiper-slide feature"><div class="icon">🎁</div><h3>Holder Rewards</h3><p>Earn daily rewards of 0.1% by holding tokens.</p></div>
+        <div class="swiper-slide feature"><div class="icon">⚡</div><h3>Auto-Trader Detection</h3><p>Tracks high-frequency traders to protect ecosystem.</p></div>
+        <div class="swiper-slide feature"><div class="icon">💰</div><h3>Fee Distribution</h3><p>Transaction fees go to owner, insurance, and reward funds.</p></div>
+        <div class="swiper-slide feature"><div class="icon">🛡️</div><h3>Exempt Addresses</h3><p>Certain addresses are exempt from fees and rewards.</p></div>
+        <div class="swiper-slide feature"><div class="icon">🔧</div><h3>Upgradeable (UUPS)</h3><p>Contract upgradeable securely via UUPS pattern.</p></div>
+        <div class="swiper-slide feature"><div class="icon">🏦</div><h3>Insurance & Reward Funds</h3><p>Separate funds ensure coverage and rewards for holders.</p></div>
       </div>
-
-      <div class="list-container">
-        <ul id="tokenList">
-          <li data-section="Presale" data-percent="75.4%" data-desc="Presale tokens for public and private investors">Presale <span>129,000,000</span></li>
-          <li data-section="Team" data-percent="3.5%" data-desc="Allocated to team members and founders">Team <span>6,000,000</span></li>
-          <li data-section="Insurance Fund" data-percent="0.9%" data-desc="Reserved for emergencies and insurance">Insurance Fund <span>1,500,000</span></li>
-          <li data-section="Reward Fund" data-percent="0.9%" data-desc="For community rewards and incentives">Reward Fund <span>1,500,000</span></li>
-          <li data-section="Token Development" data-percent="1.75%" data-desc="Allocated for development & upgrades">Token Development <span>3,000,000</span></li>
-          <li data-section="Liquidity" data-percent="17.96%" data-desc="Added to exchange liquidity pools">Liquidity <span>30,717,172</span></li>
-        </ul>
-
-        <div id="tooltipBox" style="margin-top:10px; color:#00ffa0; min-height:40px;"></div>
-      </div>
+      <div class="swiper-pagination"></div>
     </div>
 
   </section>
 </main>
 
-<footer class="footer">
-  <div>© AEMS Token</div>
-  <div>Contract: <a href="https://bscscan.com/address/0xa6452a6d7d399dd2b1d2c5e237eabd9c1c00379f" target="_blank">View on BSCScan</a></div>
-</footer>
+<footer class="footer">© AEMS Token</footer>
 
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 <script>
-function copyTokenAddr() {
-    const addr = document.getElementById('tokenAddr').innerText;
-    navigator.clipboard.writeText(addr).then(() => {
-        alert('Token address copied to clipboard!');
-    });
+// Toggle description on click for desktop/tablet
+document.querySelectorAll('.features-grid .feature').forEach(f=>{
+  f.addEventListener('click',()=>{ f.classList.toggle('active'); });
+});
+
+// Initialize Swiper for mobile
+function initSwiper() {
+  if(window.innerWidth <= 600){
+    document.querySelector('.features-grid').style.display = 'none';
+    document.querySelector('.swiper').style.display = 'block';
+    new Swiper(".mySwiper", { slidesPerView:1, spaceBetween:20, pagination:{el:".swiper-pagination", clickable:true}});
+  } else {
+    document.querySelector('.features-grid').style.display = 'grid';
+    document.querySelector('.swiper').style.display = 'none';
+  }
 }
-
-// CHART
-const ctx = document.getElementById('tokenChart').getContext('2d');
-const tokenChart = new Chart(ctx, {
-  type:'pie',
-  data:{
-    labels:['Presale','Team','Insurance Fund','Reward Fund','Token Development','Liquidity'],
-    datasets:[{
-      data:[129000000,6000000,1500000,1500000,3000000,30717172],
-      backgroundColor:['#00f0ff','#00ffa0','#0080ff','#00c8ff','#0055ff','#00d0ff'],
-      borderWidth:2,
-      borderColor:'#0b0b0b'
-    }]
-  },
-  options:{responsive:true}
-});
-
-// LIST TOOLTIP
-const listItems=document.querySelectorAll('#tokenList li');
-const tooltipBox=document.getElementById('tooltipBox');
-
-listItems.forEach(item=>{
-  item.addEventListener('mouseenter',()=>{
-    tooltipBox.innerHTML = `<strong>${item.dataset.section}</strong> — ${item.dataset.desc} (${item.dataset.percent})`;
-  });
-  item.addEventListener('mouseleave',()=>{ tooltipBox.innerHTML=''; });
-});
+window.addEventListener('load', initSwiper);
+window.addEventListener('resize', initSwiper);
 </script>
 
 </body>
-</html>
+  </html> 
