@@ -1,4 +1,4 @@
-// main.js (final)
+// main.js (final - fixed & cleaned)
 if (!window.ethers) {
   alert("Ethers.js not loaded. Make sure you included ethers.umd.min.js");
 }
@@ -13,7 +13,7 @@ let presale = null;
 let userAddress = null;
 let bannerIndex = 0;
 
-// constants
+// constants - these are expected to be defined in abi.js (PRESALE_ADDRESS, PRESALE_ABI, ERC20_ABI, AGG_ABI, USDT_ADDRESS)
 const PRESALE = { address: PRESALE_ADDRESS, abi: PRESALE_ABI };
 const ERC20 = ERC20_ABI;
 const AGG = AGG_ABI;
@@ -22,50 +22,55 @@ const PRICE_USD = 0.007; // fixed price
 
 // init
 window.addEventListener('load', async () => {
-  // UI wiring
-  $('connectWallet').addEventListener('click', connectWallet);
-  $('buyUSDTBtn').addEventListener('click', buyWithUSDT);
-  $('buyBNBBtn').addEventListener('click', buyWithBNB);
-  $('claimBtn').addEventListener('click', claimTokens);
-  $('endPresaleBtn').addEventListener('click', endPresaleManually);
-  $('withdrawBNBBtn').addEventListener('click', withdrawBNB);
-  $('withdrawUSDTBtn').addEventListener('click', withdrawUSDT);
-  $('withdrawUnsoldBtn').addEventListener('click', withdrawUnsold);
-  $('destroyBtn').addEventListener('click', destroyContract);
-  $('bannerNext').addEventListener('click', ()=> shiftBanner(1));
-  $('bannerPrev').addEventListener('click', ()=> shiftBanner(-1));
-  $('usdInput')?.addEventListener('input', estimate);
+  try {
+    // UI wiring
+    $('connectWallet').addEventListener('click', connectWallet);
+    $('buyUSDTBtn').addEventListener('click', buyWithUSDT);
+    $('buyBNBBtn').addEventListener('click', buyWithBNB);
+    $('claimBtn').addEventListener('click', claimTokens);
+    $('endPresaleBtn').addEventListener('click', endPresaleManually);
+    $('withdrawBNBBtn').addEventListener('click', withdrawBNB);
+    $('withdrawUSDTBtn').addEventListener('click', withdrawUSDT);
+    $('withdrawUnsoldBtn').addEventListener('click', withdrawUnsold);
+    $('destroyBtn').addEventListener('click', destroyContract);
+    $('bannerNext').addEventListener('click', ()=> shiftBanner(1));
+    $('bannerPrev').addEventListener('click', ()=> shiftBanner(-1));
+    $('usdInput')?.addEventListener('input', estimate);
 
-  setInterval(()=> shiftBanner(1), 6000);
+    setInterval(()=> shiftBanner(1), 6000);
 
-  // provider init
-  if (window.ethereum) {
-    provider = new ethers.providers.Web3Provider(window.ethereum, "any");
-    presale = new ethers.Contract(PRESALE.address, PRESALE.abi, provider);
-    window.ethereum?.on('accountsChanged', ()=> location.reload());
-    window.ethereum?.on('chainChanged', ()=> location.reload());
-  } else {
-    // fallback RPC read-only
-    provider = new ethers.providers.JsonRpcProvider("https://bsc-dataseed.binance.org/");
-    presale = new ethers.Contract(PRESALE.address, PRESALE.abi, provider);
-    console.warn("No wallet detected - read-only");
+    // provider init
+    if (window.ethereum) {
+      provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+      presale = new ethers.Contract(PRESALE.address, PRESALE.abi, provider);
+      window.ethereum?.on('accountsChanged', ()=> location.reload());
+      window.ethereum?.on('chainChanged', ()=> location.reload());
+    } else {
+      // fallback RPC read-only
+      provider = new ethers.providers.JsonRpcProvider("https://bsc-dataseed.binance.org/");
+      presale = new ethers.Contract(PRESALE.address, PRESALE.abi, provider);
+      console.warn("No wallet detected - read-only");
+    }
+
+    // set contract link
+    $('contractLink').href = `https://bscscan.com/address/${PRESALE.address}`;
+    $('contractLink').innerText = PRESALE.address;
+    $('contractAddr').innerText = PRESALE.address;
+
+    await refreshUI();
+    setInterval(refreshUI, 10000);
+  } catch (e) {
+    console.error("init err:", e);
   }
-
-  // set contract link
-  $('contractLink').href = `https://bscscan.com/address/${PRESALE.address}`;
-  $('contractLink').innerText = PRESALE.address;
-  $('contractAddr').innerText = PRESALE.address;
-
-  await refreshUI();
-  setInterval(refreshUI, 10000);
 });
 
 // banners
 function shiftBanner(dir) {
   const inner = $('bannerInner');
   const items = inner.querySelectorAll('.banner-item');
+  if (!items || items.length === 0) return;
   bannerIndex = (bannerIndex + dir + items.length) % items.length;
-  const w = items[0].clientWidth + 10;
+  const w = items[0].clientWidth;
   inner.style.transform = `translateX(-${bannerIndex * w}px)`;
 }
 
@@ -127,8 +132,14 @@ async function refreshUI(){
     $('raisedBNBUSD').innerText = Number(ethers.utils.formatUnits(raisedBNBUSD || 0,18)).toFixed(2) + " USD";
     $('presaleStatus').innerText = ended ? "Ended (vesting)" : "Active";
 
-    const percent = alloc.isZero() ? 0 : Math.min(100, sold.mul(100).div(alloc).toNumber());
-    $('progressFill').style.width = percent + "%";
+    const percent = (alloc && alloc.isZero && !alloc.isZero()) ? 0 : (alloc && sold ? Math.min(100, sold.mul(100).div(alloc).toNumber()) : 0);
+    // safer percent calc:
+    try {
+      const p = alloc && alloc.isZero ? (alloc.isZero() ? 0 : Math.min(100, sold.mul(100).div(alloc).toNumber())) : Math.min(100, sold.mul(100).div(alloc).toNumber());
+      $('progressFill').style.width = (isNaN(p) ? '0' : String(p)) + "%";
+    } catch(_) {
+      $('progressFill').style.width = "0%";
+    }
 
     if (userAddress) {
       const buyer = await presale.buyers(userAddress);
@@ -149,7 +160,15 @@ async function refreshUI(){
 }
 
 function fmt(bn){ try { return Number(ethers.utils.formatUnits(bn,18)).toLocaleString(); } catch { return "0"; } }
-function nextUnlock(vs){ const vsMs = Number(vs)*1000; const now = Date.now(); if (now < vsMs) return new Date(vsMs).toLocaleString(); const monthMs = 30*24*60*60*1000; const monthsPassed = Math.min(6, Math.floor((now - vsMs)/monthMs)); if (monthsPassed>=6) return "Fully unlocked"; return new Date(vsMs + (monthsPassed+1)*monthMs).toLocaleString(); }
+function nextUnlock(vs){ 
+  const vsMs = Number(vs) * 1000; 
+  const now = Date.now(); 
+  if (now < vsMs) return new Date(vsMs).toLocaleString(); 
+  const monthMs = 30 * 24 * 60 * 60 * 1000; 
+  const monthsPassed = Math.min(6, Math.floor((now - vsMs)/monthMs)); 
+  if (monthsPassed>=6) return "Fully unlocked"; 
+  return new Date(vsMs + (monthsPassed+1)*monthMs).toLocaleString(); 
+}
 
 // estimate tokens + BNB
 async function estimate(){
@@ -202,7 +221,12 @@ async function buyWithUSDT(){
     await refreshUI();
   } catch (err) {
     console.error("buyWithUSDT err:", err);
-    alert('Buy (USDT) failed: ' + extractErrorMessage(err));
+    // filter out misleading RPC 403/status messages
+    let msg = extractErrorMessage(err);
+    if (String(msg).includes('403') || String(msg).toLowerCase().includes('non-200') || String(msg).toLowerCase().includes('status code')) {
+      msg = "Transaction rejected by RPC node or wallet. Check wallet and try again.";
+    }
+    alert('Buy (USDT) failed: ' + msg);
   }
 }
 
@@ -251,7 +275,11 @@ async function buyWithBNB(){
     await refreshUI();
   } catch (err) {
     console.error("buyWithBNB err:", err);
-    alert('Buy (BNB) failed: ' + extractErrorMessage(err));
+    let msg = extractErrorMessage(err);
+    if (String(msg).includes('403') || String(msg).toLowerCase().includes('non-200') || String(msg).toLowerCase().includes('status code')) {
+      msg = "Transaction rejected by RPC node or wallet. Check wallet and try again.";
+    }
+    alert('Buy (BNB) failed: ' + msg);
   }
 }
 
@@ -297,4 +325,4 @@ function extractErrorMessage(err){
 }
 
 function shortAddr(a){ return a ? a.slice(0,6)+'...'+a.slice(-4) : '—'; }
-function short(a){ return shortAddr(a); }
+function short(a){ return shortAddr(a); } 
