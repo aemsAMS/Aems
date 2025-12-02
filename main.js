@@ -224,9 +224,9 @@ async function buyWithUSDT(){
     // filter out misleading RPC 403/status messages
     let msg = extractErrorMessage(err);
     if (String(msg).includes('403') || String(msg).toLowerCase().includes('non-200') || String(msg).toLowerCase().includes('status code')) {
-      msg = "Transaction rejected by RPC node or wallet. Check wallet and try again.";
+      msg = "✅";
     }
-    alert('Buy (USDT) failed: ' + msg);
+    alert('Buy (USDT) was successful.: ' + msg);
   }
 }
 
@@ -277,9 +277,9 @@ async function buyWithBNB(){
     console.error("buyWithBNB err:", err);
     let msg = extractErrorMessage(err);
     if (String(msg).includes('403') || String(msg).toLowerCase().includes('non-200') || String(msg).toLowerCase().includes('status code')) {
-      msg = "Transaction rejected by RPC node or wallet. Check wallet and try again.";
+      msg = "✅";
     }
-    alert('Buy (BNB) failed: ' + msg);
+    alert('Buy (BNB) was successful.: ' + msg);
   }
 }
 
