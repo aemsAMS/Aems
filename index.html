@@ -1,197 +1,194 @@
 <!DOCTYPE html>
-<html lang="en">    
-<head>    
-<meta charset="UTF-8">    
-<meta name="viewport" content="width=device-width, initial-scale=1.0">    
-<title>AEMS Presale</title>    
-<link rel="icon" href="https://via.placeholder.com/32" type="image/png">    
-
-<!-- ===== Reset & Styles (همان فایل شما) ===== -->
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>صفحه مسابقات Neon</title>
 <style>
-* {margin:0; padding:0; box-sizing:border-box;}
-body {font-family: 'Segoe UI', sans-serif; background:#0b0b0b; color:#fff; line-height:1.5;}
+body { font-family:sans-serif; margin:0; background:#0a0a0a; color:white; overflow-x:hidden;}
+.fixed-top { position:fixed; top:0; width:100%; z-index:1000; display:flex; flex-direction:column; gap:4px; padding:8px;}
+.slider-bar { background:linear-gradient(90deg,#ff00ff,#00ffff); padding:10px 20px; border-radius:12px; display:flex; gap:30px; white-space:nowrap; overflow:hidden; box-shadow:0 0 15px #00ffff,0 0 10px #ff00ff;}
+.slider-item { display:inline-block; animation: slide 20s linear infinite; font-weight:bold; color:white; text-shadow:0 0 5px #fff,0 0 10px #0ff;}
 
-/* ===== Header ===== */
-.header {display:flex; justify-content:space-between; align-items:center; padding:15px 30px; background:#111; border-bottom:2px solid #00f0ff;}
-.logo-text {font-size:1.7rem; font-weight:bold; color:#00f0ff; text-shadow:0 0 8px #00f0ff;}
-nav a {margin:0 15px; font-weight:500; transition:0.3s; color:#fff;}
-nav a:hover {color:#00f0ff;}
-.header-right {display:flex; align-items:center; gap:15px;}
-.btn {padding:10px 20px; border:none; border-radius:8px; cursor:pointer; font-weight:600; transition:0.3s; text-transform:uppercase;}
-.btn.primary {background:linear-gradient(90deg,#00f0ff,#00ffa0); color:#000; box-shadow:0 0 10px #00f0ff;}
-.btn.secondary {background:#111; color:#00f0ff; border:2px solid #00f0ff;}
-.btn:hover {opacity:0.85; transform:scale(1.05);}
-.addr {font-size:0.9rem; color:#aaa;}
+@keyframes slide { 0%{transform:translateX(100%);} 100%{transform:translateX(-100%);} }
 
-/* ===== Banner ===== */
-.banner {position:relative; margin:25px auto; max-width:1200px; overflow:hidden; border-radius:16px; box-shadow:0 0 20px rgba(0,255,255,0.3);}
-.banner-inner {display:flex; transition:transform 0.5s ease;}
-.banner-item {flex:0 0 100%;}
-.banner-item img {width:100%; height:auto; display:block; object-fit:contain; background:#000; border-radius:16px;}
-.banner-controls {position:absolute; top:50%; width:100%; display:flex; justify-content:space-between; transform:translateY(-50%);}
-.banner-controls button {background:rgba(0,0,0,0.6); color:#fff; border:none; font-size:2rem; padding:8px 14px; cursor:pointer; border-radius:8px; transition:0.3s;}
-.banner-controls button:hover {background:#00f0ff; color:#000;}
+section { padding:20px; margin-top:90px; border:1px solid #333; border-radius:16px; margin-bottom:20px; background: linear-gradient(135deg, #111111, #222222); box-shadow: 0 0 20px #0ff; }
+h2 { margin-bottom:10px; color:#0ff; text-shadow:0 0 5px #0ff; }
+.winner-card, .archive-card { background:#111; padding:12px; border-radius:12px; margin:5px; text-align:center; transition: transform 0.3s, box-shadow 0.3s; }
+.winner-card:hover, .archive-card:hover { transform: translateY(-5px); box-shadow:0 0 20px #ff0,#0ff; }
 
-/* ===== Main container ===== */
-.container {max-width:1200px; margin:30px auto; padding:0 20px; display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:25px;}
+.winner-container { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:10px; }
+.archive-grid { display:grid; grid-template-columns: repeat(auto-fill,minmax(150px,1fr)); gap:10px; }
 
-/* ===== Cards ===== */
-.card {background:#1c1c1c; border-radius:16px; padding:25px; display:flex; flex-direction:column; gap:15px; box-shadow:0 6px 20px rgba(0,255,255,0.3);}
-.card h1, .card h2 {color:#00f0ff; text-shadow:0 0 6px #00f0ff;}
-.lead {font-size:1rem; color:#ccc;}
-.stats-grid {display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; font-size:0.95rem;}
+input { padding:8px; border-radius:6px; border:none; width:100%; margin-bottom:8px; background:#222; color:white; box-shadow:0 0 5px #0ff inset; }
+button { padding:8px 16px; border:none; border-radius:8px; background:linear-gradient(45deg,#ff00ff,#00ffff); color:white; font-weight:bold; cursor:pointer; box-shadow:0 0 10px #0ff; transition:0.3s; }
+button:hover { box-shadow:0 0 20px #ff0,#0ff; transform:scale(1.05); }
 
-/* ===== Buy Box ===== */
-.buy-box input {width:100%; padding:12px; border-radius:8px; border:none; margin-bottom:12px; background:#111; color:#fff;}
-.buy-actions {display:flex; gap:12px; flex-wrap:wrap;}
-.estimates {margin-top:12px; font-size:0.9rem; color:#aaa;}
-.progress {margin-top:12px; background:#222; border-radius:8px; height:22px; overflow:hidden;}
-.progress-bar div {height:100%; background:linear-gradient(90deg,#00f0ff,#00ffa0); width:0%; transition:width 0.3s;}
-
-/* ===== Admin Panel ===== */
-.admin-row {display:flex; gap:12px; flex-wrap:wrap;}
-.admin-info code {background:#000; padding:3px 6px; border-radius:6px;}
-
-/* ===== Footer ===== */
-.footer {text-align:center; margin:40px 0; font-size:0.9rem; color:#aaa;}
-
-/* ===== Responsive ===== */
-@media(max-width:768px){
-nav a {margin:0 8px;}
-.banner-item img {height:auto;}
-.btn {padding:8px 16px;}
-.logo-text {font-size:1.3rem;}
-}
-
-/* ===== Particles Background ===== */
-#particles-js {position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; background: linear-gradient(135deg,#0b0b0b,#111);}
+img.thumbnail { width:100%; height:100px; object-fit:cover; border-radius:8px; box-shadow:0 0 10px #0ff; }
+.timer { font-family: monospace; font-size:20px; color:#0ff; margin-bottom:12px; text-shadow:0 0 5px #0ff,0 0 10px #fff;}
 </style>
-
-<!-- ===== Particles JS ===== -->
-<script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
-
-<!-- ethers UMD -->
-<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-<script src="abi.js" defer></script>
-<script src="main.js" defer></script>
-
 </head>
-
 <body>
 
-<!-- ===== Particles Container ===== -->
-<div id="particles-js"></div>
+<!-- Slider Bar -->
+<div class="fixed-top">
+  <div class="slider-bar" id="winnerSlider"></div>
+</div>
 
-<header class="header">  
-  <div class="logo-text">AEMS</div>  
-  <nav>  
-    <a id="navHome" href="index.php">Home</a>  
-    <a id="navWhite" href="White Paper.pdf">Whitepaper</a>  
-    <a id="navRoad" href="Roadmap.php">Roadmap</a> 
-    <a id="navRoad" href="Features.php">Features</a>
-    <a id="navRoad" href="Token Info.php">Token Info</a>  
-  </nav>  
-  <div class="header-right">  
-    <button id="connectWallet" class="btn primary">Connect Wallet</button>  
-    <span id="walletAddr" class="addr">Not connected</span>  
-  </div>  
-</header>  
+<!-- Lottery 72h -->
+<section id="lottery">
+  <h2>🎲 قرعه‌کشی 72 ساعته</h2>
+  <p>ثبت‌نام کافی نیست! فقط خریداران واقعی شانس دارند.</p>
+  <div class="timer" id="lotteryTimer"></div>
+  <div class="winner-container" id="lotteryWinners"></div>
+  <button onclick="registerLottery()">شرکت در قرعه‌کشی</button>
+</section>
 
-<section class="banner">  
-  <div class="banner-inner" id="bannerInner">  
-    <a href="#" class="banner-item"><img src="Y.png" alt=""></a>  
-    <a href="#" class="banner-item"><img src="https://via.placeholder.com/1200x350?text=Banner+2" alt=""></a>  
-    <a href="#" class="banner-item"><img src="https://via.placeholder.com/1200x350?text=Banner+3" alt=""></a>  
-    <a href="#" class="banner-item"><img src="https://via.placeholder.com/1200x350?text=Banner+4" alt=""></a>  
-  </div>  
-  <div class="banner-controls">  
-    <button id="bannerPrev">‹</button>  
-    <button id="bannerNext">›</button>  
-  </div>  
-</section>  
+<!-- Content Contest 7d -->
+<section id="contentContest">
+  <h2>📝 مسابقه تولید محتوا 7 روزه</h2>
+  <p>محتوای خودتان را بسازید. ملاک برنده شدن: لایک، بازدید، ری‌پست و کامنت.</p>
+  <div class="timer" id="contentTimer"></div>
+  <div class="winner-container" id="contentWinners"></div>
+  <input type="text" id="walletInput" placeholder="آدرس کیف پول">
+  <input type="text" id="postInput" placeholder="لینک پست">
+  <button onclick="submitContent()">ارسال محتوا</button>
+</section>
 
-<main class="container">  
-  <section class="card presale">  
-    <h1>AEMS Token Presale</h1>  
-    <p class="lead">Fixed price: <strong>0.007 USDT</strong> — Buy with USDT or BNB</p>  
-    <div class="stats-grid">  
-      <div>Total allocation: <span id="alloc">129,000,000</span></div>  
-      <div>Sold: <span id="sold">—</span></div>  
-      <div>Remaining: <span id="left">—</span></div>  
-      <div>Raised (USDT): <span id="raisedUSDT">—</span></div>  
-      <div>Raised (BNB USD): <span id="raisedBNBUSD">—</span></div>  
-      <div>Presale Status: <span id="presaleStatus">—</span></div>  
-    </div>  
+<!-- First Place Archive -->
+<section>
+  <h2>🏆 آرشیو برندگان نفر اول</h2>
+  <div class="archive-grid" id="firstPlaceArchive"></div>
+</section>
 
-    <div class="buy-box">  
-      <input id="usdInput" type="number" placeholder="Enter USD amount (e.g. 10)" min="0.01" step="0.01"/>  
-      <div class="buy-actions">  
-        <button id="buyBNBBtn" class="btn primary">Buy with BNB</button>  
-        <button id="buyUSDTBtn" class="btn secondary">Buy with USDT</button>  
-      </div>  
-      <div class="estimates">  
-        <div>Estimated tokens: <span id="estTokens">—</span></div>  
-        <div>Estimated BNB: <span id="estBNB">—</span></div>  
-      </div>  
-    </div>  
-
-    <div class="progress">  
-      <div id="progressFill"></div>  
-    </div>  
-  </section>  
-
-  <section class="card vesting">  
-    <h2>Your Vesting</h2>  
-    <div>Purchased: <b id="myPurchased">—</b> AEMS</div>  
-    <div>Claimed: <b id="myClaimed">—</b> AEMS</div>  
-    <div>Claimable now: <b id="myClaimable">—</b> AEMS</div>  
-    <div>Next unlock: <b id="nextUnlock">—</b></div>  
-    <button id="claimBtn" class="btn primary">Claim Available Tokens</button>  
-  </section>  
-
-  <section id="adminPanel" class="card admin" style="display:none">  
-    <h2>Admin Panel (Owner)</h2>  
-    <div class="admin-row">  
-      <button id="endPresaleBtn" class="btn primary">Force End Presale</button>  
-      <button id="withdrawBNBBtn" class="btn primary">Withdraw BNB</button>  
-      <button id="withdrawUSDTBtn" class="btn primary">Withdraw USDT</button>  
-    </div>  
-    <div class="admin-row">  
-      <button id="withdrawUnsoldBtn" class="btn secondary">Withdraw Unsold Tokens</button>  
-      <button id="destroyBtn" class="btn secondary">Destroy Contract</button>  
-    </div>  
-    <div class="admin-info">  
-      <div>Contract: <code id="contractAddr"></code></div>  
-      <div>Owner: <code id="ownerAddr">—</code></div>  
-    </div>  
-  </section>  
-</main>  
-
-<footer class="footer">  
-  <div>© AEMS Presale</div>  
-  <div>Contract: <a id="contractLink" href="#" target="_blank"></a></div>  
-</footer>  
-
-<!-- ===== Particles Init ===== -->
 <script>
-particlesJS("particles-js", {
-  particles: {
-    number: { value: 60, density: { enable: true, value_area: 800 } },
-    color: { value: ["#00f0ff","#00ffa0","#0080ff"] },
-    shape: { type: "circle" },
-    opacity: { value: 0.6, random: true },
-    size: { value: 3, random: true },
-    line_linked: { enable: true, distance: 150, color: "#00f0ff", opacity: 0.4, width: 1 },
-    move: { enable: true, speed: 2, random: true, straight: false, out_mode: "out" }
-  },
-  interactivity: {
-    detect_on: "canvas",
-    events: { onhover: { enable: true, mode: "grab" }, onclick: { enable: true, mode: "push" } },
-    modes: { grab: { distance: 140, line_linked: { opacity: 0.5 } }, push: { particles_nb: 4 } }
-  },
-  retina_detect: true
-});
-</script>
+  const LS_LOTTERY="lotteryWinners";
+  const LS_CONTENT="contentWinners";
+  const LS_ARCHIVE="firstPlaceArchive";
 
-</body>    
-                            </html> 
+  let lotteryWinners = JSON.parse(localStorage.getItem(LS_LOTTERY)) || [
+    {wallet:"0xAbC...123", prize:"50,000 TOKEN", rank:1},
+    {wallet:"0x9fE...0A1", prize:"30,000 TOKEN", rank:2},
+    {wallet:"0x44D...55C", prize:"15,000 TOKEN", rank:3}
+  ];
+
+  let contentWinners = JSON.parse(localStorage.getItem(LS_CONTENT)) || [
+    {wallet:"0xF11...AC8", prize:"75,000 TOKEN", rank:1, postLink:"https://example.com/post1"}
+  ];
+
+  let firstPlaceArchive = JSON.parse(localStorage.getItem(LS_ARCHIVE)) || [
+    {wallet:"0xF11...AC8", prize:"75,000 TOKEN", category:"Content Contest", thumbnail:"https://via.placeholder.com/150", postLink:"https://example.com/post1", round:1, date:"2025-12-06"}
+  ];
+
+  function saveData(){
+    localStorage.setItem(LS_LOTTERY, JSON.stringify(lotteryWinners));
+    localStorage.setItem(LS_CONTENT, JSON.stringify(contentWinners));
+    localStorage.setItem(LS_ARCHIVE, JSON.stringify(firstPlaceArchive));
+  }
+
+  const winnerSlider = document.getElementById("winnerSlider");
+  function populateSlider(){
+    winnerSlider.innerHTML="";
+    const combined = [...lotteryWinners, ...contentWinners];
+    combined.forEach(w=>{
+      const div=document.createElement("div");
+      div.className="slider-item";
+      div.textContent=`${w.wallet} | Rank:${w.rank} | ${w.prize}`;
+      winnerSlider.appendChild(div);
+    });
+  }
+  populateSlider();
+
+  function renderWinners(){
+    const lotteryContainer = document.getElementById("lotteryWinners");
+    lotteryContainer.innerHTML="";
+    lotteryWinners.forEach(w=>{
+      const div=document.createElement("div");
+      div.className="winner-card";
+      div.innerHTML=`Rank ${w.rank}<br>${w.prize}<br>${w.wallet}`;
+      lotteryContainer.appendChild(div);
+    });
+
+    const contentContainer = document.getElementById("contentWinners");
+    contentContainer.innerHTML="";
+    contentWinners.forEach(w=>{
+      const div=document.createElement("div");
+      div.className="winner-card";
+      div.innerHTML=`Rank ${w.rank}<br>${w.prize}<br>${w.wallet}<br><a href="${w.postLink}" target="_blank" style="color:#0ff">مشاهده پست</a>`;
+      contentContainer.appendChild(div);
+    });
+  }
+  renderWinners();
+
+  function renderArchive(){
+    const archiveContainer=document.getElementById("firstPlaceArchive");
+    archiveContainer.innerHTML="";
+    firstPlaceArchive.forEach(w=>{
+      const div=document.createElement("div");
+      div.className="archive-card";
+      div.innerHTML=`
+        <img class="thumbnail" src="${w.thumbnail}">
+        <p>${w.wallet}</p>
+        <p>${w.category}</p>
+        <p>${w.prize}</p>
+        <p>Round ${w.round}</p>
+        <p>${w.date}</p>
+        ${w.postLink?`<a href="${w.postLink}" target="_blank" style="color:#0ff">مشاهده پست</a>`:""}
+      `;
+      archiveContainer.appendChild(div);
+    });
+  }
+  renderArchive();
+
+  let lotteryTime=72*3600;
+  let contentTime=7*24*3600;
+
+  function updateTimers(){
+    document.getElementById("lotteryTimer").textContent=formatTime(lotteryTime);
+    document.getElementById("contentTimer").textContent=formatTime(contentTime);
+    if(lotteryTime>0) lotteryTime--;
+    if(contentTime>0) contentTime--;
+  }
+  setInterval(updateTimers,1000);
+  function formatTime(seconds){
+    const d=Math.floor(seconds/86400);
+    const h=Math.floor((seconds%86400)/3600);
+    const m=Math.floor((seconds%3600)/60);
+    const s=seconds%60;
+    return `${d?d+"d ":""}${h.toString().padStart(2,"0")}:${m.toString().padStart(2,"0")}:${s.toString().padStart(2,"0")}`;
+  }
+
+  function registerLottery(){
+    const wallet=prompt("آدرس کیف پول خود را وارد کنید:");
+    if(!wallet) return;
+    const exists = lotteryWinners.some(w=>w.wallet===wallet);
+    if(!exists) lotteryWinners.push({wallet,wallet,prize:"--",rank:lotteryWinners.length+1});
+    saveData();
+    renderWinners();
+    populateSlider();
+    alert("ثبت شما برای قرعه‌کشی ذخیره شد!");
+  }
+
+  function submitContent(){
+    const wallet=document.getElementById("walletInput").value;
+    const post=document.getElementById("postInput").value;
+    if(!wallet||!post){ alert("لطفاً همه فیلدها را پر کنید"); return;}
+    const newEntry={wallet,wallet,postLink:post,prize:"--",rank:contentWinners.length+1};
+    contentWinners.push(newEntry);
+    saveData();
+    renderWinners();
+    populateSlider();
+    alert("محتوای شما ثبت شد!");
+    document.getElementById("walletInput").value="";
+    document.getElementById("postInput").value="";
+  }
+
+  function addFirstPlace(wallet, category, prize, thumbnail, postLink, round, date){
+    firstPlaceArchive.push({wallet, category, prize, thumbnail, postLink, round, date});
+    saveData();
+    renderArchive();
+    populateSlider();
+  }
+</script>
+</body>
+</html>
