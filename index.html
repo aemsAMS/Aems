@@ -3,196 +3,219 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>صفحه مسابقات Neon</title>
+<title>صفحه مسابقات توکن</title>
 <style>
-body { font-family:sans-serif; margin:0; background:#0a0a0a; color:white; overflow-x:hidden;}
-.fixed-top { position:fixed; top:0; width:100%; z-index:1000; display:flex; flex-direction:column; gap:4px; padding:8px;}
-.slider-bar { background:linear-gradient(90deg,#ff00ff,#00ffff); padding:10px 20px; border-radius:12px; display:flex; gap:30px; white-space:nowrap; overflow:hidden; box-shadow:0 0 15px #00ffff,0 0 10px #ff00ff;}
-.slider-item { display:inline-block; animation: slide 20s linear infinite; font-weight:bold; color:white; text-shadow:0 0 5px #fff,0 0 10px #0ff;}
-
-@keyframes slide { 0%{transform:translateX(100%);} 100%{transform:translateX(-100%);} }
-
-section { padding:20px; margin-top:90px; border:1px solid #333; border-radius:16px; margin-bottom:20px; background: linear-gradient(135deg, #111111, #222222); box-shadow: 0 0 20px #0ff; }
-h2 { margin-bottom:10px; color:#0ff; text-shadow:0 0 5px #0ff; }
-.winner-card, .archive-card { background:#111; padding:12px; border-radius:12px; margin:5px; text-align:center; transition: transform 0.3s, box-shadow 0.3s; }
-.winner-card:hover, .archive-card:hover { transform: translateY(-5px); box-shadow:0 0 20px #ff0,#0ff; }
-
-.winner-container { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:10px; }
-.archive-grid { display:grid; grid-template-columns: repeat(auto-fill,minmax(150px,1fr)); gap:10px; }
-
-input { padding:8px; border-radius:6px; border:none; width:100%; margin-bottom:8px; background:#222; color:white; box-shadow:0 0 5px #0ff inset; }
-button { padding:8px 16px; border:none; border-radius:8px; background:linear-gradient(45deg,#ff00ff,#00ffff); color:white; font-weight:bold; cursor:pointer; box-shadow:0 0 10px #0ff; transition:0.3s; }
-button:hover { box-shadow:0 0 20px #ff0,#0ff; transform:scale(1.05); }
-
-img.thumbnail { width:100%; height:100px; object-fit:cover; border-radius:8px; box-shadow:0 0 10px #0ff; }
-.timer { font-family: monospace; font-size:20px; color:#0ff; margin-bottom:12px; text-shadow:0 0 5px #0ff,0 0 10px #fff;}
+body {
+  margin:0; font-family:sans-serif; background:#0d0d0d; color:white;
+}
+.fixed-top {
+  position:fixed; top:0; width:100%; z-index:1000; background:rgba(20,20,20,0.9); padding:10px 0;
+  display:flex; overflow:hidden;
+}
+.slider-track {
+  display:flex; animation:slide 20s linear infinite;
+}
+.slider-item {
+  flex:none; margin:0 30px; font-weight:bold; color:#0ff;
+  text-shadow:0 0 5px #0ff,0 0 10px #fff;
+}
+@keyframes slide {
+  0% { transform:translateX(100%); }
+  100% { transform:translateX(-100%); }
+}
+section {
+  margin-top:70px; margin-bottom:30px;
+  background:linear-gradient(135deg,#111,#222); border-radius:12px;
+  padding:20px; box-shadow:0 0 15px #0ff;
+}
+h2 { color:#0ff; margin-bottom:10px; text-shadow:0 0 5px #0ff; }
+.timer { font-family:monospace; font-size:20px; margin-bottom:10px; color:#0ff; }
+.winner-container { display:flex; flex-wrap:wrap; gap:10px; }
+.winner-card, .archive-card {
+  background:#111; padding:12px; border-radius:8px; text-align:center;
+  box-shadow:0 0 10px #0ff; transition:0.3s;
+}
+.winner-card:hover, .archive-card:hover { transform:translateY(-5px); box-shadow:0 0 20px #0ff,0 0 15px #fff; }
+input, button {
+  padding:8px; border-radius:6px; border:none; margin-bottom:8px;
+}
+input { width:100%; background:#222; color:white; box-shadow:inset 0 0 5px #0ff; }
+button {
+  background:linear-gradient(45deg,#0ff,#0f0); color:black; font-weight:bold; cursor:pointer;
+  box-shadow:0 0 10px #0ff; transition:0.3s;
+}
+button:hover { box-shadow:0 0 20px #0ff; transform:scale(1.05); }
+.archive-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px; }
+img.thumbnail { width:100%; height:100px; object-fit:cover; border-radius:6px; box-shadow:0 0 5px #0ff; }
 </style>
 </head>
 <body>
 
-<!-- Slider Bar -->
+<!-- Slider -->
 <div class="fixed-top">
-  <div class="slider-bar" id="winnerSlider"></div>
+  <div class="slider-track" id="winnerSlider"></div>
 </div>
 
-<!-- Lottery 72h -->
+<!-- Lottery Section -->
 <section id="lottery">
   <h2>🎲 قرعه‌کشی 72 ساعته</h2>
-  <p>ثبت‌نام کافی نیست! فقط خریداران واقعی شانس دارند.</p>
+  <p>فقط خریداران واقعی در قرعه‌کشی شرکت دارند.</p>
   <div class="timer" id="lotteryTimer"></div>
   <div class="winner-container" id="lotteryWinners"></div>
   <button onclick="registerLottery()">شرکت در قرعه‌کشی</button>
+  <button onclick="resetLottery()">ریست قرعه‌کشی</button>
 </section>
 
-<!-- Content Contest 7d -->
+<!-- Content Contest Section -->
 <section id="contentContest">
   <h2>📝 مسابقه تولید محتوا 7 روزه</h2>
-  <p>محتوای خودتان را بسازید. ملاک برنده شدن: لایک، بازدید، ری‌پست و کامنت.</p>
+  <p>محتوا خودتان را بسازید و بیشترین لایک و بازدید جایزه می‌گیرد.</p>
   <div class="timer" id="contentTimer"></div>
   <div class="winner-container" id="contentWinners"></div>
   <input type="text" id="walletInput" placeholder="آدرس کیف پول">
   <input type="text" id="postInput" placeholder="لینک پست">
   <button onclick="submitContent()">ارسال محتوا</button>
+  <button onclick="resetContent()">ریست مسابقه محتوا</button>
 </section>
 
 <!-- First Place Archive -->
 <section>
-  <h2>🏆 آرشیو برندگان نفر اول</h2>
+  <h2>🏆 آرشیو نفر اول</h2>
   <div class="archive-grid" id="firstPlaceArchive"></div>
 </section>
 
 <script>
-  const LS_LOTTERY="lotteryWinners";
-  const LS_CONTENT="contentWinners";
-  const LS_ARCHIVE="firstPlaceArchive";
+const LS_LOTTERY="lotteryWinners";
+const LS_CONTENT="contentWinners";
+const LS_ARCHIVE="firstPlaceArchive";
 
-  let lotteryWinners = JSON.parse(localStorage.getItem(LS_LOTTERY)) || [
-    {wallet:"0xAbC...123", prize:"50,000 TOKEN", rank:1},
-    {wallet:"0x9fE...0A1", prize:"30,000 TOKEN", rank:2},
-    {wallet:"0x44D...55C", prize:"15,000 TOKEN", rank:3}
-  ];
+// Load Data
+let lotteryWinners = JSON.parse(localStorage.getItem(LS_LOTTERY)) || [];
+let contentWinners = JSON.parse(localStorage.getItem(LS_CONTENT)) || [];
+let firstPlaceArchive = JSON.parse(localStorage.getItem(LS_ARCHIVE)) || [];
 
-  let contentWinners = JSON.parse(localStorage.getItem(LS_CONTENT)) || [
-    {wallet:"0xF11...AC8", prize:"75,000 TOKEN", rank:1, postLink:"https://example.com/post1"}
-  ];
+// Save Data
+function saveData(){
+  localStorage.setItem(LS_LOTTERY, JSON.stringify(lotteryWinners));
+  localStorage.setItem(LS_CONTENT, JSON.stringify(contentWinners));
+  localStorage.setItem(LS_ARCHIVE, JSON.stringify(firstPlaceArchive));
+}
 
-  let firstPlaceArchive = JSON.parse(localStorage.getItem(LS_ARCHIVE)) || [
-    {wallet:"0xF11...AC8", prize:"75,000 TOKEN", category:"Content Contest", thumbnail:"https://via.placeholder.com/150", postLink:"https://example.com/post1", round:1, date:"2025-12-06"}
-  ];
-  {wallet:"0xF11...AC8", prize:"75,000 TOKEN", category:"Content Contest", thumbnail:"https://via.placeholder.com/150", postLink:"https://example.com/post1", round:1, date:"2025-12-06"}
-  ];
-  {wallet:"0xF11...AC8", prize:"75,000 TOKEN", category:"Content Contest", thumbnail:"https://via.placeholder.com/150", postLink:"https://example.com/post1", round:1, date:"2025-12-06"}
-  ];
+// Populate Slider
+function populateSlider(){
+  const slider=document.getElementById("winnerSlider");
+  slider.innerHTML="";
+  const combined=[...lotteryWinners,...contentWinners];
+  combined.forEach(w=>{
+    const div=document.createElement("div");
+    div.className="slider-item";
+    div.textContent=`${w.wallet} | Rank:${w.rank} | ${w.prize}`;
+    slider.appendChild(div);
+  });
+}
+populateSlider();
 
-  function saveData(){
-    localStorage.setItem(LS_LOTTERY, JSON.stringify(lotteryWinners));
-    localStorage.setItem(LS_CONTENT, JSON.stringify(contentWinners));
-    localStorage.setItem(LS_ARCHIVE, JSON.stringify(firstPlaceArchive));
+// Render Winners
+function renderWinners(){
+  const lotteryContainer=document.getElementById("lotteryWinners");
+  lotteryContainer.innerHTML="";
+  lotteryWinners.forEach(w=>{
+    const div=document.createElement("div");
+    div.className="winner-card";
+    div.innerHTML=`Rank ${w.rank}<br>${w.prize}<br>${w.wallet}`;
+    lotteryContainer.appendChild(div);
+  });
+
+  const contentContainer=document.getElementById("contentWinners");
+  contentContainer.innerHTML="";
+  contentWinners.forEach(w=>{
+    const div=document.createElement("div");
+    div.className="winner-card";
+    div.innerHTML=`Rank ${w.rank}<br>${w.prize}<br>${w.wallet}<br><a href="${w.postLink}" target="_blank" style="color:#0ff">مشاهده پست</a>`;
+    contentContainer.appendChild(div);
+  });
+}
+renderWinners();
+
+// Render Archive
+function renderArchive(){
+  const archive=document.getElementById("firstPlaceArchive");
+  archive.innerHTML="";
+  firstPlaceArchive.forEach(w=>{
+    const div=document.createElement("div");
+    div.className="archive-card";
+    div.innerHTML=`
+      <img class="thumbnail" src="${w.thumbnail}">
+      <p>${w.wallet}</p>
+      <p>${w.category}</p>
+      <p>${w.prize}</p>
+      <p>Round ${w.round}</p>
+      <p>${w.date}</p>
+      ${w.postLink?`<a href="${w.postLink}" target="_blank" style="color:#0ff">مشاهده پست</a>`:""}
+    `;
+    archive.appendChild(div);
+  });
+}
+renderArchive();
+
+// Countdown
+let lotteryTime=72*3600; // seconds
+let contentTime=7*24*3600;
+
+function updateTimers(){
+  document.getElementById("lotteryTimer").textContent=formatTime(lotteryTime);
+  document.getElementById("contentTimer").textContent=formatTime(contentTime);
+  if(lotteryTime>0) lotteryTime--;
+  if(contentTime>0) contentTime--;
+}
+setInterval(updateTimers,1000);
+
+function formatTime(s){
+  const d=Math.floor(s/86400);
+  const h=Math.floor((s%86400)/3600);
+  const m=Math.floor((s%3600)/60);
+  const sec=s%60;
+  return `${d?d+"d ":""}${h.toString().padStart(2,"0")}:${m.toString().padStart(2,"0")}:${sec.toString().padStart(2,"0")}`;
+}
+
+// Lottery Functions
+function registerLottery(){
+  const wallet=prompt("آدرس کیف پول خود را وارد کنید:");
+  if(!wallet) return;
+  if(!lotteryWinners.some(w=>w.wallet===wallet)){
+    lotteryWinners.push({wallet,wallet,prize:"--",rank:lotteryWinners.length+1});
   }
-
-  const winnerSlider = document.getElementById("winnerSlider");
-  function populateSlider(){
-    winnerSlider.innerHTML="";
-    const combined = [...lotteryWinners, ...contentWinners];
-    combined.forEach(w=>{
-      const div=document.createElement("div");
-      div.className="slider-item";
-      div.textContent=`${w.wallet} | Rank:${w.rank} | ${w.prize}`;
-      winnerSlider.appendChild(div);
-    });
+  saveData(); renderWinners(); populateSlider();
+  alert("ثبت شما در قرعه‌کشی انجام شد!");
+}
+function resetLottery(){
+  if(confirm("می‌خواهید قرعه‌کشی ریست شود؟")){
+    lotteryWinners=[];
+    saveData(); renderWinners(); populateSlider();
   }
-  populateSlider();
+}
 
-  function renderWinners(){
-    const lotteryContainer = document.getElementById("lotteryWinners");
-    lotteryContainer.innerHTML="";
-    lotteryWinners.forEach(w=>{
-      const div=document.createElement("div");
-      div.className="winner-card";
-      div.innerHTML=`Rank ${w.rank}<br>${w.prize}<br>${w.wallet}`;
-      lotteryContainer.appendChild(div);
-    });
-
-    const contentContainer = document.getElementById("contentWinners");
-    contentContainer.innerHTML="";
-    contentWinners.forEach(w=>{
-      const div=document.createElement("div");
-      div.className="winner-card";
-      div.innerHTML=`Rank ${w.rank}<br>${w.prize}<br>${w.wallet}<br><a href="${w.postLink}" target="_blank" style="color:#0ff">مشاهده پست</a>`;
-      contentContainer.appendChild(div);
-    });
+// Content Functions
+function submitContent(){
+  const wallet=document.getElementById("walletInput").value;
+  const post=document.getElementById("postInput").value;
+  if(!wallet||!post){ alert("لطفاً همه فیلدها را پر کنید"); return; }
+  contentWinners.push({wallet,wallet,postLink:post,prize:"--",rank:contentWinners.length+1});
+  saveData(); renderWinners(); populateSlider();
+  document.getElementById("walletInput").value=""; document.getElementById("postInput").value="";
+}
+function resetContent(){
+  if(confirm("می‌خواهید مسابقه محتوا ریست شود؟")){
+    contentWinners=[];
+    saveData(); renderWinners(); populateSlider();
   }
-  renderWinners();
+}
 
-  function renderArchive(){
-    const archiveContainer=document.getElementById("firstPlaceArchive");
-    archiveContainer.innerHTML="";
-    firstPlaceArchive.forEach(w=>{
-      const div=document.createElement("div");
-      div.className="archive-card";
-      div.innerHTML=`
-        <img class="thumbnail" src="${w.thumbnail}">
-        <p>${w.wallet}</p>
-        <p>${w.category}</p>
-        <p>${w.prize}</p>
-        <p>Round ${w.round}</p>
-        <p>${w.date}</p>
-        ${w.postLink?`<a href="${w.postLink}" target="_blank" style="color:#0ff">مشاهده پست</a>`:""}
-      `;
-      archiveContainer.appendChild(div);
-    });
-  }
-  renderArchive();
-
-  let lotteryTime=72*3600;
-  let contentTime=7*24*3600;
-
-  function updateTimers(){
-    document.getElementById("lotteryTimer").textContent=formatTime(lotteryTime);
-    document.getElementById("contentTimer").textContent=formatTime(contentTime);
-    if(lotteryTime>0) lotteryTime--;
-    if(contentTime>0) contentTime--;
-  }
-  setInterval(updateTimers,1000);
-  function formatTime(seconds){
-    const d=Math.floor(seconds/86400);
-    const h=Math.floor((seconds%86400)/3600);
-    const m=Math.floor((seconds%3600)/60);
-    const s=seconds%60;
-    return `${d?d+"d ":""}${h.toString().padStart(2,"0")}:${m.toString().padStart(2,"0")}:${s.toString().padStart(2,"0")}`;
-  }
-
-  function registerLottery(){
-    const wallet=prompt("آدرس کیف پول خود را وارد کنید:");
-    if(!wallet) return;
-    const exists = lotteryWinners.some(w=>w.wallet===wallet);
-    if(!exists) lotteryWinners.push({wallet,wallet,prize:"--",rank:lotteryWinners.length+1});
-    saveData();
-    renderWinners();
-    populateSlider();
-    alert("ثبت شما برای قرعه‌کشی ذخیره شد!");
-  }
-
-  function submitContent(){
-    const wallet=document.getElementById("walletInput").value;
-    const post=document.getElementById("postInput").value;
-    if(!wallet||!post){ alert("لطفاً همه فیلدها را پر کنید"); return;}
-    const newEntry={wallet,wallet,postLink:post,prize:"--",rank:contentWinners.length+1};
-    contentWinners.push(newEntry);
-    saveData();
-    renderWinners();
-    populateSlider();
-    alert("محتوای شما ثبت شد!");
-    document.getElementById("walletInput").value="";
-    document.getElementById("postInput").value="";
-  }
-
-  function addFirstPlace(wallet, category, prize, thumbnail, postLink, round, date){
-    firstPlaceArchive.push({wallet, category, prize, thumbnail, postLink, round, date});
-    saveData();
-    renderArchive();
-    populateSlider();
-  }
+// First Place Archive Add
+function addFirstPlace(wallet, category, prize, thumbnail, postLink, round, date){
+  firstPlaceArchive.push({wallet,category,prize,thumbnail,postLink,round,date});
+  saveData(); renderArchive(); populateSlider();
+}
 </script>
 </body>
 </html>
