@@ -1,165 +1,79 @@
-<!DOCTYPE html>
-<html lang="fa">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>صفحه مسابقات (عمومی)</title>
-<style>
-  body{font-family:sans-serif;background:#0d0d0d;color:#fff;margin:0;padding:20px;}
-  .card{background:linear-gradient(135deg,#111,#222);padding:16px;border-radius:12px;box-shadow:0 0 20px rgba(0,255,255,0.08);margin-bottom:16px}
-  h1,h2{color:#0ff;margin:0 0 8px 0}
-  .timer{font-family:monospace;color:#0ff;margin-bottom:12px}
-  .list{display:flex;flex-wrap:wrap;gap:8px}
-  .item{background:#0b0b0b;padding:8px;border-radius:8px;min-width:160px}
-  input,button{padding:10px;border-radius:8px;border:none}
-  input{width:100%;background:#121212;color:#fff;margin-bottom:8px}
-  button{background:linear-gradient(45deg,#0ff,#0f0);cursor:pointer;color:#000;font-weight:700}
-  .small{font-size:13px;color:#aaa}
-  a.link{color:#0ff;text-decoration:underline}
-</style>
-</head>
-<body>
-  <div class="card">
-    <h1>🎉 مسابقات رسمی</h1>
-    <p class="small">همه چیز بروز است — نتایج مشترک برای همه دستگاه‌ها</p>
-  </div>
+<?php
 
-  <div id="lottery" class="card">
-    <h2>قرعه‌کشی 72 ساعته</h2>
-    <div class="timer" id="lotteryTimer">در حال بارگذاری...</div>
-    <div id="lotteryList" class="list"></div>
-    <div style="margin-top:12px">
-      <input id="lotteryWallet" placeholder="آدرس کیف پول برای شرکت (اختیاری)">
-      <button id="lotteryJoin">شرکت در قرعه‌کشی</button>
-    </div>
-  </div>
+// ----- تنظیمات خیلی ساده ----- //
+$ADMIN_KEY = "CHANGE_ME_ADMIN_KEY"; // این را عوض کن
 
-  <div id="content" class="card">
-    <h2>مسابقه تولید محتوا 7 روزه</h2>
-    <div class="timer" id="contentTimer">در حال بارگذاری...</div>
-    <div id="contentList" class="list"></div>
-    <div style="margin-top:12px">
-      <input id="contentWallet" placeholder="آدرس کیف پول">
-      <input id="contentPost" placeholder="لینک پست (عمومی)">
-      <button id="contentSubmit">ارسال محتوا</button>
-    </div>
-  </div>
+// مسیر فایل‌های دیتا
+$lotteryFile = "data/lottery.json";
+$contentFile = "data/content.json";
+$archiveFile = "data/archive.json";
 
-  <div id="archiveCard" class="card">
-    <h2>آرشیو نفر اول</h2>
-    <div id="archiveGrid" class="list"></div>
-  </div>
-
-<script>
-const API = './api.php'; // اگر مسیر متفاوت است این را تغییر بده
-
-// fetch helpers
-async function apiGet(resource) {
-  const r = await fetch(`${API}?resource=${resource}&action=get`);
-  return r.json();
-}
-async function apiPost(resource, action, body, adminKey = null) {
-  const url = `${API}?resource=${resource}&action=${action}` + (adminKey ? `&admin_key=${encodeURIComponent(adminKey)}` : '');
-  const r = await fetch(url, {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify(body || {})
-  });
-  return r.json();
+// خواندن فایل
+function readJson($file) {
+    return json_decode(file_get_contents($file), true);
 }
 
-// UI rendering
-function showList(containerId, data, ended=false) {
-  const container = document.getElementById(containerId);
-  container.innerHTML = '';
-  if(!data) return;
-  if(!ended) {
-    // show participants (scrollable style)
-    data.participants.slice().reverse().forEach(p => {
-      const el = document.createElement('div'); el.className='item';
-      el.textContent = p.wallet;
-      container.appendChild(el);
-    });
-  } else {
-    // show top3
-    if(Array.isArray(data.top3) && data.top3.length) {
-      data.top3.forEach(t => {
-        const el = document.createElement('div'); el.className='item';
-        el.innerHTML = `<strong>${t.wallet}</strong><div class="small">${t.prize || ''}</div>`;
-        container.appendChild(el);
-      });
-    } else {
-      container.innerHTML = '<div class="small">نتایج هنوز اعلام نشده</div>';
-    }
-  }
+// نوشتن فایل
+function writeJson($file, $data) {
+    file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT));
 }
 
-let lotteryData = null, contentData = null;
-let lotteryTime = 72*3600, contentTime = 7*24*3600;
+// دریافت پارامتر action
+$action = $_GET["action"] ?? null;
 
-async function refreshAll() {
-  lotteryData = await apiGet('lottery');
-  contentData = await apiGet('content');
-  const archive = await apiGet('archive');
-
-  // timers (we rely on server-independent countdown; client shows remaining if data contains remaining seconds later)
-  // For simplicity keep local countdown starting values (could be improved to use server timestamps)
-  document.getElementById('lotteryTimer').textContent = lotteryData.ended ? 'مسابقه تمام شده' : formatTime(lotteryTime);
-  document.getElementById('contentTimer').textContent = contentData.ended ? 'مسابقه تمام شده' : formatTime(contentTime);
-
-  showList('lotteryList', lotteryData, lotteryData.ended);
-  showList('contentList', contentData, contentData.ended);
-  renderArchive(archive);
+// حالت GET → دریافت تمام داده‌ها
+if ($action === "get") {
+    echo json_encode([
+        "lottery" => readJson($GLOBALS['lotteryFile']),
+        "content" => readJson($GLOBALS['contentFile']),
+        "archive" => readJson($GLOBALS['archiveFile'])
+    ]);
+    exit;
 }
 
-function formatTime(s){
-  const d=Math.floor(s/86400), h=Math.floor((s%86400)/3600), m=Math.floor((s%3600)/60), sec=s%60;
-  return `${d?d+'d ':''}${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+// حالت POST → تغییرات مدیریتی
+$input = json_decode(file_get_contents("php://input"), true);
+
+// چک کردن کلید مدیر
+if (($input["key"] ?? "") !== $ADMIN_KEY) {
+    echo json_encode(["error" => "invalid_key"]);
+    exit;
 }
 
-// join lottery
-document.getElementById('lotteryJoin').addEventListener('click', async ()=>{
-  const wallet = document.getElementById('lotteryWallet').value.trim();
-  await apiPost('lottery','add_participant', {wallet});
-  await refreshAll();
-  alert('ثبت شد (اگر مسابقه هنوز باز باشد)');
-});
+switch ($action) {
 
-// submit content
-document.getElementById('contentSubmit').addEventListener('click', async ()=>{
-  const wallet = document.getElementById('contentWallet').value.trim();
-  const post = document.getElementById('contentPost').value.trim();
-  if(!wallet||!post){ alert('همه فیلدها را پر کنید'); return; }
-  await apiPost('content','add_participant', {wallet, postLink: post});
-  await refreshAll();
-  alert('محتوا ثبت شد (اگر مسابقه هنوز باز باشد)');
-});
+    case "setLottery": 
+        writeJson($lotteryFile, [
+            "ended" => true,
+            "top3" => $input["top3"]
+        ]);
+        echo json_encode(["ok" => true]);
+        break;
 
-// render archive
-function renderArchive(obj) {
-  const grid = document.getElementById('archiveGrid');
-  grid.innerHTML='';
-  if(!obj || !Array.isArray(obj.records)) return;
-  obj.records.slice().reverse().forEach(r=>{
-    const el=document.createElement('div'); el.className='item';
-    el.innerHTML = `<div style="min-width:120px"><img src="${r.thumbnail||''}" style="width:120px;height:80px;object-fit:cover;border-radius:8px"></div>
-      <div><strong>${r.wallet}</strong><div class="small">${r.category} • ${r.prize}</div>
-      ${r.postLink?'<div><a class="link" href="'+r.postLink+'" target="_blank">مشاهده پست</a></div>':''}
-      </div>`;
-    grid.appendChild(el);
-  });
+    case "setContent":
+        writeJson($contentFile, [
+            "ended" => true,
+            "top3" => $input["top3"]
+        ]);
+        echo json_encode(["ok" => true]);
+        break;
+
+    case "resetAll":
+        writeJson($lotteryFile, ["ended" => false, "top3" => []]);
+        writeJson($contentFile, ["ended" => false, "top3" => []]);
+        echo json_encode(["reset" => true]);
+        break;
+
+    case "addArchive":
+        $archive = readJson($archiveFile);
+        $archive["records"][] = $input["record"];
+        writeJson($archiveFile, $archive);
+        echo json_encode(["ok" => true]);
+        break;
+
+    default:
+        echo json_encode(["error" => "unknown_action"]);
+        break;
 }
 
-// initial
-refreshAll();
-// simple client-side countdown tick for UI only
-setInterval(()=>{
-  if(lotteryTime>0) { lotteryTime--; document.getElementById('lotteryTimer').textContent = formatTime(lotteryTime); }
-  if(contentTime>0) { contentTime--; document.getElementById('contentTimer').textContent = formatTime(contentTime); }
-},1000);
-
-// refresh from server every 12s
-setInterval(refreshAll, 12000);
-</script>
-</body>
-</html>
+?>
