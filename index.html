@@ -3,42 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>صفحه مسابقات توکن</title>
+<title>صفحه مسابقات عمومی</title>
 <style>
-body {
-  margin:0; font-family:sans-serif; background:#0d0d0d; color:white;
-}
-section {
-  margin:20px auto; max-width:1000px;
-  background:linear-gradient(135deg,#111,#222); border-radius:12px;
-  padding:20px; box-shadow:0 0 15px #0ff;
-}
-h2 { color:#0ff; margin-bottom:10px; text-shadow:0 0 5px #0ff; }
-.timer { font-family:monospace; font-size:20px; margin-bottom:10px; color:#0ff; }
+body {margin:0;font-family:sans-serif;background:#0d0d0d;color:white;}
+section {margin:20px auto;max-width:1000px;background:linear-gradient(135deg,#111,#222);border-radius:12px;padding:20px;box-shadow:0 0 15px #0ff;}
+h2 { color:#0ff;margin-bottom:10px;text-shadow:0 0 5px #0ff;}
+.timer { font-family:monospace;font-size:20px;margin-bottom:10px;color:#0ff; }
 .winner-container { display:flex; flex-wrap:wrap; gap:10px; max-height:200px; overflow-y:auto; }
-.winner-card, .archive-card {
-  background:#111; padding:12px; border-radius:8px; text-align:center;
-  box-shadow:0 0 10px #0ff; transition:0.3s; min-width:120px;
-}
-.winner-card:hover, .archive-card:hover { transform:translateY(-5px); box-shadow:0 0 20px #0ff,0 0 15px #fff; }
-input, button { padding:8px; border-radius:6px; border:none; margin-bottom:8px; }
-input { width:100%; background:#222; color:white; box-shadow:inset 0 0 5px #0ff; }
-button {
-  background:linear-gradient(45deg,#0ff,#0f0); color:black; font-weight:bold; cursor:pointer;
-  box-shadow:0 0 10px #0ff; transition:0.3s;
-}
-button:hover { box-shadow:0 0 20px #0ff; transform:scale(1.05); }
-.archive-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px; }
-img.thumbnail { width:100%; height:100px; object-fit:cover; border-radius:6px; box-shadow:0 0 5px #0ff; }
-
-/* پنل مدیریتی */
-#adminPanel {
-  position:fixed; right:0; top:70px; width:300px; max-height:90vh; overflow-y:auto;
-  background:rgba(0,0,0,0.9); padding:15px; border-left:3px solid #0ff;
-  box-shadow:0 0 15px #0ff; color:#0ff; z-index:999;
-}
-#adminPanel h3 { color:#0f0; margin-bottom:10px; text-align:center; }
-#adminPanel button { width:100%; margin-bottom:8px; }
+.winner-card, .archive-card { background:#111; padding:12px; border-radius:8px; text-align:center; box-shadow:0 0 10px #0ff; transition:0.3s; min-width:120px;}
+.winner-card:hover, .archive-card:hover { transform:translateY(-5px); box-shadow:0 0 20px #0ff,0 0 15px #fff;}
+.archive-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px;}
+img.thumbnail { width:100%; height:100px; object-fit:cover; border-radius:6px; box-shadow:0 0 5px #0ff;}
 </style>
 </head>
 <body>
@@ -48,7 +23,6 @@ img.thumbnail { width:100%; height:100px; object-fit:cover; border-radius:6px; b
   <h2>🎲 قرعه‌کشی 72 ساعته</h2>
   <div class="timer" id="lotteryTimer"></div>
   <div class="winner-container" id="lotteryWinners"></div>
-  <button onclick="registerLottery()">شرکت در قرعه‌کشی</button>
 </section>
 
 <!-- Content Contest Section -->
@@ -56,9 +30,6 @@ img.thumbnail { width:100%; height:100px; object-fit:cover; border-radius:6px; b
   <h2>📝 مسابقه تولید محتوا 7 روزه</h2>
   <div class="timer" id="contentTimer"></div>
   <div class="winner-container" id="contentWinners"></div>
-  <input type="text" id="walletInput" placeholder="آدرس کیف پول">
-  <input type="text" id="postInput" placeholder="لینک پست">
-  <button onclick="submitContent()">ارسال محتوا</button>
 </section>
 
 <!-- First Place Archive -->
@@ -67,56 +38,34 @@ img.thumbnail { width:100%; height:100px; object-fit:cover; border-radius:6px; b
   <div class="archive-grid" id="firstPlaceArchive"></div>
 </section>
 
-<!-- پنل مدیریتی -->
-<div id="adminPanel">
-  <h3>پنل مدیر</h3>
-  <button onclick="resetLottery()">ریست قرعه‌کشی</button>
-  <button onclick="endLottery()">ثبت ۳ نفر برتر قرعه‌کشی</button>
-  <hr>
-  <button onclick="resetContent()">ریست مسابقه محتوا</button>
-  <button onclick="endContent()">ثبت ۳ نفر برتر محتوا</button>
-</div>
-
 <script>
 const LS_LOTTERY="lotteryWinners";
 const LS_CONTENT="contentWinners";
 const LS_ARCHIVE="firstPlaceArchive";
 
-// Load Data
 let lotteryWinners = JSON.parse(localStorage.getItem(LS_LOTTERY)) || [];
 let contentWinners = JSON.parse(localStorage.getItem(LS_CONTENT)) || [];
 let firstPlaceArchive = JSON.parse(localStorage.getItem(LS_ARCHIVE)) || [];
 
-// Save Data
-function saveData(){
-  localStorage.setItem(LS_LOTTERY, JSON.stringify(lotteryWinners));
-  localStorage.setItem(LS_CONTENT, JSON.stringify(contentWinners));
-  localStorage.setItem(LS_ARCHIVE, JSON.stringify(firstPlaceArchive));
-}
-
-// Render Winners
 function renderWinners(showRank=false){
   const lotteryContainer=document.getElementById("lotteryWinners");
   lotteryContainer.innerHTML="";
-  lotteryWinners.forEach((w,i)=>{
-    const div=document.createElement("div");
-    div.className="winner-card";
+  lotteryWinners.forEach((w)=>{ 
+    const div=document.createElement("div"); div.className="winner-card";
     div.innerHTML=showRank?`Rank ${w.rank}<br>${w.prize}<br>${w.wallet}`:`${w.wallet}`;
     lotteryContainer.appendChild(div);
   });
-
+  
   const contentContainer=document.getElementById("contentWinners");
   contentContainer.innerHTML="";
-  contentWinners.forEach((w,i)=>{
-    const div=document.createElement("div");
-    div.className="winner-card";
+  contentWinners.forEach((w)=>{ 
+    const div=document.createElement("div"); div.className="winner-card";
     div.innerHTML=showRank?`Rank ${w.rank}<br>${w.prize}<br>${w.wallet}<br><a href="${w.postLink}" target="_blank" style="color:#0ff">مشاهده پست</a>`:`${w.wallet}`;
     contentContainer.appendChild(div);
   });
 }
-renderWinners();
+renderWinners(false);
 
-// Render Archive
 function renderArchive(){
   const archive=document.getElementById("firstPlaceArchive");
   archive.innerHTML="";
@@ -143,79 +92,10 @@ let contentTime=7*24*3600;
 function updateTimers(){
   document.getElementById("lotteryTimer").textContent=formatTime(lotteryTime);
   document.getElementById("contentTimer").textContent=formatTime(contentTime);
-  if(lotteryTime>0) lotteryTime--;
-  if(contentTime>0) contentTime--;
+  if(lotteryTime>0) lotteryTime--; if(contentTime>0) contentTime--;
 }
 setInterval(updateTimers,1000);
-function formatTime(s){
-  const d=Math.floor(s/86400);
-  const h=Math.floor((s%86400)/3600);
-  const m=Math.floor((s%3600)/60);
-  const sec=s%60;
-  return `${d?d+"d ":""}${h.toString().padStart(2,"0")}:${m.toString().padStart(2,"0")}:${sec.toString().padStart(2,"0")}`;
-}
-
-// Lottery Functions
-function registerLottery(){
-  const wallet=prompt("آدرس کیف پول خود را وارد کنید:");
-  if(!wallet) return;
-  if(!lotteryWinners.some(w=>w.wallet===wallet)){
-    lotteryWinners.push({wallet,wallet,prize:"--",rank:null});
-  }
-  saveData(); renderWinners();
-  alert("ثبت شما در قرعه‌کشی انجام شد!");
-}
-function resetLottery(){
-  if(confirm("می‌خواهید قرعه‌کشی ریست شود؟")){
-    lotteryWinners=[];
-    saveData(); renderWinners();
-  }
-}
-function endLottery(){
-  const top3 = [];
-  for(let i=1;i<=3;i++){
-    const wallet=prompt(`آدرس برنده رتبه ${i} را وارد کنید:`); 
-    const prize=prompt(`مقدار جایزه رتبه ${i} را وارد کنید:`); 
-    top3.push({wallet,wallet,rank:i,prize});
-  }
-  lotteryWinners = top3;
-  saveData(); renderWinners(true);
-  alert("۳ نفر برتر ثبت شدند!");
-}
-
-// Content Functions
-function submitContent(){
-  const wallet=document.getElementById("walletInput").value;
-  const post=document.getElementById("postInput").value;
-  if(!wallet||!post){ alert("لطفاً همه فیلدها را پر کنید"); return; }
-  contentWinners.push({wallet,wallet,postLink:post,prize:"--",rank:null});
-  saveData(); renderWinners();
-  document.getElementById("walletInput").value=""; document.getElementById("postInput").value="";
-}
-function resetContent(){
-  if(confirm("می‌خواهید مسابقه محتوا ریست شود؟")){
-    contentWinners=[];
-    saveData(); renderWinners();
-  }
-}
-function endContent(){
-  const top3 = [];
-  for(let i=1;i<=3;i++){
-    const wallet=prompt(`آدرس برنده رتبه ${i} را وارد کنید:`); 
-    const prize=prompt(`مقدار جایزه رتبه ${i} را وارد کنید:`); 
-    const postLink=prompt(`لینک پست برنده رتبه ${i} را وارد کنید:`); 
-    top3.push({wallet,wallet,rank:i,prize,postLink});
-  }
-  contentWinners = top3;
-  saveData(); renderWinners(true);
-  alert("۳ نفر برتر ثبت شدند!");
-}
-
-// First Place Archive Add
-function addFirstPlace(wallet, category, prize, thumbnail, postLink, round, date){
-  firstPlaceArchive.push({wallet,category,prize,thumbnail,postLink,round,date});
-  saveData(); renderArchive();
-}
+function formatTime(s){ const d=Math.floor(s/86400); const h=Math.floor((s%86400)/3600); const m=Math.floor((s%3600)/60); const sec=s%60; return `${d?d+"d ":""}${h.toString().padStart(2,"0")}:${m.toString().padStart(2,"0")}:${sec.toString().padStart(2,"0")}`;}
 </script>
 </body>
 </html>
