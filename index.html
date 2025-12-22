@@ -5,36 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AEMS Presale</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+    <script src="ethers.umd.min.js"></script>
     <script src="abi.js"></script>
 </head>
 <body>
     <header>
-        <h1>AEMS</h1>
+        <div class="logo">AEMS</div>
         <nav>
-            <a href="#home">Home</a>
-            <a href="#whitepaper">Whitepaper</a>
-            <a href="#roadmap">Roadmap</a>
-            <a href="#features">Features</a>
-            <a href="#tokeninfo">Token Info</a>
+            <a href="#">Home</a>
+            <a href="#">Whitepaper</a>
+            <a href="#">Roadmap</a>
+            <a href="#">Features</a>
+            <a href="#">Token Info</a>
         </nav>
-        <button id="connectWallet">Connect Wallet</button>
+        <button id="connectWallet" type="button">Connect Wallet</button> <!-- type button اضافه شد -->
         <span id="walletAddr">Not connected</span>
     </header>
 
-    <section id="banner">
-        <div id="bannerInner" class="banner-inner">
-            <div class="banner-item">‹</div>
-            <div class="banner-item">›</div>
-        </div>
-        <button id="bannerPrev">‹</button>
-        <button id="bannerNext">›</button>
-    </section>
+    <main>
+        <section class="banner">
+            <button id="bannerPrev">‹</button>
+            <div id="bannerInner" class="banner-inner">
+                <!-- banners go here -->
+            </div>
+            <button id="bannerNext">›</button>
+        </section>
 
-    <section id="presale">
-        <h2># AEMS Token Presale</h2>
+        <h1># AEMS Token Presale</h1>
         <p>Fixed price: <strong>0.007 USDT</strong> — Buy with USDT or BNB</p>
-        <p>Total allocation: <span id="alloc">129,000,000</span></p>
+        <p>Total allocation: 129,000,000</p>
         <p>Sold: <span id="sold">—</span></p>
         <p>Remaining: <span id="left">—</span></p>
         <p>Raised (USDT): <span id="raisedUSDT">—</span></p>
@@ -52,30 +51,30 @@
                 <div>Estimated BNB: <span id="estBNB">—</span></div>
             </div>
         </div>
+
         <div class="progress">
             <div id="progressFill"></div>
         </div>
-    </section>
 
-    <section id="vesting">
-        <h3>Your Vesting</h3>
-        <p>Purchased: <span id="myPurchased">—</span> AEMS</p>
-        <p>Claimed: <span id="myClaimed">—</span> AEMS</p>
-        <p>Claimable now: <span id="myClaimable">—</span> AEMS</p>
+        <h2>Your Vesting</h2>
+        <p>Purchased: <strong><span id="myPurchased">—</span> AEMS</strong></p>
+        <p>Claimed: <strong><span id="myClaimed">—</span> AEMS</strong></p>
+        <p>Claimable now: <strong><span id="myClaimable">—</span> AEMS</strong></p>
         <p>Next unlock: <span id="nextUnlock">—</span></p>
-        <button id="claimBtn">Claim Available Tokens</button>
-    </section>
+        <button id="claimBtn" class="btn primary">Claim Available Tokens</button>
 
-    <section id="adminPanel" style="display:none;">
-        <h3>Admin Panel (Owner)</h3>
-        <button id="endPresaleBtn">Force End Presale</button>
-        <button id="withdrawBNBBtn">Withdraw BNB</button>
-        <button id="withdrawUSDTBtn">Withdraw USDT</button>
-        <button id="withdrawUnsoldBtn">Withdraw Unsold Tokens</button>
-        <button id="destroyBtn">Destroy Contract</button>
-        <p>Contract: <a id="contractLink" href="" target="_blank"></a></p>
-        <p>Owner: <span id="ownerAddr">—</span></p>
-    </section>
+        <section id="adminPanel">
+            <h2>Admin Panel (Owner)</h2>
+            <button id="endPresaleBtn" class="btn primary">Force End Presale</button>
+            <button id="withdrawBNBBtn" class="btn primary">Withdraw BNB</button>
+            <button id="withdrawUSDTBtn" class="btn primary">Withdraw USDT</button>
+            <button id="withdrawUnsoldBtn" class="btn primary">Withdraw Unsold Tokens</button>
+            <button id="destroyBtn" class="btn danger">Destroy Contract</button>
+
+            <p>Contract: <a id="contractLink" target="_blank"></a></p>
+            <p>Owner: <span id="ownerAddr">—</span></p>
+        </section>
+    </main>
 
     <footer>
         <p>© AEMS Presale</p>
@@ -84,4 +83,4 @@
 
     <script src="main.js"></script>
 </body>
-      </html> 
+                    </html> 
