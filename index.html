@@ -1,79 +1,27 @@
-<?php
+const PRESALE_ADDRESS = "0xa6452a6d7d399dd2b1d2c5e237eabd9c1c00379f";
 
-// ----- تنظیمات خیلی ساده ----- //
-$ADMIN_KEY = "CHANGE_ME_ADMIN_KEY"; // این را عوض کن
+const PRESALE_ABI = [
+  "function buyWithBNB() payable",
+  "function buyWithUSDT(uint256)",
+  "function claimTokens()",
+  "function getPresaleAllocation() view returns(uint256)",
+  "function getSold() view returns(uint256)",
+  "function tokensLeft() view returns(uint256)",
+  "function buyers(address) view returns(uint256,uint256)",
+  "function claimable(address) view returns(uint256)",
+  "function priceFeed() view returns(address)",
+  "function owner() view returns(address)"
+];
 
-// مسیر فایل‌های دیتا
-$lotteryFile = "data/lottery.json";
-$contentFile = "data/content.json";
-$archiveFile = "data/archive.json";
+const ERC20_ABI = [
+  "function approve(address,uint256)",
+  "function allowance(address,address) view returns(uint256)",
+  "function balanceOf(address) view returns(uint256)",
+  "function decimals() view returns(uint8)"
+];
 
-// خواندن فایل
-function readJson($file) {
-    return json_decode(file_get_contents($file), true);
-}
+const AGG_ABI = [
+  "function latestRoundData() view returns(uint80,int256,uint256,uint256,uint80)"
+];
 
-// نوشتن فایل
-function writeJson($file, $data) {
-    file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT));
-}
-
-// دریافت پارامتر action
-$action = $_GET["action"] ?? null;
-
-// حالت GET → دریافت تمام داده‌ها
-if ($action === "get") {
-    echo json_encode([
-        "lottery" => readJson($GLOBALS['lotteryFile']),
-        "content" => readJson($GLOBALS['contentFile']),
-        "archive" => readJson($GLOBALS['archiveFile'])
-    ]);
-    exit;
-}
-
-// حالت POST → تغییرات مدیریتی
-$input = json_decode(file_get_contents("php://input"), true);
-
-// چک کردن کلید مدیر
-if (($input["key"] ?? "") !== $ADMIN_KEY) {
-    echo json_encode(["error" => "invalid_key"]);
-    exit;
-}
-
-switch ($action) {
-
-    case "setLottery": 
-        writeJson($lotteryFile, [
-            "ended" => true,
-            "top3" => $input["top3"]
-        ]);
-        echo json_encode(["ok" => true]);
-        break;
-
-    case "setContent":
-        writeJson($contentFile, [
-            "ended" => true,
-            "top3" => $input["top3"]
-        ]);
-        echo json_encode(["ok" => true]);
-        break;
-
-    case "resetAll":
-        writeJson($lotteryFile, ["ended" => false, "top3" => []]);
-        writeJson($contentFile, ["ended" => false, "top3" => []]);
-        echo json_encode(["reset" => true]);
-        break;
-
-    case "addArchive":
-        $archive = readJson($archiveFile);
-        $archive["records"][] = $input["record"];
-        writeJson($archiveFile, $archive);
-        echo json_encode(["ok" => true]);
-        break;
-
-    default:
-        echo json_encode(["error" => "unknown_action"]);
-        break;
-}
-
-?>
+const USDT_ADDRESS = "0x55d398326f99059fF775485246999027B3197955";
