@@ -1,27 +1,89 @@
-const PRESALE_ADDRESS = "0xa6452a6d7d399dd2b1d2c5e237eabd9c1c00379f";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AEMS Presale</title>
 
-const PRESALE_ABI = [
-  "function buyWithBNB() payable",
-  "function buyWithUSDT(uint256)",
-  "function claimTokens()",
-  "function getPresaleAllocation() view returns(uint256)",
-  "function getSold() view returns(uint256)",
-  "function tokensLeft() view returns(uint256)",
-  "function buyers(address) view returns(uint256,uint256)",
-  "function claimable(address) view returns(uint256)",
-  "function priceFeed() view returns(address)",
-  "function owner() view returns(address)"
-];
+<link rel="icon" href="https://via.placeholder.com/32" type="image/png">
 
-const ERC20_ABI = [
-  "function approve(address,uint256)",
-  "function allowance(address,address) view returns(uint256)",
-  "function balanceOf(address) view returns(uint256)",
-  "function decimals() view returns(uint8)"
-];
+<!-- Styles (unchanged) -->
+<style>
+/* === EXACTLY SAME CSS AS YOUR FILE === */
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:#0b0b0b;color:#fff}
+.header{display:flex;justify-content:space-between;align-items:center;padding:15px 30px;background:#111;border-bottom:2px solid #00f0ff}
+.logo-text{font-size:1.7rem;font-weight:bold;color:#00f0ff}
+nav a{margin:0 15px;color:#fff}
+nav a:hover{color:#00f0ff}
+.btn{padding:10px 20px;border:none;border-radius:8px;cursor:pointer;font-weight:600}
+.btn.primary{background:linear-gradient(90deg,#00f0ff,#00ffa0);color:#000}
+.btn.secondary{background:#111;color:#00f0ff;border:2px solid #00f0ff}
+.addr{font-size:.9rem;color:#aaa}
+.container{max-width:1200px;margin:30px auto;padding:0 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:25px}
+.card{background:#1c1c1c;border-radius:16px;padding:25px}
+.progress{background:#222;border-radius:8px;height:22px;overflow:hidden}
+#progressFill{height:100%;background:linear-gradient(90deg,#00f0ff,#00ffa0);width:0%}
+.footer{text-align:center;color:#aaa;margin:40px 0}
+</style>
 
-const AGG_ABI = [
-  "function latestRoundData() view returns(uint80,int256,uint256,uint256,uint80)"
-];
+<!-- Libraries -->
+<script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
 
-const USDT_ADDRESS = "0x55d398326f99059fF775485246999027B3197955";
+<!-- Wallets -->
+<script src="https://unpkg.com/@walletconnect/ethereum-provider/dist/umd/index.min.js"></script>
+<script src="https://unpkg.com/web3modal@1.9.12/dist/index.js"></script>
+
+<script src="abi.js"></script>
+<script src="main.js" defer></script>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="logo-text">AEMS</div>
+  <nav>
+    <a href="index.php">Home</a>
+    <a href="White Paper.pdf">Whitepaper</a>
+    <a href="Roadmap.php">Roadmap</a>
+    <a href="Features.php">Features</a>
+    <a href="Token Info.php">Token Info</a>
+  </nav>
+  <div>
+    <button id="connectWallet" class="btn primary">Connect Wallet</button>
+    <span id="walletAddr" class="addr">Not connected</span>
+  </div>
+</header>
+
+<main class="container">
+
+<section class="card">
+<h1>AEMS Token Presale</h1>
+
+<input id="usdInput" type="number" placeholder="USD Amount">
+
+<button id="buyBNBBtn" class="btn primary">Buy with BNB</button>
+<button id="buyUSDTBtn" class="btn secondary">Buy with USDT</button>
+
+<div class="progress"><div id="progressFill"></div></div>
+
+</section>
+
+<section class="card">
+<h2>Your Vesting</h2>
+<div>Purchased: <b id="myPurchased">—</b></div>
+<div>Claimable: <b id="myClaimable">—</b></div>
+<button id="claimBtn" class="btn primary">Claim</button>
+</section>
+
+<section id="adminPanel" class="card" style="display:none">
+<h2>Admin</h2>
+<button id="endPresaleBtn" class="btn primary">End Presale</button>
+</section>
+
+</main>
+
+<footer class="footer">© AEMS Presale</footer>
+</body>
+</html>
