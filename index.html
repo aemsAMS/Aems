@@ -1,122 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">      
-<head>      
-<meta charset="UTF-8">      
-<meta name="viewport" content="width=device-width, initial-scale=1.0">      
-<title>AEMS Presale</title>      
-<link rel="icon" href="https://via.placeholder.com/32" type="image/png">
-
-<!-- ===== Reset & Styles ===== -->
-<style>    
-/* همان استایل‌های قبلی بدون تغییر */    
-* {margin:0; padding:0; box-sizing:border-box;}    
-body {font-family: 'Segoe UI', sans-serif; background:#0b0b0b; color:#fff; line-height:1.5;}    
-.header {display:flex; justify-content:space-between; align-items:center; padding:15px 30px; background:#111; border-bottom:2px solid #00f0ff;}
-.logo-text {font-size:1.7rem; font-weight:bold; color:#00f0ff; text-shadow:0 0 8px #00f0ff;}
-nav a {margin:0 15px; font-weight:500; transition:0.3s; color:#fff;}
-nav a:hover {color:#00f0ff;}
-.header-right {display:flex; align-items:center; gap:15px;}
-.btn {padding:10px 20px; border:none; border-radius:8px; cursor:pointer; font-weight:600; transition:0.3s; text-transform:uppercase;}
-.btn.primary {background:linear-gradient(90deg,#00f0ff,#00ffa0); color:#000; box-shadow:0 0 10px #00f0ff;}
-.btn.secondary {background:#111; color:#00f0ff; border:2px solid #00f0ff;}
-.btn:hover {opacity:0.85; transform:scale(1.05);}
-.addr {font-size:0.9rem; color:#aaa;}
-.banner {position:relative; margin:25px auto; max-width:1200px; overflow:hidden; border-radius:16px; box-shadow:0 0 20px rgba(0,255,255,0.3);}
-.banner-inner {display:flex; transition:transform 0.5s ease;}
-.banner-item {flex:0 0 100%;}
-.banner-item img {width:100%; height:auto; display:block; object-fit:contain; background:#000; border-radius:16px;}
-.banner-controls {position:absolute; top:50%; width:100%; display:flex; justify-content:space-between; transform:translateY(-50%);}
-.banner-controls button {background:rgba(0,0,0,0.6); color:#fff; border:none; font-size:2rem; padding:8px 14px; cursor:pointer; border-radius:8px; transition:0.3s;}
-.banner-controls button:hover {background:#00f0ff; color:#000;}
-.container {max-width:1200px; margin:30px auto; padding:0 20px; display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:25px;}
-.card {background:#1c1c1c; border-radius:16px; padding:25px; display:flex; flex-direction:column; gap:15px; box-shadow:0 6px 20px rgba(0,255,255,0.3);}
-.card h1, .card h2 {color:#00f0ff; text-shadow:0 0 6px #00f0ff;}
-.lead {font-size:1rem; color:#ccc;}
-.stats-grid {display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; font-size:0.95rem;}
-.buy-box input {width:100%; padding:12px; border-radius:8px; border:none; margin-bottom:12px; background:#111; color:#fff;}
-.buy-actions {display:flex; gap:12px; flex-wrap:wrap;}
-.estimates {margin-top:12px; font-size:0.9rem; color:#aaa;}
-.progress {margin-top:12px; background:#222; border-radius:8px; height:22px; overflow:hidden;}
-.progress-bar div {height:100%; background:linear-gradient(90deg,#00f0ff,#00ffa0); width:0%; transition:width 0.3s;}
-.admin-row {display:flex; gap:12px; flex-wrap:wrap;}
-.admin-info code {background:#000; padding:3px 6px; border-radius:6px;}
-.footer {text-align:center; margin:40px 0; font-size:0.9rem; color:#aaa;}
-@media(max-width:768px){nav a {margin:0 8px;} .banner-item img {height:auto;} .btn {padding:8px 16px;} .logo-text {font-size:1.3rem;}}
-#particles-js {position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; background: linear-gradient(135deg,#0b0b0b,#111);}
-</style>
-
-<!-- ===== Particles JS ===== -->
-<script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
-
-<!-- ethers UMD -->
-<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-
-<!-- WalletConnect -->
-<script src="https://unpkg.com/@walletconnect/ethereum-provider/dist/index.umd.js"></script>
-
-<script src="abi.js" defer></script>
-<script src="main.js" defer></script>
-</head>  
-
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AEMS Presale</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+    <script src="abi.js"></script>
+</head>
 <body>
-<div id="particles-js"></div>
+    <header>
+        <h1>AEMS</h1>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#whitepaper">Whitepaper</a>
+            <a href="#roadmap">Roadmap</a>
+            <a href="#features">Features</a>
+            <a href="#tokeninfo">Token Info</a>
+        </nav>
+        <button id="connectWallet">Connect Wallet</button>
+        <span id="walletAddr">Not connected</span>
+    </header>
 
-<header class="header">
-  <div class="logo-text">AEMS</div>      
-  <nav>      
-    <a id="navHome" href="index.php">Home</a>      
-    <a id="navWhite" href="White Paper.pdf">Whitepaper</a>      
-    <a id="navRoad" href="Roadmap.php">Roadmap</a>     
-    <a id="navRoad" href="Features.php">Features</a>    
-    <a id="navRoad" href="Token Info.php">Token Info</a>      
-  </nav>      
-  <div class="header-right">      
-    <button id="connectWallet" class="btn primary">Connect Wallet</button>      
-    <span id="walletAddr" class="addr">Not connected</span>      
-  </div>      
-</header>    
+    <section id="banner">
+        <div id="bannerInner" class="banner-inner">
+            <div class="banner-item">‹</div>
+            <div class="banner-item">›</div>
+        </div>
+        <button id="bannerPrev">‹</button>
+        <button id="bannerNext">›</button>
+    </section>
 
-<section class="banner">      
-  <div class="banner-inner" id="bannerInner">      
-    <a href="#" class="banner-item"><img src="Y.png" alt=""></a>      
-    <a href="#" class="banner-item"><img src="https://via.placeholder.com/1200x350?text=Banner+2" alt=""></a>      
-    <a href="#" class="banner-item"><img src="https://via.placeholder.com/1200x350?text=Banner+3" alt=""></a>      
-    <a href="#" class="banner-item"><img src="https://via.placeholder.com/1200x350?text=Banner+4" alt=""></a>      
-  </div>      
-  <div class="banner-controls">      
-    <button id="bannerPrev">‹</button>      
-    <button id="bannerNext">›</button>      
-  </div>      
-</section>    
+    <section id="presale">
+        <h2># AEMS Token Presale</h2>
+        <p>Fixed price: <strong>0.007 USDT</strong> — Buy with USDT or BNB</p>
+        <p>Total allocation: <span id="alloc">129,000,000</span></p>
+        <p>Sold: <span id="sold">—</span></p>
+        <p>Remaining: <span id="left">—</span></p>
+        <p>Raised (USDT): <span id="raisedUSDT">—</span></p>
+        <p>Raised (BNB USD): <span id="raisedBNBUSD">—</span></p>
+        <p>Presale Status: <span id="presaleStatus">—</span></p>
 
-<main class="container">
-<!-- همان محتوا بدون تغییر -->
-</main>    
+        <div class="buy-box">
+            <input id="usdInput" type="number" placeholder="Enter USD amount (e.g. 10)" min="0.01" step="0.01"/>
+            <div class="buy-actions">
+                <button id="buyBNBBtn" class="btn primary">Buy with BNB</button>
+                <button id="buyUSDTBtn" class="btn secondary">Buy with USDT</button>
+            </div>
+            <div class="estimates">
+                <div>Estimated tokens: <span id="estTokens">—</span></div>
+                <div>Estimated BNB: <span id="estBNB">—</span></div>
+            </div>
+        </div>
+        <div class="progress">
+            <div id="progressFill"></div>
+        </div>
+    </section>
 
-<footer class="footer">      
-  <div>© AEMS Presale</div>      
-  <div>Contract: <a id="contractLink" href="#" target="_blank"></a></div>      
-</footer>    
+    <section id="vesting">
+        <h3>Your Vesting</h3>
+        <p>Purchased: <span id="myPurchased">—</span> AEMS</p>
+        <p>Claimed: <span id="myClaimed">—</span> AEMS</p>
+        <p>Claimable now: <span id="myClaimable">—</span> AEMS</p>
+        <p>Next unlock: <span id="nextUnlock">—</span></p>
+        <button id="claimBtn">Claim Available Tokens</button>
+    </section>
 
-<script>    
-particlesJS("particles-js", {    
-  particles: {    
-    number: { value: 60, density: { enable: true, value_area: 800 } },    
-    color: { value: ["#00f0ff","#00ffa0","#0080ff"] },    
-    shape: { type: "circle" },    
-    opacity: { value: 0.6, random: true },    
-    size: { value: 3, random: true },    
-    line_linked: { enable: true, distance: 150, color: "#00f0ff", opacity: 0.4, width: 1 },    
-    move: { enable: true, speed: 2, random: true, straight: false, out_mode: "out" }    
-  },    
-  interactivity: {    
-    detect_on: "canvas",    
-    events: { onhover: { enable: true, mode: "grab" }, onclick: { enable: true, mode: "push" } },    
-    modes: { grab: { distance: 140, line_linked: { opacity: 0.5 } }, push: { particles_nb: 4 } }    
-  },    
-  retina_detect: true    
-});    
-</script>  
+    <section id="adminPanel" style="display:none;">
+        <h3>Admin Panel (Owner)</h3>
+        <button id="endPresaleBtn">Force End Presale</button>
+        <button id="withdrawBNBBtn">Withdraw BNB</button>
+        <button id="withdrawUSDTBtn">Withdraw USDT</button>
+        <button id="withdrawUnsoldBtn">Withdraw Unsold Tokens</button>
+        <button id="destroyBtn">Destroy Contract</button>
+        <p>Contract: <a id="contractLink" href="" target="_blank"></a></p>
+        <p>Owner: <span id="ownerAddr">—</span></p>
+    </section>
 
-</body>      
-</html> 
+    <footer>
+        <p>© AEMS Presale</p>
+        <p>Contract: <span id="contractAddr"></span></p>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+      </html> 
