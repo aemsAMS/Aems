@@ -24,7 +24,7 @@ const PRICE_USD = 0.007; // fixed price
 window.addEventListener('load', async () => {
   try {
     // UI wiring
-    $('connectWallet').addEventListener('click', connectWallet);{ e.preventDefault(); connectWallet(); });
+    $('connectWallet').addEventListener('click', connectWallet);
     $('buyUSDTBtn').addEventListener('click', buyWithUSDT);
     $('buyBNBBtn').addEventListener('click', buyWithBNB);
     $('claimBtn').addEventListener('click', claimTokens);
